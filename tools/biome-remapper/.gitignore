@@ -1,0 +1,16 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/biome-remapper
+biome-remapper.so
+biome-remapper.dylib
+biome-remapper.dll
+biome-remapper.a
+biome-remapper.lib
+biome-remapper-test-*
+*.exe
+*.pdb
+*.o
+*.obj
+*.lst

@@ -1,0 +1,9 @@
+{
+	"authors": [
+		"Ryhon"
+	],
+	"copyright": "Copyright © 2024, Ryhon",
+	"description": "Tool to remap the overworld dimension biomes to RWorld biomes",
+	"license": "proprietary",
+	"name": "biome-remapper"
+}
