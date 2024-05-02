@@ -3,14 +3,13 @@
 	"id": "rworld",
 	"version": "${version}",
 	"name": "RWorld",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "RWorld!",
 	"authors": [
 		"Ryhon"
 	],
 	"contact": {
 		"homepage": "https://ryhon.xyz/"
 	},
-	"license": "CC0-1.0",
 	"icon": "assets/rworld/icon.png",
 	"environment": "*",
 	"entrypoints": {
@@ -21,13 +20,11 @@
 	"mixins": [
 		"rworld.mixins.json"
 	],
+	"accessWidener": "rworld.accesswidener",
 	"depends": {
 		"fabricloader": ">=0.15.10",
 		"minecraft": "~1.20.4",
 		"java": ">=17",
 		"fabric-api": "*"
-	},
-	"suggests": {
-		"another-mod": "*"
 	}
 }

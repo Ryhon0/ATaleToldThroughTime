@@ -1,5 +1,6 @@
 package xyx.ryhn.rworld.mixin;
 
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import xyx.ryhn.rworld.items.gear.ScopedCrossbow;
@@ -16,7 +17,7 @@ public class FOVMixin {
 		Object t = (Object) this;
 
 		if (t instanceof PlayerEntity pe) {
-			if(pe.getMainHandStack().isOf(ScopedCrossbow.ITEM) && pe.isSneaking())
+			if(MinecraftClient.getInstance().options.getPerspective().isFirstPerson() && pe.getMainHandStack().isOf(ScopedCrossbow.ITEM) && pe.isSneaking())
 			{
 				info.setReturnValue(0.1f);
 				return;

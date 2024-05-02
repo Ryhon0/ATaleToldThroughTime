@@ -2,8 +2,6 @@ package xyx.ryhn.rworld.items.gear;
 
 import java.util.Optional;
 
-import org.spongepowered.asm.launch.platform.IMixinPlatformAgent.AcceptResult;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Oxidizable;
