@@ -1,0 +1,11 @@
+{
+	"cloth_fasten":
+	{
+		"subtitle": "subtitles.rworld.cloth_fasten",
+		"sounds":
+		[
+			"rworld:cloth_fasten_1",
+			"rworld:cloth_fasten_2"
+		]
+	}
+}

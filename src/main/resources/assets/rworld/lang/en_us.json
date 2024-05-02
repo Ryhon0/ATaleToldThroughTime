@@ -1,8 +1,13 @@
 {
 	"item.rworld.team_band": "Team Band",
+	"item.rworld.golden_bow": "Golden Bow",
 	"item.rworld.magic_clock": "Magic Clock",
 	"item.rworld.scoped_crossbow": "Scoped Crossbow",
-	"item.rworld.golden_bow": "Golden Bow",
+	"item.rworld.experience_transfer_rod": "Experience Transfer Rod",
+
+	"item.rworld.mending_cloth.lore":  "Hold a tool of matching material in offhand to apply.",
+	"item.rworld.mending_plate.lore":  "Hold an armor piece of matching material in offhand to apply.",
+	"item.rworld.mending_effect_lore": "Item will be able to be repaired using a mending bottle.",
 
 	"item.rworld.iron_mending_cloth":  "Iron Mending Cloth",
 	"item.rworld.iron_mending_plate":  "Iron Mending Plate",
@@ -20,5 +25,7 @@
 	"enchantment.rworld.diamond_mending": "Diamond Mending",
 	
 	"item.rworld.oxidization_wand": "Oxidization Wand",
-	"item.rworld.deoxidization_wand": "Deoxidization Wand"
+	"item.rworld.deoxidization_wand": "Deoxidization Wand",
+
+	"subtitles.rworld.cloth_fasten": "Cloth fastens"
 }
