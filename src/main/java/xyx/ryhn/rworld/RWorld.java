@@ -1,8 +1,6 @@
 package xyx.ryhn.rworld;
 
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.kyrptonaught.customportalapi.api.CustomPortalBuilder;
 import net.minecraft.block.Blocks;
@@ -29,8 +27,6 @@ public class RWorld implements ModInitializer {
 				.registerPortal();
 
 		FabricDefaultAttributeRegistry.register(Citizen.ENTITY_TYPE, Citizen.createMobAttributes());
-		EntityRendererRegistry.register(Citizen.ENTITY_TYPE, Citizen.Renderer::new);
-		EntityModelLayerRegistry.registerModelLayer(Citizen.CITIZEN_LAYER, Citizen.Model::getTexturedModelData);
 	}
 
 	public static Identifier Key(String id) {

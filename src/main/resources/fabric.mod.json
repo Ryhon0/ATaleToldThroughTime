@@ -13,8 +13,14 @@
 	"icon": "assets/rworld/icon.png",
 	"environment": "*",
 	"entrypoints": {
+		"fabric-datagen": [
+			"xyx.ryhn.rworld.RDataGenerator"
+		],
 		"main": [
 			"xyx.ryhn.rworld.RWorld"
+		],
+		"client": [
+			"xyx.ryhn.rworld.RWorldClient"
 		],
 		"rei_client.disabled": [
 			"xyx.ryhn.rworld.RREIPlugin"
