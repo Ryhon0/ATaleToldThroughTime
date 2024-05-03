@@ -179,10 +179,10 @@ public class RWorldItems {
 		public DoorBlock DOOR;
 		public TrapdoorBlock TRAPDOOR;
 
-		public SignBlock SIGN;
-		public WallSignBlock WALL_SIGN;
-		public HangingSignBlock HANGING_SIGN;
-		public WallHangingSignBlock WALL_HANGING_SIGN;
+		/// public SignBlock SIGN;
+		/// public WallSignBlock WALL_SIGN;
+		/// public HangingSignBlock HANGING_SIGN;
+		/// public WallHangingSignBlock WALL_HANGING_SIGN;
 
 		public FenceBlock FENCE;
 		public FenceGateBlock FENCE_GATE;
@@ -214,10 +214,10 @@ public class RWorldItems {
 			DOOR = new DoorBlock(SET_TYPE, Settings.copy(Blocks.OAK_DOOR).mapColor(color));
 			TRAPDOOR = new TrapdoorBlock(SET_TYPE, Settings.copy(Blocks.OAK_TRAPDOOR).mapColor(color));
 
-			SIGN = new SignBlock(WOOD_TYPE, Settings.copy(Blocks.OAK_SIGN).mapColor(color));
+			// SIGN = new SignBlock(WOOD_TYPE, Settings.copy(Blocks.OAK_SIGN).mapColor(color));
 			// WALL_SIGN = new WallSignBlock(WOOD_TYPE,
 			// Settings.copy(Blocks.OAK_SIGN).mapColor(color));
-			HANGING_SIGN = new HangingSignBlock(WOOD_TYPE, Settings.copy(Blocks.OAK_HANGING_SIGN).mapColor(color));
+			// HANGING_SIGN = new HangingSignBlock(WOOD_TYPE, Settings.copy(Blocks.OAK_HANGING_SIGN).mapColor(color));
 			// WALL_HANGING_SIGN = new WallHangingSignBlock(WOOD_TYPE,
 			// Settings.copy(Blocks.OAK_WALL_HANGING_SIGN).mapColor(color));
 
@@ -242,8 +242,8 @@ public class RWorldItems {
 			registerBlock(DOOR, name + "_door", ItemGroups.REDSTONE);
 			registerBlock(TRAPDOOR, name + "_trapdoor", ItemGroups.REDSTONE);
 
-			registerBlock(SIGN, name + "_sign", ItemGroups.BUILDING_BLOCKS);
-			registerBlock(HANGING_SIGN, name + "_hanging_sign", ItemGroups.BUILDING_BLOCKS);
+			// registerBlock(SIGN, name + "_sign", ItemGroups.BUILDING_BLOCKS);
+			// registerBlock(HANGING_SIGN, name + "_hanging_sign", ItemGroups.BUILDING_BLOCKS);
 
 			registerBlock(FENCE, name + "_fence", ItemGroups.BUILDING_BLOCKS);
 			registerBlock(FENCE_GATE, name + "_fence_gate", ItemGroups.BUILDING_BLOCKS);
@@ -273,10 +273,10 @@ public class RWorldItems {
 					BUTTON,
 					DOOR,
 					TRAPDOOR,
-					SIGN,
-					WALL_SIGN,
-					HANGING_SIGN,
-					WALL_HANGING_SIGN,
+					// SIGN,
+					// WALL_SIGN,
+					// HANGING_SIGN,
+					// WALL_HANGING_SIGN,
 					FENCE,
 					FENCE_GATE,
 			};
