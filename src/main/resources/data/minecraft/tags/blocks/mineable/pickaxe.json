@@ -1,6 +1,8 @@
 {
 	"replace": false,
 	"values": [
-	  "rworld:block"
+	  "rworld:deepslate_quartz_crystal_ore",
+	  "rworld:quartz_crystal_block",
+	  "rworld:quartz_crystal_ore"
 	]
   }

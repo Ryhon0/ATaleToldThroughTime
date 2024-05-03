@@ -112,7 +112,8 @@
 		"minecraft:ore_lapis_buried",
 		"minecraft:ore_copper",
 		"minecraft:disk_sand",
-		"minecraft:disk_clay"
+		"minecraft:disk_clay",
+		"rworld:quartz_crystal_ore"
 	  ],
 	  [],
 	  [

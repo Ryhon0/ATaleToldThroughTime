@@ -6,7 +6,7 @@
 			"entries": [
 				{
 					"type": "minecraft:item",
-					"name": "rworld:block"
+					"name": "rworld:quartz_crystal_block"
 				}
 			],
 			"conditions": [

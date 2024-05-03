@@ -27,5 +27,12 @@
 	"item.rworld.oxidization_wand": "Oxidization Wand",
 	"item.rworld.deoxidization_wand": "Deoxidization Wand",
 
-	"subtitles.rworld.cloth_fasten": "Cloth fastens"
+	"item.rworld.quartz_crystal": "Quartz Crystal",
+	"block.rworld.quartz_crystal_block": "Quartz Crystal Block",
+	"block.rworld.quartz_crystal_ore": "Quartz Crystal Ore",
+	"block.rworld.deepslate_quartz_crystal_ore": "Deepslate Quartz Crystal Ore",
+
+	"subtitles.rworld.cloth_fasten": "Cloth fastens",
+
+	"gui.rworld.rei.category": "XP Cauldron"
 }

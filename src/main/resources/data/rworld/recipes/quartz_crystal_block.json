@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+	  "QQQ",
+	  "QQQ",
+	  "QQQ"
+	],
+	"key": {
+	  "Q": {
+		"item": "rworld:quartz_crystal"
+	  }
+	},
+	"result": {
+	  "item": "rworld:quartz_crystal_block"
+	}
+  }
+  

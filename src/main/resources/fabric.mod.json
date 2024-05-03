@@ -15,6 +15,9 @@
 	"entrypoints": {
 		"main": [
 			"xyx.ryhn.rworld.RWorld"
+		],
+		"rei_client.disabled": [
+			"xyx.ryhn.rworld.RREIPlugin"
 		]
 	},
 	"mixins": [

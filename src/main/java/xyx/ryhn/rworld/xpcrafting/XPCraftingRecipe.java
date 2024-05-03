@@ -81,8 +81,8 @@ public class XPCraftingRecipe {
 	}
 
 	public static class Ingredient {
-		net.minecraft.recipe.Ingredient ingredient;
-		int count;
+		public net.minecraft.recipe.Ingredient ingredient;
+		public int count;
 
 		public Ingredient(net.minecraft.recipe.Ingredient ind, int count) {
 			this.ingredient = ind;

@@ -57,4 +57,9 @@ public class MendingBottle extends Item {
 	public int getItemBarColor(ItemStack stack) {
 		return 0xb9e45a;
 	}
+
+	@Override
+	public boolean isEnchantable(ItemStack stack) {
+		return false;
+	}
 }

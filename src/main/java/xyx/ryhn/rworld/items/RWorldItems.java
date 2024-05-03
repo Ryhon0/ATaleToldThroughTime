@@ -2,6 +2,7 @@ package xyx.ryhn.rworld.items;
 
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.Block;
+import net.minecraft.block.ExperienceDroppingBlock;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.BlockItem;
@@ -14,8 +15,10 @@ import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.intprovider.UniformIntProvider;
 import xyx.ryhn.rworld.RWorld;
 import xyx.ryhn.rworld.RWorldSounds;
 import xyx.ryhn.rworld.items.gear.ExperienceTransferRod;
@@ -26,10 +29,23 @@ import xyx.ryhn.rworld.items.gear.trinkets.TeamBand;
 import xyx.ryhn.rworld.xpcrafting.XPCraftingRecipe;
 
 public class RWorldItems {
-	public static final Item BLAH = new Blah(new Item.Settings());
-	public static final Block CUSTOM_BLOCK = new Block(Block.Settings.create()
-			.strength(2f)
-			.requiresTool());
+	public static final Item QUARTZ_CRYSTAL = new Item(new Item.Settings());
+	public static final Block QUARTZ_CRYSTAL_ORE = new ExperienceDroppingBlock(UniformIntProvider.create(2, 10), Block.Settings.create()
+		.hardness(2.0f)
+		.resistance(2.0f)
+		.requiresTool()
+		.sounds(BlockSoundGroup.STONE));
+	public static final Block DEEPSLATE_QUARTZ_CRYSTAL_ORE = new ExperienceDroppingBlock(UniformIntProvider.create(5, 10), Block.Settings.create()
+		.hardness(3.0f)
+		.resistance(3.0f)
+		.requiresTool()
+		.sounds(BlockSoundGroup.DEEPSLATE));
+	public static final Block QUARTZ_CRYSTAL_BLOCK = new Block(Block.Settings.create()
+		.hardness(1.0f)
+		.resistance(1.0f)
+		.requiresTool()
+		.sounds(BlockSoundGroup.CALCITE));
+
 	public static final BowItem GOLDEN_BOW = new BowItem(new Item.Settings());
 	public static final ExperienceTransferRod EXPERIENCE_TRANSFER_ROD = new ExperienceTransferRod(new Item.Settings());
 
@@ -176,7 +192,6 @@ public class RWorldItems {
 			}
 		}
 
-		registerItem(BLAH, "blah", ItemGroups.TOOLS);
 		registerItem(EXPERIENCE_TRANSFER_ROD, "experience_transfer_rod", ItemGroups.TOOLS);
 		registerItem(MagicClock.ITEM, "magic_clock", ItemGroups.TOOLS);
 		registerItem(OxidizationWand.ITEM, "oxidization_wand", ItemGroups.TOOLS);
@@ -193,7 +208,10 @@ public class RWorldItems {
 					GOLD_MENDING_BOTTLE);
 		}
 
-		registerBlock(CUSTOM_BLOCK, "block", ItemGroups.BUILDING_BLOCKS);
+		registerItem(QUARTZ_CRYSTAL, "quartz_crystal", ItemGroups.INGREDIENTS);
+		registerBlock(QUARTZ_CRYSTAL_ORE, "quartz_crystal_ore", ItemGroups.BUILDING_BLOCKS);
+		registerBlock(DEEPSLATE_QUARTZ_CRYSTAL_ORE, "deepslate_quartz_crystal_ore", ItemGroups.BUILDING_BLOCKS);
+		registerBlock(QUARTZ_CRYSTAL_BLOCK, "quartz_crystal_block", ItemGroups.BUILDING_BLOCKS);
 	}
 
 	static void registerMendingSet(String prefix, Item material, Enchantment ench, Item cloth, Item plate,

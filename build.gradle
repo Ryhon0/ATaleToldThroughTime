@@ -26,6 +26,8 @@ repositories {
 	maven { 
 		url = 'https://maven.minecraftforge.net/'
 	}
+
+	maven { url "https://maven.shedaniel.me" }
 }
 
 fabricApi {
@@ -41,12 +43,16 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	
-	modImplementation 'net.kyrptonaught:customportalapi:0.0.1-beta64-1.20.4'
-	include 'net.kyrptonaught:customportalapi:0.0.1-beta64-1.20.4'
+	modImplementation "net.kyrptonaught:customportalapi:0.0.1-beta64-${project.minecraft_version}"
+	include "net.kyrptonaught:customportalapi:0.0.1-beta64-${project.minecraft_version}"
 
 	modImplementation "dev.emi:trinkets:${trinkets_version}"
 
 	modImplementation "com.github.glitchfiend:TerraBlender-fabric:${project.minecraft_version}-${terrablender_version}"
+
+	modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}"
+	modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${rei_version}"
+	modCompileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin-fabric:${rei_version}"
 }
 
 loom {

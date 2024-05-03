@@ -1,6 +1,6 @@
 {
 	"parent": "block/cube_all",
 	"textures": {
-		"all": "rworld:block/block"
+		"all": "rworld:block/quartz_crystal_ore"
 	}
 }
