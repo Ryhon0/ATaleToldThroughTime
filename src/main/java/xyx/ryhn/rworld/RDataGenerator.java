@@ -18,7 +18,9 @@ import net.minecraft.data.server.loottable.LootTableProvider;
 import net.minecraft.data.server.recipe.RecipeExporter;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.item.Items;
+import net.minecraft.loot.LootTable;
 import net.minecraft.data.client.BlockStateModelGenerator.BlockTexturePool;
+import net.minecraft.data.client.BlockStateModelGenerator.TintType;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.registry.tag.BlockTags;
@@ -62,8 +64,7 @@ public class RDataGenerator implements DataGeneratorEntrypoint {
 			generator.registerLog(set.LOG).log(set.LOG).wood(set.WOOD);
 			generator.registerLog(set.STRIPPED_LOG).log(set.STRIPPED_LOG).wood(set.STRIPPED_WOOD);
 			generator.registerSimpleCubeAll(set.LEAVES);
-			// generator.registerHangingSign(set.STRIPPED_LOG, set.HANGING_SIGN,
-			// set.WALL_HANGING_SIGN);
+			generator.registerFlowerPotPlant(set.SAPLING, set.POTTED_SAPLING, TintType.NOT_TINTED);
 		}
 
 		@Override
@@ -157,6 +158,12 @@ public class RDataGenerator implements DataGeneratorEntrypoint {
 				getOrCreateTagBuilder(ItemTags.PLANKS)
 						.add(set.PLANK.asItem());
 
+				getOrCreateTagBuilder(ItemTags.LOGS)
+						.add(set.LOG.asItem())
+						.add(set.STRIPPED_LOG.asItem())
+						.add(set.WOOD.asItem())
+						.add(set.STRIPPED_WOOD.asItem());
+
 				getOrCreateTagBuilder(ItemTags.LOGS_THAT_BURN)
 						.add(set.LOG.asItem())
 						.add(set.STRIPPED_LOG.asItem())
@@ -178,13 +185,9 @@ public class RDataGenerator implements DataGeneratorEntrypoint {
 				getOrCreateTagBuilder(ItemTags.WOODEN_PRESSURE_PLATES)
 						.add(set.PRESSURE_PLATE.asItem());
 
-				getOrCreateTagBuilder(ItemTags.SLABS)
-						.add(set.SLAB.asItem());
 				getOrCreateTagBuilder(ItemTags.WOODEN_SLABS)
 						.add(set.SLAB.asItem());
 
-				getOrCreateTagBuilder(ItemTags.STAIRS)
-						.add(set.STAIRS.asItem());
 				getOrCreateTagBuilder(ItemTags.WOODEN_STAIRS)
 						.add(set.STAIRS.asItem());
 
@@ -217,6 +220,9 @@ public class RDataGenerator implements DataGeneratorEntrypoint {
 				getOrCreateTagBuilder(BlockTags.SAPLINGS)
 						.add(set.SAPLING);
 
+				getOrCreateTagBuilder(BlockTags.FLOWER_POTS)
+						.add(set.POTTED_SAPLING);
+
 				getOrCreateTagBuilder(BlockTags.LEAVES)
 						.add(set.LEAVES);
 
@@ -235,18 +241,12 @@ public class RDataGenerator implements DataGeneratorEntrypoint {
 						.add(set.WOOD)
 						.add(set.STRIPPED_WOOD);
 
-				getOrCreateTagBuilder(BlockTags.BUTTONS)
-						.add(set.BUTTON);
 				getOrCreateTagBuilder(BlockTags.WOODEN_BUTTONS)
 						.add(set.BUTTON);
 
-				getOrCreateTagBuilder(BlockTags.DOORS)
-						.add(set.DOOR);
 				getOrCreateTagBuilder(BlockTags.WOODEN_DOORS)
 						.add(set.DOOR);
 
-				getOrCreateTagBuilder(BlockTags.FENCES)
-						.add(set.FENCE);
 				getOrCreateTagBuilder(BlockTags.WOODEN_FENCES)
 						.add(set.FENCE);
 
@@ -256,18 +256,12 @@ public class RDataGenerator implements DataGeneratorEntrypoint {
 				getOrCreateTagBuilder(BlockTags.WOODEN_PRESSURE_PLATES)
 						.add(set.PRESSURE_PLATE);
 
-				getOrCreateTagBuilder(BlockTags.SLABS)
-						.add(set.SLAB);
 				getOrCreateTagBuilder(BlockTags.WOODEN_SLABS)
 						.add(set.SLAB);
 
-				getOrCreateTagBuilder(BlockTags.STAIRS)
-						.add(set.STAIRS);
 				getOrCreateTagBuilder(BlockTags.WOODEN_STAIRS)
 						.add(set.STAIRS);
 
-				getOrCreateTagBuilder(BlockTags.TRAPDOORS)
-						.add(set.TRAPDOOR);
 				getOrCreateTagBuilder(BlockTags.WOODEN_TRAPDOORS)
 						.add(set.TRAPDOOR);
 
@@ -287,8 +281,15 @@ public class RDataGenerator implements DataGeneratorEntrypoint {
 		public void generate() {
 			for (WoodSet set : WoodSet.Sets) {
 				for (Block block : set.BlocksInSet)
+				{
 					addDrop(block);
+					if(block == set.DOOR)
+						addDrop(block, doorDrops(block));
+					else if(block == set.SLAB)
+						addDrop(block, slabDrops(block));
+				}
 				addDrop(set.SAPLING);
+				addPottedPlantDrops(set.POTTED_SAPLING);
 				addDrop(set.LEAVES,
 						leavesDrops(set.LEAVES, set.SAPLING, new float[] { 0.05f, 0.0625f, 0.083333336f, 0.1f }));
 			}

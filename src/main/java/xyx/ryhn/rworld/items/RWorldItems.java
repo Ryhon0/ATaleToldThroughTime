@@ -3,6 +3,8 @@ package xyx.ryhn.rworld.items;
 import java.util.ArrayList;
 
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
+import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSetType;
 import net.minecraft.block.Blocks;
@@ -11,6 +13,7 @@ import net.minecraft.block.DoorBlock;
 import net.minecraft.block.ExperienceDroppingBlock;
 import net.minecraft.block.FenceBlock;
 import net.minecraft.block.FenceGateBlock;
+import net.minecraft.block.FlowerPotBlock;
 import net.minecraft.block.HangingSignBlock;
 import net.minecraft.block.LeavesBlock;
 import net.minecraft.block.MapColor;
@@ -162,6 +165,7 @@ public class RWorldItems {
 		public BlockFamily FAMILY;
 
 		public SaplingBlock SAPLING;
+		public FlowerPotBlock POTTED_SAPLING;
 
 		public PillarBlock LOG;
 		public PillarBlock STRIPPED_LOG;
@@ -197,6 +201,7 @@ public class RWorldItems {
 			WOOD_TYPE = new WoodType(name, SET_TYPE);
 
 			SAPLING = new SaplingBlock(SaplingGenerator.OAK, Settings.copy(Blocks.OAK_SAPLING).mapColor(color));
+			POTTED_SAPLING = new FlowerPotBlock(SAPLING, Settings.copy(Blocks.POTTED_OAK_SAPLING));
 
 			LOG = new PillarBlock(Settings.copy(Blocks.OAK_LOG).mapColor(color));
 			STRIPPED_LOG = new PillarBlock(Settings.copy(Blocks.STRIPPED_OAK_LOG).mapColor(color));
@@ -214,10 +219,12 @@ public class RWorldItems {
 			DOOR = new DoorBlock(SET_TYPE, Settings.copy(Blocks.OAK_DOOR).mapColor(color));
 			TRAPDOOR = new TrapdoorBlock(SET_TYPE, Settings.copy(Blocks.OAK_TRAPDOOR).mapColor(color));
 
-			// SIGN = new SignBlock(WOOD_TYPE, Settings.copy(Blocks.OAK_SIGN).mapColor(color));
+			// SIGN = new SignBlock(WOOD_TYPE,
+			// Settings.copy(Blocks.OAK_SIGN).mapColor(color));
 			// WALL_SIGN = new WallSignBlock(WOOD_TYPE,
 			// Settings.copy(Blocks.OAK_SIGN).mapColor(color));
-			// HANGING_SIGN = new HangingSignBlock(WOOD_TYPE, Settings.copy(Blocks.OAK_HANGING_SIGN).mapColor(color));
+			// HANGING_SIGN = new HangingSignBlock(WOOD_TYPE,
+			// Settings.copy(Blocks.OAK_HANGING_SIGN).mapColor(color));
 			// WALL_HANGING_SIGN = new WallHangingSignBlock(WOOD_TYPE,
 			// Settings.copy(Blocks.OAK_WALL_HANGING_SIGN).mapColor(color));
 
@@ -225,6 +232,7 @@ public class RWorldItems {
 			FENCE_GATE = new FenceGateBlock(WOOD_TYPE, Settings.copy(Blocks.OAK_FENCE_GATE).mapColor(color));
 
 			registerBlock(SAPLING, name + "_sapling", ItemGroups.BUILDING_BLOCKS);
+			registerBlockWithNoItem(POTTED_SAPLING, "potted_" + name + "_sapling");
 
 			registerBlock(LOG, name + "_log", ItemGroups.BUILDING_BLOCKS);
 			registerBlock(STRIPPED_LOG, "stripped_" + name + "_log", ItemGroups.BUILDING_BLOCKS);
@@ -243,7 +251,8 @@ public class RWorldItems {
 			registerBlock(TRAPDOOR, name + "_trapdoor", ItemGroups.REDSTONE);
 
 			// registerBlock(SIGN, name + "_sign", ItemGroups.BUILDING_BLOCKS);
-			// registerBlock(HANGING_SIGN, name + "_hanging_sign", ItemGroups.BUILDING_BLOCKS);
+			// registerBlock(HANGING_SIGN, name + "_hanging_sign",
+			// ItemGroups.BUILDING_BLOCKS);
 
 			registerBlock(FENCE, name + "_fence", ItemGroups.BUILDING_BLOCKS);
 			registerBlock(FENCE_GATE, name + "_fence_gate", ItemGroups.BUILDING_BLOCKS);
@@ -256,10 +265,27 @@ public class RWorldItems {
 					.button(BUTTON)
 					.door(DOOR)
 					.trapdoor(TRAPDOOR)
-				// 	.sign(SIGN, WALL_SIGN)
+					// .sign(SIGN, WALL_SIGN)
 					.fence(FENCE)
 					.fenceGate(FENCE_GATE)
 					.build();
+
+			StrippableBlockRegistry.register(LOG, STRIPPED_LOG);
+			StrippableBlockRegistry.register(WOOD, STRIPPED_WOOD);
+
+			FlammableBlockRegistry fbr = FlammableBlockRegistry.getDefaultInstance();
+			fbr.add(LEAVES, 30, 60);
+
+			fbr.add(PLANK, 5, 20);
+			fbr.add(SLAB, 5, 20);
+			fbr.add(STAIRS, 5, 20);
+			fbr.add(FENCE, 5, 20);
+			fbr.add(FENCE_GATE, 5, 20);
+
+			fbr.add(LOG, 5, 5);
+			fbr.add(STRIPPED_LOG, 5, 5);
+			fbr.add(WOOD, 5, 5);
+			fbr.add(STRIPPED_WOOD, 5, 5);
 
 			BlocksInSet = new Block[] {
 					LOG,
@@ -284,6 +310,7 @@ public class RWorldItems {
 	}
 
 	public static WoodSet MapleSet = new WoodSet("maple", MapColor.YELLOW);
+	public static WoodSet MorningSet = new WoodSet("morning", MapColor.PURPLE);
 
 	public static void registerItems() {
 		registerItem(ScopedCrossbow.ITEM, "scoped_crossbow", ItemGroups.COMBAT);
@@ -314,12 +341,13 @@ public class RWorldItems {
 	}
 
 	static Block registerBlock(Block b, String id, RegistryKey<ItemGroup> category) {
-		BlockItem bi = new BlockItem(b, new Item.Settings());
-		Registry.register(Registries.BLOCK,
-				RWorld.Key(id),
-				b);
+		registerBlockWithNoItem(b, id);
+		registerItem(new BlockItem(b, new Item.Settings()), id, category);
+		return b;
+	}
 
-		registerItem(bi, id, category);
+	static Block registerBlockWithNoItem(Block b, String id) {
+		Registry.register(Registries.BLOCK, RWorld.Key(id), b);
 		return b;
 	}
 
