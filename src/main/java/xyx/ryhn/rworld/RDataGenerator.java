@@ -157,30 +157,18 @@ public class RDataGenerator implements DataGeneratorEntrypoint {
 				getOrCreateTagBuilder(ItemTags.PLANKS)
 						.add(set.PLANK.asItem());
 
-				getOrCreateTagBuilder(ItemTags.LOGS)
-						.add(set.LOG.asItem())
-						.add(set.STRIPPED_LOG.asItem())
-						.add(set.WOOD.asItem())
-						.add(set.STRIPPED_WOOD.asItem());
-
 				getOrCreateTagBuilder(ItemTags.LOGS_THAT_BURN)
 						.add(set.LOG.asItem())
 						.add(set.STRIPPED_LOG.asItem())
 						.add(set.WOOD.asItem())
 						.add(set.STRIPPED_WOOD.asItem());
 
-				getOrCreateTagBuilder(ItemTags.BUTTONS)
-						.add(set.BUTTON.asItem());
 				getOrCreateTagBuilder(ItemTags.WOODEN_BUTTONS)
 						.add(set.BUTTON.asItem());
 
-				getOrCreateTagBuilder(ItemTags.DOORS)
-						.add(set.DOOR.asItem());
 				getOrCreateTagBuilder(ItemTags.WOODEN_DOORS)
 						.add(set.DOOR.asItem());
 
-				getOrCreateTagBuilder(ItemTags.FENCES)
-						.add(set.FENCE.asItem());
 				getOrCreateTagBuilder(ItemTags.WOODEN_FENCES)
 						.add(set.FENCE.asItem());
 
@@ -200,8 +188,6 @@ public class RDataGenerator implements DataGeneratorEntrypoint {
 				getOrCreateTagBuilder(ItemTags.WOODEN_STAIRS)
 						.add(set.STAIRS.asItem());
 
-				getOrCreateTagBuilder(ItemTags.TRAPDOORS)
-						.add(set.TRAPDOOR.asItem());
 				getOrCreateTagBuilder(ItemTags.WOODEN_TRAPDOORS)
 						.add(set.TRAPDOOR.asItem());
 
