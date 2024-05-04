@@ -82,7 +82,7 @@ public class RWorldItems {
 			.sounds(BlockSoundGroup.CALCITE));
 		
 	public static final Block WHITESPACE_BLOCK = new Block(Block.Settings.create()
-			.hardness(0.25f)
+			.hardness(0.1f)
 			.resistance(0f)
 			.sounds(BlockSoundGroup.STONE));
 

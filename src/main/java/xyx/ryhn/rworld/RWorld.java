@@ -2,24 +2,19 @@ package xyx.ryhn.rworld;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
+import net.fabricmc.fabric.api.util.TriState;
 import net.kyrptonaught.customportalapi.api.CustomPortalBuilder;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
-import net.minecraft.registry.Registerable;
-import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.intprovider.ConstantIntProvider;
-import net.minecraft.world.gen.feature.ConfiguredFeatures;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.TreeFeatureConfig;
-import net.minecraft.world.gen.feature.size.TwoLayersFeatureSize;
-import net.minecraft.world.gen.foliage.BlobFoliagePlacer;
-import net.minecraft.world.gen.stateprovider.BlockStateProvider;
-import net.minecraft.world.gen.trunk.StraightTrunkPlacer;
+import xyx.ryhn.rworld.dimensions.RWorldDimensions;
 import xyx.ryhn.rworld.entities.mobs.humans.Citizen;
 import xyx.ryhn.rworld.items.RWorldItems;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import be.florens.expandability.api.fabric.PlayerSwimCallback;
 
 public class RWorld implements ModInitializer {
 	public static final Logger LOGGER = LoggerFactory.getLogger("rworld");
@@ -37,6 +32,16 @@ public class RWorld implements ModInitializer {
 				.registerPortal();
 
 		FabricDefaultAttributeRegistry.register(Citizen.ENTITY_TYPE, Citizen.createMobAttributes());
+
+		PlayerSwimCallback.EVENT.register(RWorld::onPlayerSwim);
+	}
+
+	public static TriState onPlayerSwim(PlayerEntity player) {
+		if (player.getWorld().getDimensionKey() == RWorldDimensions.WHITESPACE_DIMENSION_TYPE_KEY &&
+				!player.isOnGround() && !player.isSneaking() &&
+				(player.isSprinting() || player.isInSwimmingPose()))
+			return TriState.TRUE;
+		return TriState.DEFAULT;
 	}
 
 	public static Identifier Key(String id) {
