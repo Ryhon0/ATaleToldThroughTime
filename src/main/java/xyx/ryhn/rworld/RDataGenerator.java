@@ -1,5 +1,6 @@
 package xyx.ryhn.rworld;
 
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
@@ -11,6 +12,7 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.block.Block;
+import net.minecraft.block.SaplingGenerator;
 import net.minecraft.data.client.BlockStateModelGenerator;
 import net.minecraft.data.client.ItemModelGenerator;
 import net.minecraft.data.client.Models;
@@ -22,10 +24,25 @@ import net.minecraft.loot.LootTable;
 import net.minecraft.data.client.BlockStateModelGenerator.BlockTexturePool;
 import net.minecraft.data.client.BlockStateModelGenerator.TintType;
 import net.minecraft.recipe.book.RecipeCategory;
+import net.minecraft.registry.Registerable;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryBuilder;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.resource.featuretoggle.FeatureSet;
+import net.minecraft.util.math.intprovider.ConstantIntProvider;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
+import net.minecraft.world.gen.feature.ConfiguredFeatures;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.TreeFeatureConfig;
+import net.minecraft.world.gen.feature.size.TwoLayersFeatureSize;
+import net.minecraft.world.gen.foliage.BlobFoliagePlacer;
+import net.minecraft.world.gen.stateprovider.BlockStateProvider;
+import net.minecraft.world.gen.trunk.StraightTrunkPlacer;
 import xyx.ryhn.rworld.items.RWorldItems;
 import xyx.ryhn.rworld.items.RWorldItems.WoodSet;
 import xyx.ryhn.rworld.items.gear.MagicClock;
@@ -62,6 +79,7 @@ public class RDataGenerator implements DataGeneratorEntrypoint {
 			generator.registerCubeAllModelTexturePool(set.PLANK).family(set.FAMILY);
 
 			generator.registerLog(set.LOG).log(set.LOG).wood(set.WOOD);
+			generator.registerLog(set.CUT_LOG).log(set.CUT_LOG).wood(set.CUT_WOOD);
 			generator.registerLog(set.STRIPPED_LOG).log(set.STRIPPED_LOG).wood(set.STRIPPED_WOOD);
 			generator.registerSimpleCubeAll(set.LEAVES);
 			generator.registerFlowerPotPlant(set.SAPLING, set.POTTED_SAPLING, TintType.NOT_TINTED);
@@ -105,12 +123,32 @@ public class RDataGenerator implements DataGeneratorEntrypoint {
 
 		void registerWoodSet(RecipeExporter exporter, WoodSet set) {
 			generateFamily(exporter, set.FAMILY, FeatureSet.empty());
-			ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, set.PLANK, 4)
-					.pattern("x")
+
+			offerPlanksRecipe(exporter, set.PLANK, set.ITEM_LOG_TAG, 4);
+
+			ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, set.WOOD, 3)
+					.pattern("xx")
+					.pattern("xx")
 					.input('x', set.LOG)
 					.criterion(FabricRecipeProvider.hasItem(set.LOG),
 							FabricRecipeProvider.conditionsFromItem(set.LOG))
-					.offerTo(exporter, RWorld.Key(set.name + "_planks"));
+					.offerTo(exporter, RWorld.Key(set.name + "_wood"));
+
+			ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, set.CUT_WOOD, 3)
+					.pattern("xx")
+					.pattern("xx")
+					.input('x', set.CUT_LOG)
+					.criterion(FabricRecipeProvider.hasItem(set.CUT_LOG),
+							FabricRecipeProvider.conditionsFromItem(set.CUT_LOG))
+					.offerTo(exporter, RWorld.Key(set.name + "_cut_wood"));
+
+			ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, set.STRIPPED_WOOD, 3)
+					.pattern("xx")
+					.pattern("xx")
+					.input('x', set.STRIPPED_LOG)
+					.criterion(FabricRecipeProvider.hasItem(set.STRIPPED_LOG),
+							FabricRecipeProvider.conditionsFromItem(set.STRIPPED_LOG))
+					.offerTo(exporter, RWorld.Key(set.name + "_stripped_wood"));
 
 			/*
 			 * ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, set.SIGN, 3)
@@ -158,16 +196,28 @@ public class RDataGenerator implements DataGeneratorEntrypoint {
 				getOrCreateTagBuilder(ItemTags.PLANKS)
 						.add(set.PLANK.asItem());
 
-				getOrCreateTagBuilder(ItemTags.LOGS)
+				getOrCreateTagBuilder(set.ITEM_LOG_TAG)
 						.add(set.LOG.asItem())
+						.add(set.CUT_LOG.asItem())
 						.add(set.STRIPPED_LOG.asItem())
 						.add(set.WOOD.asItem())
+						.add(set.CUT_WOOD.asItem())
+						.add(set.STRIPPED_WOOD.asItem());
+
+				getOrCreateTagBuilder(ItemTags.LOGS)
+						.add(set.LOG.asItem())
+						.add(set.CUT_LOG.asItem())
+						.add(set.STRIPPED_LOG.asItem())
+						.add(set.WOOD.asItem())
+						.add(set.CUT_WOOD.asItem())
 						.add(set.STRIPPED_WOOD.asItem());
 
 				getOrCreateTagBuilder(ItemTags.LOGS_THAT_BURN)
 						.add(set.LOG.asItem())
+						.add(set.CUT_LOG.asItem())
 						.add(set.STRIPPED_LOG.asItem())
 						.add(set.WOOD.asItem())
+						.add(set.CUT_WOOD.asItem())
 						.add(set.STRIPPED_WOOD.asItem());
 
 				getOrCreateTagBuilder(ItemTags.WOODEN_BUTTONS)
@@ -229,16 +279,28 @@ public class RDataGenerator implements DataGeneratorEntrypoint {
 				getOrCreateTagBuilder(BlockTags.PLANKS)
 						.add(set.PLANK);
 
-				getOrCreateTagBuilder(BlockTags.LOGS)
+				getOrCreateTagBuilder(set.BLOCK_LOG_TAG)
 						.add(set.LOG)
+						.add(set.CUT_LOG)
 						.add(set.STRIPPED_LOG)
 						.add(set.WOOD)
+						.add(set.CUT_WOOD)
+						.add(set.STRIPPED_WOOD);
+
+				getOrCreateTagBuilder(BlockTags.LOGS)
+						.add(set.LOG)
+						.add(set.CUT_LOG)
+						.add(set.STRIPPED_LOG)
+						.add(set.WOOD)
+						.add(set.CUT_WOOD)
 						.add(set.STRIPPED_WOOD);
 
 				getOrCreateTagBuilder(BlockTags.LOGS_THAT_BURN)
 						.add(set.LOG)
+						.add(set.CUT_LOG)
 						.add(set.STRIPPED_LOG)
 						.add(set.WOOD)
+						.add(set.CUT_WOOD)
 						.add(set.STRIPPED_WOOD);
 
 				getOrCreateTagBuilder(BlockTags.WOODEN_BUTTONS)
@@ -280,18 +342,37 @@ public class RDataGenerator implements DataGeneratorEntrypoint {
 		@Override
 		public void generate() {
 			for (WoodSet set : WoodSet.Sets) {
-				for (Block block : set.BlocksInSet)
-				{
+				for (Block block : set.BlocksInSet) {
 					addDrop(block);
-					if(block == set.DOOR)
+					if (block == set.DOOR)
 						addDrop(block, doorDrops(block));
-					else if(block == set.SLAB)
+					else if (block == set.SLAB)
 						addDrop(block, slabDrops(block));
 				}
 				addDrop(set.SAPLING);
 				addPottedPlantDrops(set.POTTED_SAPLING);
 				addDrop(set.LEAVES,
 						leavesDrops(set.LEAVES, set.SAPLING, new float[] { 0.05f, 0.0625f, 0.083333336f, 0.1f }));
+			}
+		}
+	}
+
+	@Override
+	public void buildRegistry(RegistryBuilder registryBuilder) {
+		registryBuilder.addRegistry(RegistryKeys.CONFIGURED_FEATURE, ModConfiguredFeatures::boostrap);
+	}
+
+	public static class ModConfiguredFeatures {
+		public static void boostrap(Registerable<ConfiguredFeature<?, ?>> context) {
+			for (WoodSet set : WoodSet.Sets) {
+				ConfiguredFeatures.register(context, set.TREE, Feature.TREE,
+						new TreeFeatureConfig.Builder(
+								BlockStateProvider.of(set.LOG),
+								new StraightTrunkPlacer(5, 4, 3),
+								BlockStateProvider.of(set.LEAVES),
+								new BlobFoliagePlacer(ConstantIntProvider.create(2),
+										ConstantIntProvider.create(1), 2),
+								new TwoLayersFeatureSize(1, 0, 2)).build());
 			}
 		}
 	}
