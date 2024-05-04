@@ -43,6 +43,7 @@ import net.minecraft.world.gen.feature.size.TwoLayersFeatureSize;
 import net.minecraft.world.gen.foliage.BlobFoliagePlacer;
 import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 import net.minecraft.world.gen.trunk.StraightTrunkPlacer;
+import xyx.ryhn.rworld.dimensions.RWorldDimensions;
 import xyx.ryhn.rworld.items.RWorldItems;
 import xyx.ryhn.rworld.items.RWorldItems.WoodSet;
 import xyx.ryhn.rworld.items.gear.MagicClock;
@@ -69,6 +70,7 @@ public class RDataGenerator implements DataGeneratorEntrypoint {
 			generator.registerSimpleCubeAll(RWorldItems.DEEPSLATE_QUARTZ_CRYSTAL_ORE);
 			generator.registerSimpleCubeAll(RWorldItems.QUARTZ_CRYSTAL_BLOCK);
 			generator.registerSimpleCubeAll(RWorldItems.QUARTZ_CRYSTAL_ORE);
+			generator.registerSimpleCubeAll(RWorldItems.WHITESPACE_BLOCK);
 
 			for (WoodSet set : WoodSet.Sets) {
 				registerWoodSet(generator, set);
@@ -341,6 +343,8 @@ public class RDataGenerator implements DataGeneratorEntrypoint {
 
 		@Override
 		public void generate() {
+			addDrop(RWorldItems.WHITESPACE_BLOCK);
+
 			for (WoodSet set : WoodSet.Sets) {
 				for (Block block : set.BlocksInSet) {
 					addDrop(block);
@@ -353,26 +357,6 @@ public class RDataGenerator implements DataGeneratorEntrypoint {
 				addPottedPlantDrops(set.POTTED_SAPLING);
 				addDrop(set.LEAVES,
 						leavesDrops(set.LEAVES, set.SAPLING, new float[] { 0.05f, 0.0625f, 0.083333336f, 0.1f }));
-			}
-		}
-	}
-
-	@Override
-	public void buildRegistry(RegistryBuilder registryBuilder) {
-		registryBuilder.addRegistry(RegistryKeys.CONFIGURED_FEATURE, ModConfiguredFeatures::boostrap);
-	}
-
-	public static class ModConfiguredFeatures {
-		public static void boostrap(Registerable<ConfiguredFeature<?, ?>> context) {
-			for (WoodSet set : WoodSet.Sets) {
-				ConfiguredFeatures.register(context, set.TREE, Feature.TREE,
-						new TreeFeatureConfig.Builder(
-								BlockStateProvider.of(set.LOG),
-								new StraightTrunkPlacer(5, 4, 3),
-								BlockStateProvider.of(set.LEAVES),
-								new BlobFoliagePlacer(ConstantIntProvider.create(2),
-										ConstantIntProvider.create(1), 2),
-								new TwoLayersFeatureSize(1, 0, 2)).build());
 			}
 		}
 	}

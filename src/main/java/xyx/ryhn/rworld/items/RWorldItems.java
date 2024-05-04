@@ -80,6 +80,11 @@ public class RWorldItems {
 			.resistance(1.0f)
 			.requiresTool()
 			.sounds(BlockSoundGroup.CALCITE));
+		
+	public static final Block WHITESPACE_BLOCK = new Block(Block.Settings.create()
+			.hardness(0.25f)
+			.resistance(0f)
+			.sounds(BlockSoundGroup.STONE));
 
 	public static final BowItem GOLDEN_BOW = new BowItem(new Item.Settings());
 	public static final ExperienceTransferRod EXPERIENCE_TRANSFER_ROD = new ExperienceTransferRod(new Item.Settings());
@@ -370,6 +375,8 @@ public class RWorldItems {
 		registerBlock(QUARTZ_CRYSTAL_ORE, "quartz_crystal_ore", ItemGroups.BUILDING_BLOCKS);
 		registerBlock(DEEPSLATE_QUARTZ_CRYSTAL_ORE, "deepslate_quartz_crystal_ore", ItemGroups.BUILDING_BLOCKS);
 		registerBlock(QUARTZ_CRYSTAL_BLOCK, "quartz_crystal_block", ItemGroups.BUILDING_BLOCKS);
+	
+		registerBlock(WHITESPACE_BLOCK, "whitespace_block", ItemGroups.BUILDING_BLOCKS);
 	}
 
 	static Item registerItem(Item i, String id, RegistryKey<ItemGroup> category) {

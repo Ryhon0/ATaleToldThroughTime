@@ -7,10 +7,14 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
+import net.minecraft.client.render.DimensionEffects;
+import net.minecraft.client.render.DimensionEffects.SkyType;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.item.CrossbowItem;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Vec3d;
+import xyx.ryhn.rworld.dimensions.RWorldDimensions;
 import xyx.ryhn.rworld.entities.mobs.humans.Citizen;
 import xyx.ryhn.rworld.entities.mobs.humans.CitizenRenderer;
 import xyx.ryhn.rworld.items.RWorldItems;
@@ -72,6 +76,31 @@ public class RWorldClient implements ClientModInitializer {
 			BlockRenderLayerMap.INSTANCE.putBlock(set.POTTED_SAPLING, RenderLayer.getCutout());
 			BlockRenderLayerMap.INSTANCE.putBlock(set.DOOR, RenderLayer.getCutout());
 			BlockRenderLayerMap.INSTANCE.putBlock(set.TRAPDOOR, RenderLayer.getCutout());
+		}
+
+		DimensionEffects.BY_IDENTIFIER.put(
+				RWorld.Key("whitespace"),
+				new WhitespaceDimensionEffects());
+	}
+
+	public static class WhitespaceDimensionEffects extends DimensionEffects {
+		public WhitespaceDimensionEffects() {
+			super(Float.NaN, false, SkyType.NONE, true, false);
+		}
+
+		@Override
+		public Vec3d adjustFogColor(Vec3d color, float sunHeight) {
+			return color;
+		}
+
+		@Override
+		public boolean useThickFog(int camX, int camY) {
+			return false;
+		}
+
+		@Override
+		public float[] getFogColorOverride(float skyAngle, float tickDelta) {
+			return null;
 		}
 	}
 }
