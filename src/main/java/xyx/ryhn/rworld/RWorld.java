@@ -9,6 +9,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 import xyx.ryhn.rworld.dimensions.RWorldDimensions;
+import xyx.ryhn.rworld.entities.mobs.animals.GoldenChicken;
 import xyx.ryhn.rworld.entities.mobs.humans.Citizen;
 import xyx.ryhn.rworld.items.RWorldItems;
 import org.slf4j.Logger;
@@ -32,6 +33,7 @@ public class RWorld implements ModInitializer {
 				.registerPortal();
 
 		FabricDefaultAttributeRegistry.register(Citizen.ENTITY_TYPE, Citizen.createMobAttributes());
+		FabricDefaultAttributeRegistry.register(GoldenChicken.ENTITY_TYPE, GoldenChicken.createChickenAttributes());
 
 		PlayerSwimCallback.EVENT.register(RWorld::onPlayerSwim);
 	}

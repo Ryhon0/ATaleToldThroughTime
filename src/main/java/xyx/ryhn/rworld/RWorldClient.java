@@ -8,13 +8,14 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.render.DimensionEffects;
-import net.minecraft.client.render.DimensionEffects.SkyType;
+import net.minecraft.client.render.entity.model.ChickenEntityModel;
+import net.minecraft.client.render.entity.model.EntityModelLayers;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.item.CrossbowItem;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
-import xyx.ryhn.rworld.dimensions.RWorldDimensions;
+import xyx.ryhn.rworld.entities.mobs.animals.GoldenChicken;
 import xyx.ryhn.rworld.entities.mobs.humans.Citizen;
 import xyx.ryhn.rworld.entities.mobs.humans.CitizenRenderer;
 import xyx.ryhn.rworld.items.RWorldItems;
@@ -28,6 +29,8 @@ public class RWorldClient implements ClientModInitializer {
 		EntityRendererRegistry.register(Citizen.ENTITY_TYPE, CitizenRenderer::new);
 		EntityModelLayerRegistry.registerModelLayer(CitizenRenderer.CITIZEN_LAYER,
 				CitizenRenderer.Model::getTexturedModelData);
+
+		EntityRendererRegistry.register(GoldenChicken.ENTITY_TYPE, GoldenChicken.Renderer::new);
 
 		{
 			ModelPredicateProviderRegistry.register(ScopedCrossbow.ITEM, new Identifier("pull"),
