@@ -1,6 +1,6 @@
 {
-	"temperature": 0.8,
-	"downfall": 0.4,
+	"temperature": 0.7,
+	"downfall": 0.8,
 	"has_precipitation": true,
 	"effects": {
 		"sky_color": 7907327,
@@ -130,7 +130,7 @@
 		[
 			"minecraft:glow_lichen",
 			"minecraft:patch_tall_grass_2",
-			"rworld:trees_plains",
+			"rworld:trees_forest",
 			"minecraft:flower_plains",
 			"minecraft:patch_grass_plain",
 			"minecraft:brown_mushroom_normal",

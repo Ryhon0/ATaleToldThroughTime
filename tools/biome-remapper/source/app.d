@@ -19,16 +19,18 @@ void main()
 		"minecraft:deep_lukewarm_ocean",
 		"minecraft:lukewarm_ocean",
 		"minecraft:warm_ocean",
-
-		"minecraft:river",
 		];
 
 	string defaultBiome = "rworld:plains";
 
 	string[string] remap = [
 		"minecraft:frozen_river": "minecraft:river",
+		"minecraft:river": "rworld:river",
+		"minecraft:beach": "rworld:beach",
 
-		"minecraft:desert": "rworld:everland"
+		"minecraft:birch_forest": "rworld:forest",
+		"minecraft:flower_forest": "rworld:forest",
+		"minecraft:forest": "rworld:forest",
 	];
 
 	dimensionJson["type"] = "rworld:rworld_type";

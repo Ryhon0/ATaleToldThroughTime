@@ -78,10 +78,10 @@ public class RWorldItems {
 	public static final TagKey<Item> TAG_ITEM_PETRIFIED_EXPERIENCE = TagKey.of(RegistryKeys.ITEM, RWorld.Key("petrified_experience"));
 	public static final TagKey<Block> TAG_BLOCK_PETRIFIED_EXPERIENCE = TagKey.of(RegistryKeys.BLOCK, RWorld.Key("petrified_experience"));
 
-	public static final ExperienceDroppingBlock PETRIFIED_EXPERIENCE = new ExperienceDroppingBlock(UniformIntProvider.create(15, 20), 
+	public static final ExperienceDroppingBlock PETRIFIED_EXPERIENCE = new ExperienceDroppingBlock(UniformIntProvider.create(30, 40), 
 		Block.Settings.copy(Blocks.STONE)
 		.sounds(BlockSoundGroup.AMETHYST_CLUSTER));
-	public static final ExperienceDroppingBlock PETRIFIED_DEEPSLATE_EXPERIENCE = new ExperienceDroppingBlock(UniformIntProvider.create(15, 20), 
+	public static final ExperienceDroppingBlock PETRIFIED_DEEPSLATE_EXPERIENCE = new ExperienceDroppingBlock(UniformIntProvider.create(30, 40), 
 		Block.Settings.copy(Blocks.DEEPSLATE)
 		.sounds(BlockSoundGroup.AMETHYST_CLUSTER));
 		

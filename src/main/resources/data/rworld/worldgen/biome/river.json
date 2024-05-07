@@ -97,7 +97,8 @@
 		  "minecraft:ore_copper",
 		  "minecraft:disk_sand",
 		  "minecraft:disk_clay",
-		  "rworld:quartz_crystal_ore"
+		  "rworld:quartz_crystal_ore",
+		  "rworld:petrified_experience"
 		],
 		[],
 		[
