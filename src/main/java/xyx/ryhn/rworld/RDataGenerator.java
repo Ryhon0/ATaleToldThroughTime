@@ -70,6 +70,10 @@ public class RDataGenerator implements DataGeneratorEntrypoint {
 			generator.registerSimpleCubeAll(RWorldItems.DEEPSLATE_QUARTZ_CRYSTAL_ORE);
 			generator.registerSimpleCubeAll(RWorldItems.QUARTZ_CRYSTAL_BLOCK);
 			generator.registerSimpleCubeAll(RWorldItems.QUARTZ_CRYSTAL_ORE);
+
+			generator.registerSimpleCubeAll(RWorldItems.PETRIFIED_EXPERIENCE);
+			generator.registerSimpleCubeAll(RWorldItems.PETRIFIED_DEEPSLATE_EXPERIENCE);
+			
 			generator.registerSimpleCubeAll(RWorldItems.WHITESPACE_BLOCK);
 
 			for (WoodSet set : WoodSet.Sets) {
@@ -188,6 +192,14 @@ public class RDataGenerator implements DataGeneratorEntrypoint {
 
 		@Override
 		protected void configure(WrapperLookup arg) {
+			getOrCreateTagBuilder(RWorldItems.TAG_ITEM_QUARTZ_CRYSTAL_ORES)
+				.add(RWorldItems.DEEPSLATE_QUARTZ_CRYSTAL_ORE.asItem())
+				.add(RWorldItems.QUARTZ_CRYSTAL_ORE.asItem());
+			
+			getOrCreateTagBuilder(RWorldItems.TAG_ITEM_PETRIFIED_EXPERIENCE)
+				.add(RWorldItems.PETRIFIED_EXPERIENCE.asItem())
+				.add(RWorldItems.PETRIFIED_DEEPSLATE_EXPERIENCE.asItem());
+
 			for (WoodSet set : WoodSet.Sets) {
 				getOrCreateTagBuilder(ItemTags.SAPLINGS)
 						.add(set.SAPLING.asItem());
@@ -261,6 +273,26 @@ public class RDataGenerator implements DataGeneratorEntrypoint {
 
 		@Override
 		protected void configure(WrapperLookup arg) {
+			getOrCreateTagBuilder(RWorldItems.TAG_BLOCK_QUARTZ_CRYSTAL_ORES)
+				.add(RWorldItems.DEEPSLATE_QUARTZ_CRYSTAL_ORE)
+				.add(RWorldItems.QUARTZ_CRYSTAL_ORE);
+
+			getOrCreateTagBuilder(RWorldItems.TAG_BLOCK_PETRIFIED_EXPERIENCE)
+				.add(RWorldItems.PETRIFIED_EXPERIENCE)
+				.add(RWorldItems.PETRIFIED_DEEPSLATE_EXPERIENCE);
+
+			getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE)
+				.add(RWorldItems.DEEPSLATE_QUARTZ_CRYSTAL_ORE)
+				.add(RWorldItems.QUARTZ_CRYSTAL_ORE)
+				.add(RWorldItems.QUARTZ_CRYSTAL_BLOCK)
+				.add(RWorldItems.PETRIFIED_DEEPSLATE_EXPERIENCE)
+				.add(RWorldItems.PETRIFIED_EXPERIENCE);
+			
+			getOrCreateTagBuilder(BlockTags.NEEDS_STONE_TOOL)
+				.add(RWorldItems.DEEPSLATE_QUARTZ_CRYSTAL_ORE)
+				.add(RWorldItems.QUARTZ_CRYSTAL_ORE)
+				.add(RWorldItems.QUARTZ_CRYSTAL_BLOCK);
+
 			for (WoodSet set : WoodSet.Sets) {
 				getOrCreateTagBuilder(BlockTags.HOE_MINEABLE)
 						.add(set.LEAVES);
@@ -344,6 +376,8 @@ public class RDataGenerator implements DataGeneratorEntrypoint {
 		@Override
 		public void generate() {
 			addDrop(RWorldItems.WHITESPACE_BLOCK);
+			addDropWithSilkTouch(RWorldItems.PETRIFIED_EXPERIENCE);
+			addDropWithSilkTouch(RWorldItems.PETRIFIED_DEEPSLATE_EXPERIENCE);
 
 			for (WoodSet set : WoodSet.Sets) {
 				for (Block block : set.BlocksInSet) {

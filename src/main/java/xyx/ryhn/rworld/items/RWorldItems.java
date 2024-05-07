@@ -42,16 +42,8 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.math.intprovider.ConstantIntProvider;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.ConfiguredFeatures;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.TreeFeatureConfig;
-import net.minecraft.world.gen.feature.size.TwoLayersFeatureSize;
-import net.minecraft.world.gen.foliage.BlobFoliagePlacer;
-import net.minecraft.world.gen.stateprovider.BlockStateProvider;
-import net.minecraft.world.gen.trunk.StraightTrunkPlacer;
 import xyx.ryhn.rworld.RWorld;
 import xyx.ryhn.rworld.RWorldSounds;
 import xyx.ryhn.rworld.items.gear.ExperienceTransferRod;
@@ -62,6 +54,8 @@ import xyx.ryhn.rworld.items.gear.trinkets.TeamBand;
 import xyx.ryhn.rworld.xpcrafting.XPCraftingRecipe;
 
 public class RWorldItems {
+	public static final TagKey<Item> TAG_ITEM_QUARTZ_CRYSTAL_ORES = TagKey.of(RegistryKeys.ITEM, RWorld.Key("quartz_crystal_ores"));
+	public static final TagKey<Block> TAG_BLOCK_QUARTZ_CRYSTAL_ORES = TagKey.of(RegistryKeys.BLOCK, RWorld.Key("quartz_crystal_ores"));
 	public static final Item QUARTZ_CRYSTAL = new Item(new Item.Settings());
 	public static final Block QUARTZ_CRYSTAL_ORE = new ExperienceDroppingBlock(UniformIntProvider.create(2, 10),
 			Block.Settings.copy(Blocks.STONE)
@@ -80,11 +74,22 @@ public class RWorldItems {
 			.resistance(1.0f)
 			.requiresTool()
 			.sounds(BlockSoundGroup.CALCITE));
+
+	public static final TagKey<Item> TAG_ITEM_PETRIFIED_EXPERIENCE = TagKey.of(RegistryKeys.ITEM, RWorld.Key("petrified_experience"));
+	public static final TagKey<Block> TAG_BLOCK_PETRIFIED_EXPERIENCE = TagKey.of(RegistryKeys.BLOCK, RWorld.Key("petrified_experience"));
+
+	public static final ExperienceDroppingBlock PETRIFIED_EXPERIENCE = new ExperienceDroppingBlock(UniformIntProvider.create(15, 20), 
+		Block.Settings.copy(Blocks.STONE)
+		.sounds(BlockSoundGroup.AMETHYST_CLUSTER));
+	public static final ExperienceDroppingBlock PETRIFIED_DEEPSLATE_EXPERIENCE = new ExperienceDroppingBlock(UniformIntProvider.create(15, 20), 
+		Block.Settings.copy(Blocks.DEEPSLATE)
+		.sounds(BlockSoundGroup.AMETHYST_CLUSTER));
 		
 	public static final Block WHITESPACE_BLOCK = new Block(Block.Settings.create()
 			.hardness(0.1f)
 			.resistance(0f)
-			.sounds(BlockSoundGroup.STONE));
+			.sounds(BlockSoundGroup.STONE)
+			.noBlockBreakParticles());
 
 	public static final BowItem GOLDEN_BOW = new BowItem(new Item.Settings());
 	public static final ExperienceTransferRod EXPERIENCE_TRANSFER_ROD = new ExperienceTransferRod(new Item.Settings());
@@ -375,8 +380,12 @@ public class RWorldItems {
 		registerBlock(QUARTZ_CRYSTAL_ORE, "quartz_crystal_ore", ItemGroups.BUILDING_BLOCKS);
 		registerBlock(DEEPSLATE_QUARTZ_CRYSTAL_ORE, "deepslate_quartz_crystal_ore", ItemGroups.BUILDING_BLOCKS);
 		registerBlock(QUARTZ_CRYSTAL_BLOCK, "quartz_crystal_block", ItemGroups.BUILDING_BLOCKS);
-	
+		
+		registerBlock(PETRIFIED_EXPERIENCE, "petrified_experience", ItemGroups.BUILDING_BLOCKS);
+		registerBlock(PETRIFIED_DEEPSLATE_EXPERIENCE, "petrified_deepslate_experience", ItemGroups.BUILDING_BLOCKS);
+
 		registerBlock(WHITESPACE_BLOCK, "whitespace_block", ItemGroups.BUILDING_BLOCKS);
+		
 	}
 
 	static Item registerItem(Item i, String id, RegistryKey<ItemGroup> category) {
