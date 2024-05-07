@@ -1,5 +1,7 @@
 package xyx.ryhn.rworld;
 
+import java.util.HashSet;
+
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.util.TriState;
@@ -7,11 +9,20 @@ import net.kyrptonaught.customportalapi.api.CustomPortalBuilder;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
+import net.minecraft.network.encryption.PlayerPublicKey.PublicKeyData;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
+import net.minecraft.world.poi.PointOfInterestType;
+import net.minecraft.world.poi.PointOfInterestTypes;
 import xyx.ryhn.rworld.dimensions.RWorldDimensions;
 import xyx.ryhn.rworld.entities.mobs.animals.GoldenChicken;
 import xyx.ryhn.rworld.entities.mobs.humans.Citizen;
 import xyx.ryhn.rworld.items.RWorldItems;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

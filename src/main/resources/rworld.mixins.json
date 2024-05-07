@@ -5,7 +5,8 @@
 	"mixins": [
 		"SpyglassMixin",
 		"FOVMixin",
-		"ItemStackIsOfOverride"
+		"ItemStackIsOfOverride",
+		"SpawnBeaconMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.fabric.api.object.builder.v1.world.poi.PointOfInterestHelper;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
 import net.minecraft.block.Block;
@@ -46,6 +47,7 @@ import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import xyx.ryhn.rworld.RWorld;
 import xyx.ryhn.rworld.RWorldSounds;
+import xyx.ryhn.rworld.items.blocks.SpawnBeacon;
 import xyx.ryhn.rworld.items.gear.ExperienceTransferRod;
 import xyx.ryhn.rworld.items.gear.MagicClock;
 import xyx.ryhn.rworld.items.gear.OxidizationWand;
@@ -54,8 +56,10 @@ import xyx.ryhn.rworld.items.gear.trinkets.TeamBand;
 import xyx.ryhn.rworld.xpcrafting.XPCraftingRecipe;
 
 public class RWorldItems {
-	public static final TagKey<Item> TAG_ITEM_QUARTZ_CRYSTAL_ORES = TagKey.of(RegistryKeys.ITEM, RWorld.Key("quartz_crystal_ores"));
-	public static final TagKey<Block> TAG_BLOCK_QUARTZ_CRYSTAL_ORES = TagKey.of(RegistryKeys.BLOCK, RWorld.Key("quartz_crystal_ores"));
+	public static final TagKey<Item> TAG_ITEM_QUARTZ_CRYSTAL_ORES = TagKey.of(RegistryKeys.ITEM,
+			RWorld.Key("quartz_crystal_ores"));
+	public static final TagKey<Block> TAG_BLOCK_QUARTZ_CRYSTAL_ORES = TagKey.of(RegistryKeys.BLOCK,
+			RWorld.Key("quartz_crystal_ores"));
 	public static final Item QUARTZ_CRYSTAL = new Item(new Item.Settings());
 	public static final Block QUARTZ_CRYSTAL_ORE = new ExperienceDroppingBlock(UniformIntProvider.create(2, 10),
 			Block.Settings.copy(Blocks.STONE)
@@ -75,17 +79,27 @@ public class RWorldItems {
 			.requiresTool()
 			.sounds(BlockSoundGroup.CALCITE));
 
-	public static final TagKey<Item> TAG_ITEM_PETRIFIED_EXPERIENCE = TagKey.of(RegistryKeys.ITEM, RWorld.Key("petrified_experience"));
-	public static final TagKey<Block> TAG_BLOCK_PETRIFIED_EXPERIENCE = TagKey.of(RegistryKeys.BLOCK, RWorld.Key("petrified_experience"));
+	public static final TagKey<Item> TAG_ITEM_PETRIFIED_EXPERIENCE = TagKey.of(RegistryKeys.ITEM,
+			RWorld.Key("petrified_experience"));
+	public static final TagKey<Block> TAG_BLOCK_PETRIFIED_EXPERIENCE = TagKey.of(RegistryKeys.BLOCK,
+			RWorld.Key("petrified_experience"));
 
-	public static final ExperienceDroppingBlock PETRIFIED_EXPERIENCE = new ExperienceDroppingBlock(UniformIntProvider.create(30, 40), 
-		Block.Settings.copy(Blocks.STONE)
-		.sounds(BlockSoundGroup.AMETHYST_CLUSTER));
-	public static final ExperienceDroppingBlock PETRIFIED_DEEPSLATE_EXPERIENCE = new ExperienceDroppingBlock(UniformIntProvider.create(30, 40), 
-		Block.Settings.copy(Blocks.DEEPSLATE)
-		.sounds(BlockSoundGroup.AMETHYST_CLUSTER));
-		
+	public static final ExperienceDroppingBlock PETRIFIED_EXPERIENCE = new ExperienceDroppingBlock(
+			UniformIntProvider.create(50, 70),
+			Block.Settings.copy(Blocks.STONE)
+					.sounds(BlockSoundGroup.AMETHYST_CLUSTER));
+	public static final ExperienceDroppingBlock PETRIFIED_DEEPSLATE_EXPERIENCE = new ExperienceDroppingBlock(
+			UniformIntProvider.create(50, 70),
+			Block.Settings.copy(Blocks.DEEPSLATE)
+					.sounds(BlockSoundGroup.AMETHYST_CLUSTER));
+
 	public static final Block WHITESPACE_BLOCK = new Block(Block.Settings.create()
+			.hardness(0.1f)
+			.resistance(0f)
+			.sounds(BlockSoundGroup.STONE)
+			.noBlockBreakParticles());
+
+	public static final Block SPAWN_BEACON = new SpawnBeacon(Block.Settings.create()
 			.hardness(0.1f)
 			.resistance(0f)
 			.sounds(BlockSoundGroup.STONE)
@@ -357,8 +371,8 @@ public class RWorldItems {
 		}
 	}
 
-	public static RegistryKey<ConfiguredFeature<?, ?>> MAPLE_TREE =
-		RegistryKey.of(RegistryKeys.CONFIGURED_FEATURE, RWorld.Key("maple_tree"));
+	public static RegistryKey<ConfiguredFeature<?, ?>> MAPLE_TREE = RegistryKey.of(RegistryKeys.CONFIGURED_FEATURE,
+			RWorld.Key("maple_tree"));
 	public static WoodSet MapleSet = new WoodSet("maple", MapColor.YELLOW, MapColor.WHITE, MapColor.YELLOW, MAPLE_TREE);
 	public static RegistryKey<ConfiguredFeature<?, ?>> MORNING_TREE = RegistryKey.of(RegistryKeys.CONFIGURED_FEATURE,
 			RWorld.Key("morning_tree"));
@@ -380,12 +394,15 @@ public class RWorldItems {
 		registerBlock(QUARTZ_CRYSTAL_ORE, "quartz_crystal_ore", ItemGroups.BUILDING_BLOCKS);
 		registerBlock(DEEPSLATE_QUARTZ_CRYSTAL_ORE, "deepslate_quartz_crystal_ore", ItemGroups.BUILDING_BLOCKS);
 		registerBlock(QUARTZ_CRYSTAL_BLOCK, "quartz_crystal_block", ItemGroups.BUILDING_BLOCKS);
-		
+
 		registerBlock(PETRIFIED_EXPERIENCE, "petrified_experience", ItemGroups.BUILDING_BLOCKS);
 		registerBlock(PETRIFIED_DEEPSLATE_EXPERIENCE, "petrified_deepslate_experience", ItemGroups.BUILDING_BLOCKS);
 
 		registerBlock(WHITESPACE_BLOCK, "whitespace_block", ItemGroups.BUILDING_BLOCKS);
-		
+
+		registerBlock(SPAWN_BEACON, "spawn_beacon", ItemGroups.BUILDING_BLOCKS);
+		PointOfInterestHelper.register(SpawnBeacon.POI_KEY.getValue(), 0, SpawnBeacon.SEARCH_DISTANCE, SPAWN_BEACON);
+
 	}
 
 	static Item registerItem(Item i, String id, RegistryKey<ItemGroup> category) {
