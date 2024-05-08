@@ -1,4 +1,4 @@
-package xyx.ryhn.rworld.items;
+package xyx.ryhn.rworld.items.gear;
 
 import org.joml.Math;
 
@@ -11,6 +11,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
+import xyx.ryhn.rworld.items.enchants.MendingClothEnchantment;
 
 public class MendingBottle extends Item {
 	public MendingClothEnchantment enchantment;

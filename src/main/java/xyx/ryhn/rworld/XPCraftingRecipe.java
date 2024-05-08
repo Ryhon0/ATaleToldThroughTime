@@ -1,4 +1,4 @@
-package xyx.ryhn.rworld.xpcrafting;
+package xyx.ryhn.rworld;
 
 import java.util.List;
 

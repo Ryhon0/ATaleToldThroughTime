@@ -8,8 +8,6 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.render.DimensionEffects;
-import net.minecraft.client.render.entity.model.ChickenEntityModel;
-import net.minecraft.client.render.entity.model.EntityModelLayers;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.item.CrossbowItem;
 import net.minecraft.item.Items;

@@ -9,7 +9,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionTypes;
-import xyx.ryhn.rworld.dimensions.RWorldDimensions;
+import xyx.ryhn.rworld.RWorldDimensions;
 
 public class MagicClock extends Item {
 	public static final Item ITEM = new MagicClock(new Item.Settings());

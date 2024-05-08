@@ -1,6 +1,5 @@
 package xyx.ryhn.rworld.entities.mobs.humans;
 
-import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.ai.goal.GoToVillageGoal;

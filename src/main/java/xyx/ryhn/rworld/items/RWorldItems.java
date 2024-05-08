@@ -47,13 +47,16 @@ import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import xyx.ryhn.rworld.RWorld;
 import xyx.ryhn.rworld.RWorldSounds;
+import xyx.ryhn.rworld.XPCraftingRecipe;
 import xyx.ryhn.rworld.items.blocks.SpawnBeacon;
+import xyx.ryhn.rworld.items.enchants.MendingClothEnchantment;
 import xyx.ryhn.rworld.items.gear.ExperienceTransferRod;
 import xyx.ryhn.rworld.items.gear.MagicClock;
+import xyx.ryhn.rworld.items.gear.MendingBottle;
+import xyx.ryhn.rworld.items.gear.MendingTransferItem;
 import xyx.ryhn.rworld.items.gear.OxidizationWand;
 import xyx.ryhn.rworld.items.gear.ScopedCrossbow;
 import xyx.ryhn.rworld.items.gear.trinkets.TeamBand;
-import xyx.ryhn.rworld.xpcrafting.XPCraftingRecipe;
 
 public class RWorldItems {
 	public static final TagKey<Item> TAG_ITEM_QUARTZ_CRYSTAL_ORES = TagKey.of(RegistryKeys.ITEM,

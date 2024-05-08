@@ -1,4 +1,4 @@
-package xyx.ryhn.rworld.items;
+package xyx.ryhn.rworld.items.enchants;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentTarget;

@@ -1,4 +1,4 @@
-package xyx.ryhn.rworld.items;
+package xyx.ryhn.rworld.items.gear;
 
 import java.util.List;
 
@@ -13,6 +13,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
+import xyx.ryhn.rworld.items.enchants.MendingClothEnchantment;
 
 public class MendingTransferItem extends Item {
 	Item[] transferableTo;

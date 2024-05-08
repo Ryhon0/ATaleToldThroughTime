@@ -1,19 +1,10 @@
-package xyx.ryhn.rworld.dimensions;
+package xyx.ryhn.rworld;
 
-import java.util.OptionalLong;
-
-import net.minecraft.client.render.DimensionEffects;
-import net.minecraft.registry.Registerable;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionOptions;
 import net.minecraft.world.dimension.DimensionType;
-import net.minecraft.world.dimension.DimensionType.MonsterSettings;
-import net.minecraft.world.dimension.DimensionTypes;
-import xyx.ryhn.rworld.RWorld;
 
 public class RWorldDimensions {
 	public static final RegistryKey<DimensionOptions> DIMENSION_KEY = RegistryKey.of(RegistryKeys.DIMENSION,

@@ -1,21 +1,14 @@
 package xyx.ryhn.rworld.items.gear;
 
 import java.util.List;
-import java.util.Arrays;
-
 import net.minecraft.block.Blocks;
-import net.minecraft.block.entity.StructureBlockBlockEntity.Action;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemUsageContext;
-import net.minecraft.item.Items;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
-import xyx.ryhn.rworld.items.RWorldItems;
-import xyx.ryhn.rworld.xpcrafting.XPCraftingRecipe;
+import xyx.ryhn.rworld.XPCraftingRecipe;
 
 public class ExperienceTransferRod extends Item {
 	public ExperienceTransferRod(Settings settings) {
