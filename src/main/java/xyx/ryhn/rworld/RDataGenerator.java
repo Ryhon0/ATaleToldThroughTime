@@ -23,6 +23,7 @@ import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.resource.featuretoggle.FeatureSet;
 import xyx.ryhn.rworld.items.RWorldItems;
+import xyx.ryhn.rworld.items.RWorldItems.BlockSet;
 import xyx.ryhn.rworld.items.RWorldItems.WoodSet;
 import xyx.ryhn.rworld.items.gear.MagicClock;
 import xyx.ryhn.rworld.items.gear.OxidizationWand;
@@ -56,6 +57,18 @@ public class RDataGenerator implements DataGeneratorEntrypoint {
 
 			generator.registerSimpleCubeAll(RWorldItems.RED_CRYSTAL_BLOCK);
 			generator.registerSimpleCubeAll(RWorldItems.SALT_BLOCK);
+			
+			generator.registerWallPlant(RWorldItems.RED_MOSS);
+			generator.registerSimpleCubeAll(RWorldItems.RED_MOSS_BLOCK);
+
+			generator.registerWallPlant(RWorldItems.BLUE_MOSS);
+			generator.registerSimpleCubeAll(RWorldItems.BLUE_MOSS_BLOCK);
+
+			generator.registerWallPlant(RWorldItems.MOSS);
+
+
+			for (BlockSet set : BlockSet.Sets) 
+				generator.registerCubeAllModelTexturePool(set.PARENT).family(set.FAMILY);
 
 			for (WoodSet set : WoodSet.Sets) {
 				registerWoodSet(generator, set);
@@ -63,8 +76,6 @@ public class RDataGenerator implements DataGeneratorEntrypoint {
 		}
 
 		void registerWoodSet(BlockStateModelGenerator generator, WoodSet set) {
-			generator.registerCubeAllModelTexturePool(set.PLANK).family(set.FAMILY);
-
 			generator.registerLog(set.LOG).log(set.LOG).wood(set.WOOD);
 			generator.registerLog(set.CUT_LOG).log(set.CUT_LOG).wood(set.CUT_WOOD);
 			generator.registerLog(set.STRIPPED_LOG).log(set.STRIPPED_LOG).wood(set.STRIPPED_WOOD);
@@ -103,14 +114,14 @@ public class RDataGenerator implements DataGeneratorEntrypoint {
 
 		@Override
 		public void generate(RecipeExporter exporter) {
-			for (WoodSet set : WoodSet.Sets) {
+			for (BlockSet set : BlockSet.Sets) 
+				generateFamily(exporter, set.FAMILY, FeatureSet.empty());
+
+			for (WoodSet set : WoodSet.Sets)
 				registerWoodSet(exporter, set);
-			}
 		}
 
 		void registerWoodSet(RecipeExporter exporter, WoodSet set) {
-			generateFamily(exporter, set.FAMILY, FeatureSet.empty());
-
 			offerPlanksRecipe(exporter, set.PLANK, set.ITEM_LOG_TAG, 4);
 
 			ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, set.WOOD, 3)
@@ -216,28 +227,28 @@ public class RDataGenerator implements DataGeneratorEntrypoint {
 						.add(set.STRIPPED_WOOD.asItem());
 
 				getOrCreateTagBuilder(ItemTags.WOODEN_BUTTONS)
-						.add(set.BUTTON.asItem());
+						.add(set.Set.BUTTON.asItem());
 
 				getOrCreateTagBuilder(ItemTags.WOODEN_DOORS)
-						.add(set.DOOR.asItem());
+						.add(set.Set.DOOR.asItem());
 
 				getOrCreateTagBuilder(ItemTags.WOODEN_FENCES)
-						.add(set.FENCE.asItem());
+						.add(set.Set.FENCE.asItem());
 
 				getOrCreateTagBuilder(ItemTags.FENCE_GATES)
-						.add(set.FENCE_GATE.asItem());
+						.add(set.Set.FENCE_GATE.asItem());
 
 				getOrCreateTagBuilder(ItemTags.WOODEN_PRESSURE_PLATES)
-						.add(set.PRESSURE_PLATE.asItem());
+						.add(set.Set.PRESSURE_PLATE.asItem());
 
 				getOrCreateTagBuilder(ItemTags.WOODEN_SLABS)
-						.add(set.SLAB.asItem());
+						.add(set.Set.SLAB.asItem());
 
 				getOrCreateTagBuilder(ItemTags.WOODEN_STAIRS)
-						.add(set.STAIRS.asItem());
+						.add(set.Set.STAIRS.asItem());
 
 				getOrCreateTagBuilder(ItemTags.WOODEN_TRAPDOORS)
-						.add(set.TRAPDOOR.asItem());
+						.add(set.Set.TRAPDOOR.asItem());
 
 				// getOrCreateTagBuilder(ItemTags.SIGNS)
 				// .add(set.HANGING_SIGN.asItem())
@@ -274,13 +285,46 @@ public class RDataGenerator implements DataGeneratorEntrypoint {
 				.add(RWorldItems.QUARTZ_CRYSTAL_ORE)
 				.add(RWorldItems.QUARTZ_CRYSTAL_BLOCK);
 
+			for(BlockSet set : BlockSet.Sets)
+			{
+				if(set.WALL != null)
+					getOrCreateTagBuilder(BlockTags.WALLS)
+						.add(set.WALL);
+
+				if(set.FENCE != null)
+					getOrCreateTagBuilder(BlockTags.FENCES)
+						.add(set.FENCE);
+
+				if(set.FENCE != null)
+					getOrCreateTagBuilder(BlockTags.FENCE_GATES)
+						.add(set.FENCE_GATE);	
+			}
+
+			for(BlockSet set : new BlockSet[]{
+				RWorldItems.RED_MOSS_BRICKS_SET, RWorldItems.RED_MOSS_COBBLE_SET,
+				RWorldItems.BLUE_MOSS_BRICKS_SET, RWorldItems.BLUE_MOSS_COBBLE_SET
+			})
+			{
+				for(Block b: set.BLOCKS)
+					getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE)
+						.add(b);
+			}
+
 			for (WoodSet set : WoodSet.Sets) {
 				getOrCreateTagBuilder(BlockTags.HOE_MINEABLE)
 						.add(set.LEAVES);
 
-				for (Block b : set.BlocksInSet)
+				for (Block b : set.Set.BLOCKS)
 					getOrCreateTagBuilder(BlockTags.AXE_MINEABLE)
 							.add(b);
+				
+				getOrCreateTagBuilder(BlockTags.AXE_MINEABLE)
+					.add(set.LOG)
+					.add(set.CUT_LOG)
+					.add(set.STRIPPED_LOG)
+					.add(set.WOOD)
+					.add(set.CUT_WOOD)
+					.add(set.STRIPPED_WOOD);
 
 				getOrCreateTagBuilder(BlockTags.SAPLINGS)
 						.add(set.SAPLING);
@@ -319,28 +363,25 @@ public class RDataGenerator implements DataGeneratorEntrypoint {
 						.add(set.STRIPPED_WOOD);
 
 				getOrCreateTagBuilder(BlockTags.WOODEN_BUTTONS)
-						.add(set.BUTTON);
+						.add(set.Set.BUTTON);
 
 				getOrCreateTagBuilder(BlockTags.WOODEN_DOORS)
-						.add(set.DOOR);
+						.add(set.Set.DOOR);
 
 				getOrCreateTagBuilder(BlockTags.WOODEN_FENCES)
-						.add(set.FENCE);
-
-				getOrCreateTagBuilder(BlockTags.FENCE_GATES)
-						.add(set.FENCE_GATE);
+						.add(set.Set.FENCE);
 
 				getOrCreateTagBuilder(BlockTags.WOODEN_PRESSURE_PLATES)
-						.add(set.PRESSURE_PLATE);
+						.add(set.Set.PRESSURE_PLATE);
 
 				getOrCreateTagBuilder(BlockTags.WOODEN_SLABS)
-						.add(set.SLAB);
+						.add(set.Set.SLAB);
 
 				getOrCreateTagBuilder(BlockTags.WOODEN_STAIRS)
-						.add(set.STAIRS);
+						.add(set.Set.STAIRS);
 
 				getOrCreateTagBuilder(BlockTags.WOODEN_TRAPDOORS)
-						.add(set.TRAPDOOR);
+						.add(set.Set.TRAPDOOR);
 
 				// getOrCreateTagBuilder(BlockTags.SIGNS)
 				// .add(set.HANGING_SIGN)
@@ -360,14 +401,19 @@ public class RDataGenerator implements DataGeneratorEntrypoint {
 			addDropWithSilkTouch(RWorldItems.PETRIFIED_EXPERIENCE);
 			addDropWithSilkTouch(RWorldItems.PETRIFIED_DEEPSLATE_EXPERIENCE);
 
-			for (WoodSet set : WoodSet.Sets) {
-				for (Block block : set.BlocksInSet) {
-					addDrop(block);
+			for(BlockSet set : BlockSet.Sets)
+			{
+				for (Block block : set.BLOCKS) {
 					if (block == set.DOOR)
 						addDrop(block, doorDrops(block));
 					else if (block == set.SLAB)
 						addDrop(block, slabDrops(block));
+					else
+						addDrop(block);
 				}
+			}
+
+			for (WoodSet set : WoodSet.Sets) {
 				addDrop(set.SAPLING);
 				addPottedPlantDrops(set.POTTED_SAPLING);
 				addDrop(set.LEAVES,

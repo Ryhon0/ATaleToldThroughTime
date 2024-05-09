@@ -1,0 +1,6 @@
+{
+  "parent": "rworld:block/solid_wall",
+  "textures": {
+    "texture": "rworld:block/blue_moss"
+  }
+}

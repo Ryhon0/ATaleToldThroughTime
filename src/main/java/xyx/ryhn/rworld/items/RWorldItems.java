@@ -18,6 +18,7 @@ import net.minecraft.block.FenceGateBlock;
 import net.minecraft.block.FlowerPotBlock;
 import net.minecraft.block.LeavesBlock;
 import net.minecraft.block.MapColor;
+import net.minecraft.block.MultifaceGrowthBlock;
 import net.minecraft.block.PillarBlock;
 import net.minecraft.block.PressurePlateBlock;
 import net.minecraft.block.SaplingBlock;
@@ -26,8 +27,10 @@ import net.minecraft.block.SlabBlock;
 import net.minecraft.block.SnowBlock;
 import net.minecraft.block.StairsBlock;
 import net.minecraft.block.TrapdoorBlock;
+import net.minecraft.block.WallBlock;
 import net.minecraft.block.WoodType;
 import net.minecraft.block.AbstractBlock.Settings;
+import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.data.family.BlockFamilies;
 import net.minecraft.data.family.BlockFamily;
 import net.minecraft.enchantment.Enchantment;
@@ -49,6 +52,7 @@ import net.minecraft.world.gen.feature.ConfiguredFeature;
 import xyx.ryhn.rworld.RWorld;
 import xyx.ryhn.rworld.RWorldSounds;
 import xyx.ryhn.rworld.XPCraftingRecipe;
+import xyx.ryhn.rworld.items.blocks.MultifaceBlock;
 import xyx.ryhn.rworld.items.blocks.SpawnBeacon;
 import xyx.ryhn.rworld.items.blocks.totem.RespawnTotem;
 import xyx.ryhn.rworld.items.enchants.MendingClothEnchantment;
@@ -119,7 +123,44 @@ public class RWorldItems {
 	public static final Block SALT_LAYER = new SnowBlock(Block.Settings.copy(Blocks.SNOW));
 	public static final Block SALT_BLOCK = new Block(Block.Settings.copy(Blocks.STONE));
 	public static final Block RED_CRYSTAL_BLOCK = new Block(Block.Settings.copy(Blocks.AMETHYST_BLOCK)
-		.mapColor(MapColor.DARK_CRIMSON));
+			.mapColor(MapColor.DARK_CRIMSON));
+
+	public static final Block RED_MOSS_BLOCK = new Block(Block.Settings.copy(Blocks.MOSS_BLOCK)
+			.mapColor(MapColor.DARK_CRIMSON));
+	public static final Block RED_MOSS = new MultifaceBlock(Block.Settings.copy(Blocks.MOSS_BLOCK)
+			.mapColor(MapColor.DARK_CRIMSON)
+			.pistonBehavior(PistonBehavior.DESTROY)
+			.nonOpaque());
+	public static final Block RED_MOSSY_COBBLE = registerBlock(
+			new Block(Block.Settings.copy(Blocks.MOSSY_COBBLESTONE)), "red_mossy_cobblestone",
+			ItemGroups.BUILDING_BLOCKS);
+	public static final BlockSet RED_MOSS_COBBLE_SET = new BlockSet(RED_MOSSY_COBBLE, "red_mossy_cobblestone",
+			false);
+	public static final Block RED_MOSSY_BRICKS = registerBlock(
+			new Block(Block.Settings.copy(Blocks.MOSSY_STONE_BRICKS)), "red_mossy_stone_bricks",
+			ItemGroups.BUILDING_BLOCKS);
+	public static final BlockSet RED_MOSS_BRICKS_SET = new BlockSet(RED_MOSSY_BRICKS, "red_mossy_brick", false);
+
+	public static final Block BLUE_MOSS_BLOCK = new Block(Block.Settings.copy(Blocks.MOSS_BLOCK)
+			.mapColor(MapColor.LIGHT_BLUE));
+	public static final Block BLUE_MOSS = new MultifaceBlock(Block.Settings.copy(Blocks.MOSS_BLOCK)
+			.mapColor(MapColor.LIGHT_BLUE)
+			.pistonBehavior(PistonBehavior.DESTROY)
+			.nonOpaque());
+	public static final Block BLUE_MOSSY_COBBLE = registerBlock(
+			new Block(Block.Settings.copy(Blocks.MOSSY_COBBLESTONE)), "blue_mossy_cobblestone",
+			ItemGroups.BUILDING_BLOCKS);
+	public static final BlockSet BLUE_MOSS_COBBLE_SET = new BlockSet(BLUE_MOSSY_COBBLE, "blue_mossy_cobblestone",
+			false);
+	public static final Block BLUE_MOSSY_BRICKS = registerBlock(
+			new Block(Block.Settings.copy(Blocks.MOSSY_STONE_BRICKS)), "blue_mossy_stone_bricks",
+			ItemGroups.BUILDING_BLOCKS);
+	public static final BlockSet BLUE_MOSS_BRICKS_SET = new BlockSet(BLUE_MOSSY_BRICKS, "blue_mossy_brick", false);
+
+	public static final Block MOSS = new MultifaceBlock(Block.Settings.copy(Blocks.MOSS_BLOCK)
+			.mapColor(MapColor.GREEN)
+			.pistonBehavior(PistonBehavior.DESTROY)
+			.nonOpaque());
 
 	public static final BowItem GOLDEN_BOW = new BowItem(new Item.Settings());
 	public static final ExperienceTransferRod EXPERIENCE_TRANSFER_ROD = new ExperienceTransferRod(new Item.Settings());
@@ -205,11 +246,8 @@ public class RWorldItems {
 		public static ArrayList<WoodSet> Sets = new ArrayList<>();
 
 		public String name;
-		public Block[] BlocksInSet;
+		public BlockSet Set;
 
-		public BlockSetType SET_TYPE;
-		public WoodType WOOD_TYPE;
-		public BlockFamily FAMILY;
 		public TagKey<Item> ITEM_LOG_TAG;
 		public TagKey<Block> BLOCK_LOG_TAG;
 
@@ -227,29 +265,11 @@ public class RWorldItems {
 		public Block PLANK;
 		public LeavesBlock LEAVES;
 
-		public SlabBlock SLAB;
-		public StairsBlock STAIRS;
-
-		public PressurePlateBlock PRESSURE_PLATE;
-		public ButtonBlock BUTTON;
-
-		public DoorBlock DOOR;
-		public TrapdoorBlock TRAPDOOR;
-
-		/// public SignBlock SIGN;
-		/// public WallSignBlock WALL_SIGN;
-		/// public HangingSignBlock HANGING_SIGN;
-		/// public WallHangingSignBlock WALL_HANGING_SIGN;
-
-		public FenceBlock FENCE;
-		public FenceGateBlock FENCE_GATE;
-
 		public WoodSet(String name, MapColor plankColor, MapColor logColor, MapColor leafColor,
 				RegistryKey<ConfiguredFeature<?, ?>> tree) {
 			this.name = name;
-			SET_TYPE = new BlockSetType(name);
-			WOOD_TYPE = new WoodType(name, SET_TYPE);
 			TREE = tree;
+
 			ITEM_LOG_TAG = TagKey.of(RegistryKeys.ITEM, RWorld.Key(name + "_logs"));
 			BLOCK_LOG_TAG = TagKey.of(RegistryKeys.BLOCK, RWorld.Key(name + "_logs"));
 
@@ -264,28 +284,6 @@ public class RWorldItems {
 			PLANK = new Block(Settings.copy(Blocks.OAK_PLANKS).mapColor(plankColor));
 			LEAVES = new LeavesBlock(Settings.copy(Blocks.OAK_LEAVES).mapColor(leafColor));
 
-			SLAB = new SlabBlock(Settings.copy(Blocks.OAK_SLAB).mapColor(plankColor));
-			STAIRS = new StairsBlock(PLANK.getDefaultState(), Settings.copy(Blocks.OAK_STAIRS).mapColor(plankColor));
-
-			PRESSURE_PLATE = new PressurePlateBlock(SET_TYPE,
-					Settings.copy(Blocks.OAK_PRESSURE_PLATE).mapColor(plankColor));
-			BUTTON = new ButtonBlock(SET_TYPE, 4, Settings.copy(Blocks.OAK_BUTTON).mapColor(plankColor));
-
-			DOOR = new DoorBlock(SET_TYPE, Settings.copy(Blocks.OAK_DOOR).mapColor(plankColor));
-			TRAPDOOR = new TrapdoorBlock(SET_TYPE, Settings.copy(Blocks.OAK_TRAPDOOR).mapColor(plankColor));
-
-			// SIGN = new SignBlock(WOOD_TYPE,
-			// Settings.copy(Blocks.OAK_SIGN).mapColor(color));
-			// WALL_SIGN = new WallSignBlock(WOOD_TYPE,
-			// Settings.copy(Blocks.OAK_SIGN).mapColor(color));
-			// HANGING_SIGN = new HangingSignBlock(WOOD_TYPE,
-			// Settings.copy(Blocks.OAK_HANGING_SIGN).mapColor(color));
-			// WALL_HANGING_SIGN = new WallHangingSignBlock(WOOD_TYPE,
-			// Settings.copy(Blocks.OAK_WALL_HANGING_SIGN).mapColor(color));
-
-			FENCE = new FenceBlock(Settings.copy(Blocks.OAK_FENCE).mapColor(plankColor));
-			FENCE_GATE = new FenceGateBlock(WOOD_TYPE, Settings.copy(Blocks.OAK_FENCE_GATE).mapColor(plankColor));
-
 			registerBlock(LOG, name + "_log", ItemGroups.BUILDING_BLOCKS);
 			registerBlock(CUT_LOG, "cut_" + name + "_log", ItemGroups.BUILDING_BLOCKS);
 			registerBlock(STRIPPED_LOG, "stripped_" + name + "_log", ItemGroups.BUILDING_BLOCKS);
@@ -296,24 +294,6 @@ public class RWorldItems {
 
 			registerBlock(PLANK, name + "_planks", ItemGroups.BUILDING_BLOCKS);
 			registerBlock(LEAVES, name + "_leaves", ItemGroups.BUILDING_BLOCKS);
-
-			registerBlock(SLAB, name + "_slab", ItemGroups.BUILDING_BLOCKS);
-			registerBlock(STAIRS, name + "_stairs", ItemGroups.BUILDING_BLOCKS);
-
-			registerBlock(PRESSURE_PLATE, name + "_pressure_plate", ItemGroups.REDSTONE);
-			registerBlock(BUTTON, name + "_button", ItemGroups.REDSTONE);
-
-			registerBlock(DOOR, name + "_door", ItemGroups.REDSTONE);
-			registerBlock(TRAPDOOR, name + "_trapdoor", ItemGroups.REDSTONE);
-
-			// registerBlock(SIGN, name + "_sign", ItemGroups.BUILDING_BLOCKS);
-			// registerBlock(HANGING_SIGN, name + "_hanging_sign",
-			// ItemGroups.BUILDING_BLOCKS);
-
-			registerBlock(FENCE, name + "_fence", ItemGroups.BUILDING_BLOCKS);
-			registerBlock(FENCE_GATE, name + "_fence_gate", ItemGroups.BUILDING_BLOCKS);
-
-			// Registry.register(Registries.FEATURE, RWorld.Key(name + "_tree"), );
 
 			SAPLING = new SaplingBlock(
 					new SaplingGenerator(name, 0f, Optional.empty(),
@@ -329,17 +309,7 @@ public class RWorldItems {
 			registerBlockWithNoItem(POTTED_SAPLING, "potted_" + name + "_sapling");
 
 			Sets.add(this);
-			FAMILY = BlockFamilies.register(PLANK)
-					.slab(SLAB)
-					.stairs(STAIRS)
-					.pressurePlate(PRESSURE_PLATE)
-					.button(BUTTON)
-					.door(DOOR)
-					.trapdoor(TRAPDOOR)
-					// .sign(SIGN, WALL_SIGN)
-					.fence(FENCE)
-					.fenceGate(FENCE_GATE)
-					.build();
+			Set = new BlockSet(PLANK, name, true);
 
 			StrippableBlockRegistry.register(LOG, CUT_LOG);
 			StrippableBlockRegistry.register(CUT_LOG, STRIPPED_LOG);
@@ -351,10 +321,10 @@ public class RWorldItems {
 			fbr.add(LEAVES, 30, 60);
 
 			fbr.add(PLANK, 5, 20);
-			fbr.add(SLAB, 5, 20);
-			fbr.add(STAIRS, 5, 20);
-			fbr.add(FENCE, 5, 20);
-			fbr.add(FENCE_GATE, 5, 20);
+			fbr.add(Set.SLAB, 5, 20);
+			fbr.add(Set.STAIRS, 5, 20);
+			fbr.add(Set.FENCE, 5, 20);
+			fbr.add(Set.FENCE_GATE, 5, 20);
 
 			fbr.add(LOG, 5, 5);
 			fbr.add(CUT_LOG, 5, 5);
@@ -362,28 +332,102 @@ public class RWorldItems {
 			fbr.add(WOOD, 5, 5);
 			fbr.add(CUT_WOOD, 5, 5);
 			fbr.add(STRIPPED_WOOD, 5, 5);
+		}
+	}
 
-			BlocksInSet = new Block[] {
-					LOG,
-					CUT_LOG,
-					STRIPPED_LOG,
-					WOOD,
-					CUT_WOOD,
-					STRIPPED_WOOD,
-					PLANK,
-					SLAB,
-					STAIRS,
-					PRESSURE_PLATE,
-					BUTTON,
-					DOOR,
-					TRAPDOOR,
-					// SIGN,
-					// WALL_SIGN,
-					// HANGING_SIGN,
-					// WALL_HANGING_SIGN,
-					FENCE,
-					FENCE_GATE,
-			};
+	public static class BlockSet {
+		public static ArrayList<BlockSet> Sets = new ArrayList<>();
+
+		public ArrayList<Block> BLOCKS = new ArrayList<>();
+
+		public BlockSetType SET_TYPE;
+		public BlockFamily FAMILY;
+		public WoodType WOOD_TYPE;
+		public String Name;
+
+		public Block PARENT;
+		public Block[] All;
+
+		public SlabBlock SLAB;
+		public StairsBlock STAIRS;
+
+		public PressurePlateBlock PRESSURE_PLATE;
+		public ButtonBlock BUTTON;
+
+		/// public SignBlock SIGN;
+		/// public WallSignBlock WALL_SIGN;
+		/// public HangingSignBlock HANGING_SIGN;
+		/// public WallHangingSignBlock WALL_HANGING_SIGN;
+
+		public WallBlock WALL;
+
+		public FenceBlock FENCE;
+		public FenceGateBlock FENCE_GATE;
+
+		public DoorBlock DOOR;
+		public TrapdoorBlock TRAPDOOR;
+
+		public BlockSet(Block parent, String name, boolean isWood) {
+			PARENT = parent;
+			Name = name;
+			BLOCKS.add(PARENT);
+
+			BlockFamily.Builder bfb = BlockFamilies.register(PARENT);
+			SET_TYPE = new BlockSetType(name);
+
+			SLAB = new SlabBlock(Settings.copy(PARENT));
+			BLOCKS.add(registerBlock(SLAB, name + "_slab", ItemGroups.BUILDING_BLOCKS));
+			bfb.slab(SLAB);
+
+			STAIRS = new StairsBlock(PARENT.getDefaultState(), Settings.copy(PARENT));
+			BLOCKS.add(registerBlock(STAIRS, name + "_stairs", ItemGroups.BUILDING_BLOCKS));
+			bfb.stairs(STAIRS);
+
+			PRESSURE_PLATE = new PressurePlateBlock(SET_TYPE,
+					Settings.copy(Blocks.OAK_PRESSURE_PLATE)
+							.noCollision()
+							.pistonBehavior(PistonBehavior.DESTROY));
+			BLOCKS.add(registerBlock(PRESSURE_PLATE, name + "_pressure_plate", ItemGroups.REDSTONE));
+			bfb.pressurePlate(PRESSURE_PLATE);
+
+			BUTTON = new ButtonBlock(SET_TYPE, 4,
+					Settings.copy(PARENT)
+							.noCollision()
+							.pistonBehavior(PistonBehavior.DESTROY));
+			BLOCKS.add(registerBlock(BUTTON, name + "_button", ItemGroups.REDSTONE));
+			bfb.button(BUTTON);
+
+			if (isWood) {
+				WOOD_TYPE = new WoodType(name, SET_TYPE);
+
+				DOOR = new DoorBlock(SET_TYPE, Settings.copy(PARENT)
+						.nonOpaque()
+						.pistonBehavior(PistonBehavior.DESTROY));
+				BLOCKS.add(registerBlock(DOOR, name + "_door", ItemGroups.BUILDING_BLOCKS));
+				bfb.door(DOOR);
+
+				TRAPDOOR = new TrapdoorBlock(SET_TYPE, Settings.copy(PARENT)
+						.nonOpaque()
+						.pistonBehavior(PistonBehavior.DESTROY));
+				BLOCKS.add(registerBlock(TRAPDOOR, name + "_trapdoor", ItemGroups.BUILDING_BLOCKS));
+				bfb.trapdoor(TRAPDOOR);
+
+				FENCE = new FenceBlock(Settings.copy(Blocks.OAK_FENCE));
+				BLOCKS.add(registerBlock(FENCE, name + "_fence", ItemGroups.BUILDING_BLOCKS));
+				bfb.fence(FENCE);
+
+				FENCE_GATE = new FenceGateBlock(WOOD_TYPE, Settings.copy(Blocks.OAK_FENCE_GATE));
+				BLOCKS.add(registerBlock(FENCE_GATE, name + "_fence_gate", ItemGroups.BUILDING_BLOCKS));
+				bfb.fenceGate(FENCE_GATE);
+			} else {
+				WALL = new WallBlock(Settings.copy(PARENT));
+				BLOCKS.add(registerBlock(WALL, name + "_wall", ItemGroups.BUILDING_BLOCKS));
+				bfb.wall(WALL);
+			}
+
+			FAMILY = bfb.build();
+
+			Sets.add(this);
 		}
 	}
 
@@ -425,6 +469,14 @@ public class RWorldItems {
 		registerBlock(SALT_LAYER, "salt_layer", ItemGroups.BUILDING_BLOCKS);
 		registerBlock(SALT_BLOCK, "salt_block", ItemGroups.BUILDING_BLOCKS);
 		registerBlock(RED_CRYSTAL_BLOCK, "red_crystal_block", ItemGroups.BUILDING_BLOCKS);
+
+		registerBlock(RED_MOSS, "red_moss", ItemGroups.BUILDING_BLOCKS);
+		registerBlock(RED_MOSS_BLOCK, "red_moss_block", ItemGroups.BUILDING_BLOCKS);
+
+		registerBlock(BLUE_MOSS, "blue_moss", ItemGroups.BUILDING_BLOCKS);
+		registerBlock(BLUE_MOSS_BLOCK, "blue_moss_block", ItemGroups.BUILDING_BLOCKS);
+
+		registerBlock(MOSS, "moss", ItemGroups.BUILDING_BLOCKS);
 	}
 
 	static Item registerItem(Item i, String id, RegistryKey<ItemGroup> category) {
@@ -438,13 +490,13 @@ public class RWorldItems {
 		return i;
 	}
 
-	static Block registerBlock(Block b, String id, RegistryKey<ItemGroup> category) {
+	static <T extends Block> T registerBlock(T b, String id, RegistryKey<ItemGroup> category) {
 		registerBlockWithNoItem(b, id);
 		registerItem(new BlockItem(b, new Item.Settings()), id, category);
 		return b;
 	}
 
-	static Block registerBlockWithNoItem(Block b, String id) {
+	static <T extends Block> T registerBlockWithNoItem(T b, String id) {
 		Registry.register(Registries.BLOCK, RWorld.Key(id), b);
 		return b;
 	}

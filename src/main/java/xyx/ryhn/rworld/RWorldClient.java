@@ -75,8 +75,8 @@ public class RWorldClient implements ClientModInitializer {
 		for (WoodSet set : WoodSet.Sets) {
 			BlockRenderLayerMap.INSTANCE.putBlock(set.SAPLING, RenderLayer.getCutout());
 			BlockRenderLayerMap.INSTANCE.putBlock(set.POTTED_SAPLING, RenderLayer.getCutout());
-			BlockRenderLayerMap.INSTANCE.putBlock(set.DOOR, RenderLayer.getCutout());
-			BlockRenderLayerMap.INSTANCE.putBlock(set.TRAPDOOR, RenderLayer.getCutout());
+			BlockRenderLayerMap.INSTANCE.putBlock(set.Set.DOOR, RenderLayer.getCutout());
+			BlockRenderLayerMap.INSTANCE.putBlock(set.Set.TRAPDOOR, RenderLayer.getCutout());
 		}
 
 		DimensionEffects.BY_IDENTIFIER.put(
