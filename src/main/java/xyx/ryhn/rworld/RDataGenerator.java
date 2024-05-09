@@ -21,6 +21,7 @@ import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.ItemTags;
+import net.minecraft.resource.featuretoggle.FeatureFlags;
 import net.minecraft.resource.featuretoggle.FeatureSet;
 import xyx.ryhn.rworld.items.RWorldItems;
 import xyx.ryhn.rworld.items.RWorldItems.BlockSet;
@@ -115,7 +116,7 @@ public class RDataGenerator implements DataGeneratorEntrypoint {
 		@Override
 		public void generate(RecipeExporter exporter) {
 			for (BlockSet set : BlockSet.Sets) 
-				generateFamily(exporter, set.FAMILY, FeatureSet.empty());
+				generateFamily(exporter, set.FAMILY, FeatureSet.of(FeatureFlags.VANILLA));
 
 			for (WoodSet set : WoodSet.Sets)
 				registerWoodSet(exporter, set);
