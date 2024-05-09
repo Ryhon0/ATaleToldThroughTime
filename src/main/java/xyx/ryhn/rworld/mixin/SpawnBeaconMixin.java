@@ -10,7 +10,6 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.poi.PointOfInterestType;
 import net.minecraft.world.poi.PointOfInterestStorage.OccupationStatus;
-import xyx.ryhn.rworld.RWorld;
 import xyx.ryhn.rworld.items.blocks.SpawnBeacon;
 
 import java.util.Optional;
@@ -31,15 +30,13 @@ public class SpawnBeaconMixin {
 			return;
 
 		if (cir.getReturnValue()) {
-			// if (spawnReason == SpawnReason.NATURAL)
+			if (spawnReason == SpawnReason.NATURAL)
 			{
 				ServerWorld sw = (ServerWorld) world;
 				Optional<Pair<RegistryEntry<PointOfInterestType>, BlockPos>> poi = sw.getPointOfInterestStorage()
-						.getNearestTypeAndPosition(p -> p.matchesKey(SpawnBeacon.POI_KEY), pos, SpawnBeacon.SEARCH_DISTANCE,
-								OccupationStatus.ANY);
-				RWorld.LOGGER.info(type + " " + spawnReason);
+						.getNearestTypeAndPosition(p -> p.matchesKey(SpawnBeacon.POI_KEY), pos,
+							SpawnBeacon.SEARCH_DISTANCE, OccupationStatus.ANY);
 				if (!poi.isEmpty()) {
-					RWorld.LOGGER.info("POI at " + poi.get().getSecond() + ", preventing");
 					cir.setReturnValue(false);
 					return;
 				}

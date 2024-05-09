@@ -49,6 +49,7 @@ import xyx.ryhn.rworld.RWorld;
 import xyx.ryhn.rworld.RWorldSounds;
 import xyx.ryhn.rworld.XPCraftingRecipe;
 import xyx.ryhn.rworld.items.blocks.SpawnBeacon;
+import xyx.ryhn.rworld.items.blocks.totem.RespawnTotem;
 import xyx.ryhn.rworld.items.enchants.MendingClothEnchantment;
 import xyx.ryhn.rworld.items.gear.ExperienceTransferRod;
 import xyx.ryhn.rworld.items.gear.MagicClock;
@@ -103,6 +104,12 @@ public class RWorldItems {
 			.noBlockBreakParticles());
 
 	public static final Block SPAWN_BEACON = new SpawnBeacon(Block.Settings.create()
+			.hardness(0.1f)
+			.resistance(0f)
+			.sounds(BlockSoundGroup.STONE)
+			.noBlockBreakParticles());
+
+	public static final Block RESPAWN_TOTEM = new RespawnTotem(Block.Settings.create()
 			.hardness(0.1f)
 			.resistance(0f)
 			.sounds(BlockSoundGroup.STONE)
@@ -405,6 +412,9 @@ public class RWorldItems {
 
 		registerBlock(SPAWN_BEACON, "spawn_beacon", ItemGroups.BUILDING_BLOCKS);
 		PointOfInterestHelper.register(SpawnBeacon.POI_KEY.getValue(), 0, SpawnBeacon.SEARCH_DISTANCE, SPAWN_BEACON);
+
+		registerBlock(RESPAWN_TOTEM, "respawn_totem", ItemGroups.BUILDING_BLOCKS);
+		PointOfInterestHelper.register(RespawnTotem.POI_KEY.getValue(), 0, RespawnTotem.SEARCH_DISTANCE, RESPAWN_TOTEM);
 
 	}
 
