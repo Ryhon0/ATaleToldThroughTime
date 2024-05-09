@@ -373,7 +373,16 @@ public class RWorldItems {
 			BLOCKS.add(PARENT);
 
 			BlockFamily.Builder bfb = BlockFamilies.register(PARENT);
-			SET_TYPE = new BlockSetType(name);
+			if (isWood)
+				SET_TYPE = new BlockSetType(name);
+			else
+				SET_TYPE = new BlockSetType(name, true, true, false,
+						net.minecraft.block.BlockSetType.ActivationRule.MOBS, BlockSoundGroup.STONE,
+						SoundEvents.BLOCK_IRON_DOOR_CLOSE, SoundEvents.BLOCK_IRON_DOOR_OPEN,
+						SoundEvents.BLOCK_IRON_TRAPDOOR_CLOSE, SoundEvents.BLOCK_IRON_TRAPDOOR_OPEN,
+						SoundEvents.BLOCK_STONE_PRESSURE_PLATE_CLICK_OFF,
+						SoundEvents.BLOCK_STONE_PRESSURE_PLATE_CLICK_ON, SoundEvents.BLOCK_STONE_BUTTON_CLICK_OFF,
+						SoundEvents.BLOCK_STONE_BUTTON_CLICK_ON);
 
 			SLAB = new SlabBlock(Settings.copy(PARENT));
 			BLOCKS.add(registerBlock(SLAB, name + "_slab", ItemGroups.BUILDING_BLOCKS));
@@ -390,10 +399,10 @@ public class RWorldItems {
 			BLOCKS.add(registerBlock(PRESSURE_PLATE, name + "_pressure_plate", ItemGroups.REDSTONE));
 			bfb.pressurePlate(PRESSURE_PLATE);
 
-			BUTTON = new ButtonBlock(SET_TYPE, 4,
-					Settings.copy(PARENT)
-							.noCollision()
-							.pistonBehavior(PistonBehavior.DESTROY));
+				BUTTON = new ButtonBlock(SET_TYPE, isWood ? 30 : 20,
+				Settings.copy(PARENT)
+				.noCollision()
+				.pistonBehavior(PistonBehavior.DESTROY));
 			BLOCKS.add(registerBlock(BUTTON, name + "_button", ItemGroups.REDSTONE));
 			bfb.button(BUTTON);
 
