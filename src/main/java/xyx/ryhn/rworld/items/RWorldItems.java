@@ -23,6 +23,7 @@ import net.minecraft.block.PressurePlateBlock;
 import net.minecraft.block.SaplingBlock;
 import net.minecraft.block.SaplingGenerator;
 import net.minecraft.block.SlabBlock;
+import net.minecraft.block.SnowBlock;
 import net.minecraft.block.StairsBlock;
 import net.minecraft.block.TrapdoorBlock;
 import net.minecraft.block.WoodType;
@@ -114,6 +115,11 @@ public class RWorldItems {
 			.resistance(0f)
 			.sounds(BlockSoundGroup.STONE)
 			.noBlockBreakParticles());
+
+	public static final Block SALT_LAYER = new SnowBlock(Block.Settings.copy(Blocks.SNOW));
+	public static final Block SALT_BLOCK = new Block(Block.Settings.copy(Blocks.STONE));
+	public static final Block RED_CRYSTAL_BLOCK = new Block(Block.Settings.copy(Blocks.AMETHYST_BLOCK)
+		.mapColor(MapColor.DARK_CRIMSON));
 
 	public static final BowItem GOLDEN_BOW = new BowItem(new Item.Settings());
 	public static final ExperienceTransferRod EXPERIENCE_TRANSFER_ROD = new ExperienceTransferRod(new Item.Settings());
@@ -416,6 +422,9 @@ public class RWorldItems {
 		registerBlock(RESPAWN_TOTEM, "respawn_totem", ItemGroups.BUILDING_BLOCKS);
 		PointOfInterestHelper.register(RespawnTotem.POI_KEY.getValue(), 0, RespawnTotem.SEARCH_DISTANCE, RESPAWN_TOTEM);
 
+		registerBlock(SALT_LAYER, "salt_layer", ItemGroups.BUILDING_BLOCKS);
+		registerBlock(SALT_BLOCK, "salt_block", ItemGroups.BUILDING_BLOCKS);
+		registerBlock(RED_CRYSTAL_BLOCK, "red_crystal_block", ItemGroups.BUILDING_BLOCKS);
 	}
 
 	static Item registerItem(Item i, String id, RegistryKey<ItemGroup> category) {

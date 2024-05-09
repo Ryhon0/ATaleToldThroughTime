@@ -6,7 +6,8 @@
 		"SpyglassMixin",
 		"FOVMixin",
 		"ItemStackIsOfOverride",
-		"SpawnBeaconMixin"
+		"SpawnBeaconMixin",
+		"TotemRevive"
 	],
 	"injectors": {
 		"defaultRequire": 1

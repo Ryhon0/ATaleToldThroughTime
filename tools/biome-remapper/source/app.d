@@ -31,6 +31,8 @@ void main()
 		"minecraft:birch_forest": "rworld:forest",
 		"minecraft:flower_forest": "rworld:forest",
 		"minecraft:forest": "rworld:forest",
+		
+		"minecraft:desert": "rworld:red_desert",
 	];
 
 	dimensionJson["type"] = "rworld:rworld_type";

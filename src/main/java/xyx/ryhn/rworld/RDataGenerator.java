@@ -54,6 +54,9 @@ public class RDataGenerator implements DataGeneratorEntrypoint {
 			
 			generator.registerSimpleCubeAll(RWorldItems.WHITESPACE_BLOCK);
 
+			generator.registerSimpleCubeAll(RWorldItems.RED_CRYSTAL_BLOCK);
+			generator.registerSimpleCubeAll(RWorldItems.SALT_BLOCK);
+
 			for (WoodSet set : WoodSet.Sets) {
 				registerWoodSet(generator, set);
 			}
