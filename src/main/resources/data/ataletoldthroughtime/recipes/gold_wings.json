@@ -1,0 +1,26 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+	  "GGG",
+	  "WLW",
+	  "FFF"
+	],
+	"key": {
+	  "W": {
+		"item": "minecraft:honeycomb"
+	  },
+	  "G": {
+		"item": "minecraft:gold_ingot"
+	  },
+	  "L": {
+		"tag": "minecraft:logs"
+	  },
+	  "F": {
+		"item": "minecraft:feather"
+	  }
+	},
+	"result": {
+	  "item": "ataletoldthroughtime:gold_wings"
+	}
+  }
+  

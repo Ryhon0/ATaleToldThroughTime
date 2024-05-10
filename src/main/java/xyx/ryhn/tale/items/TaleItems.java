@@ -28,6 +28,7 @@ import xyx.ryhn.tale.items.blocks.MultifaceBlock;
 import xyx.ryhn.tale.items.blocks.SpawnBeacon;
 import xyx.ryhn.tale.items.blocks.totem.RespawnTotem;
 import xyx.ryhn.tale.items.gear.ExperienceTransferRod;
+import xyx.ryhn.tale.items.gear.GoldWings;
 import xyx.ryhn.tale.items.gear.MagicClock;
 import xyx.ryhn.tale.items.gear.OxidizationWand;
 import xyx.ryhn.tale.items.gear.ScopedCrossbow;
@@ -137,6 +138,8 @@ public class TaleItems {
 	public static final BowItem GOLDEN_BOW = new BowItem(new Item.Settings());
 	public static final ExperienceTransferRod EXPERIENCE_TRANSFER_ROD = new ExperienceTransferRod(new Item.Settings());
 
+	public static final GoldWings GOLD_WINGS = registerItem(new GoldWings(new Item.Settings().maxDamage(300)), "gold_wings", ItemGroups.COMBAT);
+
 	public static final MendingSet IRON_MENDING_SET = new MendingSet("iron", Items.IRON_INGOT, 500,
 			new Item[] {
 					Items.IRON_PICKAXE,
@@ -233,7 +236,7 @@ public class TaleItems {
 		registerBlock(MOSS, "moss", ItemGroups.BUILDING_BLOCKS);
 	}
 
-	public static Item registerItem(Item i, String id, RegistryKey<ItemGroup> category) {
+	public static <T extends Item> T registerItem(T i, String id, RegistryKey<ItemGroup> category) {
 		Registry.register(Registries.ITEM,
 				Main.Key(id),
 				i);
@@ -255,7 +258,7 @@ public class TaleItems {
 		return b;
 	}
 
-	public static Enchantment registerEnchantment(Enchantment enchant, String id) {
+	public static <T extends Enchantment> T registerEnchantment(T enchant, String id) {
 		Registry.register(Registries.ENCHANTMENT, Main.Key(id), enchant);
 		return enchant;
 	}

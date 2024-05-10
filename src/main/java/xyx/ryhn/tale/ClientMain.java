@@ -9,6 +9,12 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.render.DimensionEffects;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.entity.BipedEntityRenderer;
+import net.minecraft.client.render.entity.EntityRenderers;
+import net.minecraft.client.render.entity.PlayerEntityRenderer;
+import net.minecraft.client.render.entity.feature.CapeFeatureRenderer;
+import net.minecraft.client.render.entity.model.EntityModels;
+import net.minecraft.client.util.SkinTextures;
 import net.minecraft.item.CrossbowItem;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
@@ -27,8 +33,10 @@ public class ClientMain implements ClientModInitializer {
 		EntityRendererRegistry.register(Citizen.ENTITY_TYPE, CitizenRenderer::new);
 		EntityModelLayerRegistry.registerModelLayer(CitizenRenderer.CITIZEN_LAYER,
 				CitizenRenderer.Model::getTexturedModelData);
-
+		
 		EntityRendererRegistry.register(GoldenChicken.ENTITY_TYPE, GoldenChicken.Renderer::new);
+
+		EntityRendererRegistry.register(Citizen.ENTITY_TYPE, CitizenRenderer::new);
 
 		{
 			ModelPredicateProviderRegistry.register(ScopedCrossbow.ITEM, new Identifier("pull"),

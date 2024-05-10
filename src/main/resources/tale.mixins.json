@@ -6,8 +6,11 @@
 		"CrossbowFOVMixin",
 		"CrossbowSpyglassBorderMixin",
 		"SpawnBeaconMixin",
-		"StackIsOfBowMixin",
-		"TotemReviveMixin"
+		"StackIsOfOverrideMixin",
+		"TotemReviveMixin",
+		"PlayerFeatureRendererMixin",
+		"BipedFeatureRendererMixin",
+		"ArmorStandEntityRendererMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
