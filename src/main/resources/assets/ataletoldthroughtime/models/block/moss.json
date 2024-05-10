@@ -1,0 +1,6 @@
+{
+  "parent": "ataletoldthroughtime:block/solid_wall",
+  "textures": {
+    "texture": "minecraft:block/moss_block"
+  }
+}

@@ -1,0 +1,6 @@
+{
+    "parent": "item/bow",
+    "textures": {
+        "layer0": "ataletoldthroughtime:item/golden_bow/pulling_0"
+    }
+}

@@ -1,0 +1,13 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+	  {
+		"item": "ataletoldthroughtime:quartz_crystal_block"
+	  }
+	],
+	"result": {
+	  "item": "ataletoldthroughtime:quartz_crystal",
+	  "count": 9
+	}
+  }
+  

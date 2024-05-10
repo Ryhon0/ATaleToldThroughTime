@@ -3,7 +3,7 @@
 		"Ryhon"
 	],
 	"copyright": "Copyright © 2024, Ryhon",
-	"description": "Tool to remap the overworld dimension biomes to RWorld biomes",
+	"description": "Tool to remap the overworld dimension biomes to ATTTT biomes",
 	"license": "proprietary",
 	"name": "biome-remapper"
 }

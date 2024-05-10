@@ -1,6 +1,0 @@
-{
-    "parent": "item/bow",
-    "textures": {
-        "layer0": "rworld:item/golden_bow/pulling_0"
-    }
-}

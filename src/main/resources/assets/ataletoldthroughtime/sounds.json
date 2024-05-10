@@ -1,0 +1,11 @@
+{
+	"cloth_fasten":
+	{
+		"subtitle": "subtitlesataletoldthroughtime.cloth_fasten",
+		"sounds":
+		[
+			"ataletoldthroughtime:cloth_fasten_1",
+			"ataletoldthroughtime:cloth_fasten_2"
+		]
+	}
+}

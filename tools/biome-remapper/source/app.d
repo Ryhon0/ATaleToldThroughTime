@@ -21,22 +21,23 @@ void main()
 		"minecraft:warm_ocean",
 		];
 
-	string defaultBiome = "rworld:plains";
+	string defaultBiome = "ataletoldthroughtime:plains";
 
 	string[string] remap = [
 		"minecraft:frozen_river": "minecraft:river",
-		"minecraft:river": "rworld:river",
-		"minecraft:beach": "rworld:beach",
+		"minecraft:river": "ataletoldthroughtime:river",
+		"minecraft:beach": "ataletoldthroughtime:beach",
 
-		"minecraft:birch_forest": "rworld:forest",
-		"minecraft:flower_forest": "rworld:forest",
-		"minecraft:forest": "rworld:forest",
+		"minecraft:birch_forest": "ataletoldthroughtime:forest",
+		"minecraft:flower_forest": "ataletoldthroughtime:forest",
+		"minecraft:forest": "ataletoldthroughtime:forest",
 		
-		"minecraft:desert": "rworld:red_desert",
+		"minecraft:desert": "ataletoldthroughtime:red_desert",
 	];
 
-	dimensionJson["type"] = "rworld:rworld_type";
-	dimensionJson["_generator"] = "Generated with RWorld biome remapper";
+	dimensionJson["type"] = "ataletoldthroughtime:overworld_type";
+	dimensionJson["generator"]["settings"] = "ataletoldthroughtime:overworld";
+	dimensionJson["_generator"] = "Generated with ATTT biome remapper";
 	foreach(JSONValue b; dimensionJson["generator"]["biome_source"]["biomes"].array)
 	{
 		string biome = b["biome"].str;
@@ -50,5 +51,5 @@ void main()
 		}
 	}
 	
-	fwrite("../../src/main/resources/data/rworld/dimension/rworld.json", dimensionJson.toString());
+	fwrite("../../src/main/resources/data/ataletoldthroughtime/dimension/overworld.json", dimensionJson.toString());
 }

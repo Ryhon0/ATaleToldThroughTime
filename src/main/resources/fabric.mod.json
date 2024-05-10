@@ -1,35 +1,35 @@
 {
 	"schemaVersion": 1,
-	"id": "rworld",
+	"id": "tale",
 	"version": "${version}",
-	"name": "RWorld",
-	"description": "RWorld!",
+	"name": "A Tale Told Through Time",
+	"description": "A Tale Told Through Time",
 	"authors": [
 		"Ryhon"
 	],
 	"contact": {
 		"homepage": "https://ryhon.xyz/"
 	},
-	"icon": "assets/rworld/icon.png",
+	"icon": "assets/ataletoldthroughtime/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"fabric-datagen": [
-			"xyx.ryhn.rworld.RDataGenerator"
+			"xyx.ryhn.tale.DataGenerator"
 		],
 		"main": [
-			"xyx.ryhn.rworld.RWorld"
+			"xyx.ryhn.tale.Main"
 		],
 		"client": [
-			"xyx.ryhn.rworld.RWorldClient"
+			"xyx.ryhn.tale.ClientMain"
 		],
 		"rei_client.disabled": [
-			"xyx.ryhn.rworld.RREIPlugin"
+			"xyx.ryhn.tale.REIPluginMain"
 		]
 	},
 	"mixins": [
-		"rworld.mixins.json"
+		"tale.mixins.json"
 	],
-	"accessWidener": "rworld.accesswidener",
+	"accessWidener": "tale.accesswidener",
 	"depends": {
 		"fabricloader": ">=0.15.10",
 		"minecraft": "~1.20.4",

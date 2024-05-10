@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "layers=1": {
+      "model": "ataletoldthroughtime:block/salt_layer/1"
+    },
+    "layers=2": {
+      "model": "ataletoldthroughtime:block/salt_layer/2"
+    },
+    "layers=3": {
+      "model": "ataletoldthroughtime:block/salt_layer/3"
+    },
+    "layers=4": {
+      "model": "ataletoldthroughtime:block/salt_layer/4"
+    },
+    "layers=5": {
+      "model": "ataletoldthroughtime:block/salt_layer/5"
+    },
+    "layers=6": {
+      "model": "ataletoldthroughtime:block/salt_layer/6"
+    },
+    "layers=7": {
+      "model": "ataletoldthroughtime:block/salt_layer/7"
+    },
+    "layers=8": {
+      "model": "ataletoldthroughtime:block/salt_block"
+    }
+  }
+}

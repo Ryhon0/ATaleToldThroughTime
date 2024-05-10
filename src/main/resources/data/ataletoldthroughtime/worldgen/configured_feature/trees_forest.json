@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:random_selector",
+  "config": {
+    "default": {
+      "feature": "ataletoldthroughtime:maple_tree",
+      "placement": []
+    },
+    "features": [
+      {
+        "chance": 0.0001,
+        "feature": {
+          "feature": "ataletoldthroughtime:morning_tree",
+          "placement": []
+        }
+      }
+    ]
+  }
+}

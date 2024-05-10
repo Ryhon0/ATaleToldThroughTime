@@ -1,0 +1,38 @@
+{
+	"itemataletoldthroughtime.team_band": "Team Band",
+	"itemataletoldthroughtime.golden_bow": "Golden Bow",
+	"itemataletoldthroughtime.magic_clock": "Magic Clock",
+	"itemataletoldthroughtime.scoped_crossbow": "Scoped Crossbow",
+	"itemataletoldthroughtime.experience_transfer_rod": "Experience Transfer Rod",
+
+	"itemataletoldthroughtime.mending_cloth.lore":  "Hold a tool of matching material in offhand to apply.",
+	"itemataletoldthroughtime.mending_plate.lore":  "Hold an armor piece of matching material in offhand to apply.",
+	"itemataletoldthroughtime.mending_effect_lore": "Item will be able to be repaired using a mending bottle.",
+
+	"itemataletoldthroughtime.iron_mending_cloth":  "Iron Mending Cloth",
+	"itemataletoldthroughtime.iron_mending_plate":  "Iron Mending Plate",
+	"itemataletoldthroughtime.iron_mending_bottle": "Iron Mending Bottle",
+	"enchantmentataletoldthroughtime.iron_mending": "Iron Mending",
+
+	"itemataletoldthroughtime.gold_mending_cloth":  "Gold Mending Cloth",
+	"itemataletoldthroughtime.gold_mending_plate":  "Gold Mending Plate",
+	"itemataletoldthroughtime.gold_mending_bottle": "Gold Mending Bottle",
+	"enchantmentataletoldthroughtime.gold_mending": "Gold Mending",
+
+	"itemataletoldthroughtime.diamond_mending_cloth":  "Diamond Mending Cloth",
+	"itemataletoldthroughtime.diamond_mending_plate":  "Diamond Mending Plate",
+	"itemataletoldthroughtime.diamond_mending_bottle": "Diamond Mending Bottle",
+	"enchantmentataletoldthroughtime.diamond_mending": "Diamond Mending",
+	
+	"itemataletoldthroughtime.oxidization_wand": "Oxidization Wand",
+	"itemataletoldthroughtime.deoxidization_wand": "Deoxidization Wand",
+
+	"itemataletoldthroughtime.quartz_crystal": "Quartz Crystal",
+	"blockataletoldthroughtime.quartz_crystal_block": "Quartz Crystal Block",
+	"blockataletoldthroughtime.quartz_crystal_ore": "Quartz Crystal Ore",
+	"blockataletoldthroughtime.deepslate_quartz_crystal_ore": "Deepslate Quartz Crystal Ore",
+
+	"subtitlesataletoldthroughtime.cloth_fasten": "Cloth fastens",
+
+	"guiataletoldthroughtime.rei.category": "XP Cauldron"
+}
