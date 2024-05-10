@@ -17,8 +17,8 @@ import xyx.ryhn.rworld.entities.mobs.animals.GoldenChicken;
 import xyx.ryhn.rworld.entities.mobs.humans.Citizen;
 import xyx.ryhn.rworld.entities.mobs.humans.CitizenRenderer;
 import xyx.ryhn.rworld.items.RWorldItems;
-import xyx.ryhn.rworld.items.RWorldItems.WoodSet;
 import xyx.ryhn.rworld.items.gear.ScopedCrossbow;
+import xyx.ryhn.rworld.items.sets.WoodSet;
 
 @Environment(EnvType.CLIENT)
 public class RWorldClient implements ClientModInitializer {

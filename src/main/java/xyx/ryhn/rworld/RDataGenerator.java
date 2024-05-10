@@ -24,10 +24,10 @@ import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.resource.featuretoggle.FeatureFlags;
 import net.minecraft.resource.featuretoggle.FeatureSet;
 import xyx.ryhn.rworld.items.RWorldItems;
-import xyx.ryhn.rworld.items.RWorldItems.BlockSet;
-import xyx.ryhn.rworld.items.RWorldItems.WoodSet;
 import xyx.ryhn.rworld.items.gear.MagicClock;
 import xyx.ryhn.rworld.items.gear.OxidizationWand;
+import xyx.ryhn.rworld.items.sets.BlockSet;
+import xyx.ryhn.rworld.items.sets.WoodSet;
 
 public class RDataGenerator implements DataGeneratorEntrypoint {
 	@Override

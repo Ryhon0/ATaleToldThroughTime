@@ -63,6 +63,9 @@ import xyx.ryhn.rworld.items.gear.MendingTransferItem;
 import xyx.ryhn.rworld.items.gear.OxidizationWand;
 import xyx.ryhn.rworld.items.gear.ScopedCrossbow;
 import xyx.ryhn.rworld.items.gear.trinkets.TeamBand;
+import xyx.ryhn.rworld.items.sets.BlockSet;
+import xyx.ryhn.rworld.items.sets.MendingSet;
+import xyx.ryhn.rworld.items.sets.WoodSet;
 
 public class RWorldItems {
 	public static final TagKey<Item> TAG_ITEM_QUARTZ_CRYSTAL_ORES = TagKey.of(RegistryKeys.ITEM,
@@ -213,233 +216,6 @@ public class RWorldItems {
 					Items.DIAMOND_BOOTS,
 			});
 
-	public static class MendingSet {
-		public MendingClothEnchantment ENCHANTMENT;
-		public MendingBottle BOTTLE;
-		public MendingTransferItem CLOTH;
-		public MendingTransferItem PLATE;
-
-		public MendingSet(String prefix, Item material, int bottleDurability, Item[] tools, Item[] armors) {
-			Item[] toolsAndArmor = new Item[tools.length + armors.length];
-			System.arraycopy(tools, 0, toolsAndArmor, 0, tools.length);
-			System.arraycopy(armors, 0, toolsAndArmor, tools.length, armors.length);
-			ENCHANTMENT = new MendingClothEnchantment(toolsAndArmor);
-			BOTTLE = new MendingBottle(new Item.Settings().maxDamage(bottleDurability), ENCHANTMENT);
-			CLOTH = new MendingTransferItem(new Item.Settings(), ENCHANTMENT, tools, RWorldSounds.CLOTH_FASTEN, false);
-			PLATE = new MendingTransferItem(new Item.Settings(), ENCHANTMENT, armors, SoundEvents.ITEM_ARMOR_EQUIP_GOLD,
-					true);
-
-			XPCraftingRecipe.addRecipe(new XPCraftingRecipe.Builder()
-					.requireItem(Items.GLASS_BOTTLE)
-					.requireItem(Items.LAPIS_LAZULI, 5)
-					.requireItem(material)
-					.build(0, BOTTLE));
-
-			registerEnchantment((Enchantment) ENCHANTMENT, prefix + "_mending");
-			registerItem(CLOTH, prefix + "_mending_cloth", ItemGroups.INGREDIENTS);
-			registerItem(PLATE, prefix + "_mending_plate", ItemGroups.INGREDIENTS);
-			registerItem(BOTTLE, prefix + "_mending_bottle", ItemGroups.INGREDIENTS);
-		}
-	}
-
-	public static class WoodSet {
-		public static ArrayList<WoodSet> Sets = new ArrayList<>();
-
-		public String name;
-		public BlockSet Set;
-
-		public TagKey<Item> ITEM_LOG_TAG;
-		public TagKey<Block> BLOCK_LOG_TAG;
-
-		public RegistryKey<ConfiguredFeature<?, ?>> TREE;
-		public SaplingBlock SAPLING;
-		public FlowerPotBlock POTTED_SAPLING;
-
-		public PillarBlock LOG;
-		public PillarBlock CUT_LOG;
-		public PillarBlock STRIPPED_LOG;
-		public PillarBlock WOOD;
-		public PillarBlock CUT_WOOD;
-		public PillarBlock STRIPPED_WOOD;
-
-		public Block PLANK;
-		public LeavesBlock LEAVES;
-
-		public WoodSet(String name, MapColor plankColor, MapColor logColor, MapColor leafColor,
-				RegistryKey<ConfiguredFeature<?, ?>> tree) {
-			this.name = name;
-			TREE = tree;
-
-			ITEM_LOG_TAG = TagKey.of(RegistryKeys.ITEM, RWorld.Key(name + "_logs"));
-			BLOCK_LOG_TAG = TagKey.of(RegistryKeys.BLOCK, RWorld.Key(name + "_logs"));
-
-			LOG = new PillarBlock(Settings.copy(Blocks.OAK_LOG).mapColor(logColor));
-			CUT_LOG = new PillarBlock(Settings.copy(Blocks.STRIPPED_OAK_LOG).mapColor(logColor));
-			STRIPPED_LOG = new PillarBlock(Settings.copy(Blocks.STRIPPED_OAK_LOG).mapColor(plankColor));
-
-			WOOD = new PillarBlock(Settings.copy(Blocks.OAK_WOOD).mapColor(logColor));
-			CUT_WOOD = new PillarBlock(Settings.copy(Blocks.STRIPPED_OAK_WOOD).mapColor(logColor));
-			STRIPPED_WOOD = new PillarBlock(Settings.copy(Blocks.STRIPPED_OAK_WOOD).mapColor(plankColor));
-
-			PLANK = new Block(Settings.copy(Blocks.OAK_PLANKS).mapColor(plankColor));
-			LEAVES = new LeavesBlock(Settings.copy(Blocks.OAK_LEAVES).mapColor(leafColor));
-
-			registerBlock(LOG, name + "_log", ItemGroups.BUILDING_BLOCKS);
-			registerBlock(CUT_LOG, "cut_" + name + "_log", ItemGroups.BUILDING_BLOCKS);
-			registerBlock(STRIPPED_LOG, "stripped_" + name + "_log", ItemGroups.BUILDING_BLOCKS);
-
-			registerBlock(WOOD, name + "_wood", ItemGroups.BUILDING_BLOCKS);
-			registerBlock(CUT_WOOD, "cut_" + name + "_wood", ItemGroups.BUILDING_BLOCKS);
-			registerBlock(STRIPPED_WOOD, "stripped_" + name + "_wood", ItemGroups.BUILDING_BLOCKS);
-
-			registerBlock(PLANK, name + "_planks", ItemGroups.BUILDING_BLOCKS);
-			registerBlock(LEAVES, name + "_leaves", ItemGroups.BUILDING_BLOCKS);
-
-			SAPLING = new SaplingBlock(
-					new SaplingGenerator(name, 0f, Optional.empty(),
-							Optional.empty(),
-							Optional.of(TREE),
-							Optional.empty(),
-							Optional.empty(),
-							Optional.empty()),
-					Settings.copy(Blocks.OAK_SAPLING).mapColor(leafColor));
-			POTTED_SAPLING = new FlowerPotBlock(SAPLING, Settings.copy(Blocks.POTTED_OAK_SAPLING).mapColor(leafColor));
-
-			registerBlock(SAPLING, name + "_sapling", ItemGroups.BUILDING_BLOCKS);
-			registerBlockWithNoItem(POTTED_SAPLING, "potted_" + name + "_sapling");
-
-			Sets.add(this);
-			Set = new BlockSet(PLANK, name, true);
-
-			StrippableBlockRegistry.register(LOG, CUT_LOG);
-			StrippableBlockRegistry.register(CUT_LOG, STRIPPED_LOG);
-
-			StrippableBlockRegistry.register(WOOD, CUT_WOOD);
-			StrippableBlockRegistry.register(CUT_WOOD, STRIPPED_WOOD);
-
-			FlammableBlockRegistry fbr = FlammableBlockRegistry.getDefaultInstance();
-			fbr.add(LEAVES, 30, 60);
-
-			fbr.add(PLANK, 5, 20);
-			fbr.add(Set.SLAB, 5, 20);
-			fbr.add(Set.STAIRS, 5, 20);
-			fbr.add(Set.FENCE, 5, 20);
-			fbr.add(Set.FENCE_GATE, 5, 20);
-
-			fbr.add(LOG, 5, 5);
-			fbr.add(CUT_LOG, 5, 5);
-			fbr.add(STRIPPED_LOG, 5, 5);
-			fbr.add(WOOD, 5, 5);
-			fbr.add(CUT_WOOD, 5, 5);
-			fbr.add(STRIPPED_WOOD, 5, 5);
-		}
-	}
-
-	public static class BlockSet {
-		public static ArrayList<BlockSet> Sets = new ArrayList<>();
-
-		public ArrayList<Block> BLOCKS = new ArrayList<>();
-
-		public BlockSetType SET_TYPE;
-		public BlockFamily FAMILY;
-		public WoodType WOOD_TYPE;
-		public String Name;
-
-		public Block PARENT;
-		public Block[] All;
-
-		public SlabBlock SLAB;
-		public StairsBlock STAIRS;
-
-		public PressurePlateBlock PRESSURE_PLATE;
-		public ButtonBlock BUTTON;
-
-		/// public SignBlock SIGN;
-		/// public WallSignBlock WALL_SIGN;
-		/// public HangingSignBlock HANGING_SIGN;
-		/// public WallHangingSignBlock WALL_HANGING_SIGN;
-
-		public WallBlock WALL;
-
-		public FenceBlock FENCE;
-		public FenceGateBlock FENCE_GATE;
-
-		public DoorBlock DOOR;
-		public TrapdoorBlock TRAPDOOR;
-
-		public BlockSet(Block parent, String name, boolean isWood) {
-			PARENT = parent;
-			Name = name;
-			BLOCKS.add(PARENT);
-
-			BlockFamily.Builder bfb = BlockFamilies.register(PARENT);
-			if (isWood)
-				SET_TYPE = new BlockSetType(name);
-			else
-				SET_TYPE = new BlockSetType(name, true, true, false,
-						net.minecraft.block.BlockSetType.ActivationRule.MOBS, BlockSoundGroup.STONE,
-						SoundEvents.BLOCK_IRON_DOOR_CLOSE, SoundEvents.BLOCK_IRON_DOOR_OPEN,
-						SoundEvents.BLOCK_IRON_TRAPDOOR_CLOSE, SoundEvents.BLOCK_IRON_TRAPDOOR_OPEN,
-						SoundEvents.BLOCK_STONE_PRESSURE_PLATE_CLICK_OFF,
-						SoundEvents.BLOCK_STONE_PRESSURE_PLATE_CLICK_ON, SoundEvents.BLOCK_STONE_BUTTON_CLICK_OFF,
-						SoundEvents.BLOCK_STONE_BUTTON_CLICK_ON);
-
-			SLAB = new SlabBlock(Settings.copy(PARENT));
-			BLOCKS.add(registerBlock(SLAB, name + "_slab", ItemGroups.BUILDING_BLOCKS));
-			bfb.slab(SLAB);
-
-			STAIRS = new StairsBlock(PARENT.getDefaultState(), Settings.copy(PARENT));
-			BLOCKS.add(registerBlock(STAIRS, name + "_stairs", ItemGroups.BUILDING_BLOCKS));
-			bfb.stairs(STAIRS);
-
-			PRESSURE_PLATE = new PressurePlateBlock(SET_TYPE,
-					Settings.copy(Blocks.OAK_PRESSURE_PLATE)
-							.noCollision()
-							.pistonBehavior(PistonBehavior.DESTROY));
-			BLOCKS.add(registerBlock(PRESSURE_PLATE, name + "_pressure_plate", ItemGroups.REDSTONE));
-			bfb.pressurePlate(PRESSURE_PLATE);
-
-				BUTTON = new ButtonBlock(SET_TYPE, isWood ? 30 : 20,
-				Settings.copy(PARENT)
-				.noCollision()
-				.pistonBehavior(PistonBehavior.DESTROY));
-			BLOCKS.add(registerBlock(BUTTON, name + "_button", ItemGroups.REDSTONE));
-			bfb.button(BUTTON);
-
-			if (isWood) {
-				WOOD_TYPE = new WoodType(name, SET_TYPE);
-
-				DOOR = new DoorBlock(SET_TYPE, Settings.copy(PARENT)
-						.nonOpaque()
-						.pistonBehavior(PistonBehavior.DESTROY));
-				BLOCKS.add(registerBlock(DOOR, name + "_door", ItemGroups.BUILDING_BLOCKS));
-				bfb.door(DOOR);
-
-				TRAPDOOR = new TrapdoorBlock(SET_TYPE, Settings.copy(PARENT)
-						.nonOpaque()
-						.pistonBehavior(PistonBehavior.DESTROY));
-				BLOCKS.add(registerBlock(TRAPDOOR, name + "_trapdoor", ItemGroups.BUILDING_BLOCKS));
-				bfb.trapdoor(TRAPDOOR);
-
-				FENCE = new FenceBlock(Settings.copy(Blocks.OAK_FENCE));
-				BLOCKS.add(registerBlock(FENCE, name + "_fence", ItemGroups.BUILDING_BLOCKS));
-				bfb.fence(FENCE);
-
-				FENCE_GATE = new FenceGateBlock(WOOD_TYPE, Settings.copy(Blocks.OAK_FENCE_GATE));
-				BLOCKS.add(registerBlock(FENCE_GATE, name + "_fence_gate", ItemGroups.BUILDING_BLOCKS));
-				bfb.fenceGate(FENCE_GATE);
-			} else {
-				WALL = new WallBlock(Settings.copy(PARENT));
-				BLOCKS.add(registerBlock(WALL, name + "_wall", ItemGroups.BUILDING_BLOCKS));
-				bfb.wall(WALL);
-			}
-
-			FAMILY = bfb.build();
-
-			Sets.add(this);
-		}
-	}
-
 	public static RegistryKey<ConfiguredFeature<?, ?>> MAPLE_TREE = RegistryKey.of(RegistryKeys.CONFIGURED_FEATURE,
 			RWorld.Key("maple_tree"));
 	public static WoodSet MapleSet = new WoodSet("maple", MapColor.YELLOW, MapColor.WHITE, MapColor.YELLOW, MAPLE_TREE);
@@ -488,7 +264,7 @@ public class RWorldItems {
 		registerBlock(MOSS, "moss", ItemGroups.BUILDING_BLOCKS);
 	}
 
-	static Item registerItem(Item i, String id, RegistryKey<ItemGroup> category) {
+	public static Item registerItem(Item i, String id, RegistryKey<ItemGroup> category) {
 		Registry.register(Registries.ITEM,
 				RWorld.Key(id),
 				i);
@@ -499,18 +275,18 @@ public class RWorldItems {
 		return i;
 	}
 
-	static <T extends Block> T registerBlock(T b, String id, RegistryKey<ItemGroup> category) {
+	public static <T extends Block> T registerBlock(T b, String id, RegistryKey<ItemGroup> category) {
 		registerBlockWithNoItem(b, id);
 		registerItem(new BlockItem(b, new Item.Settings()), id, category);
 		return b;
 	}
 
-	static <T extends Block> T registerBlockWithNoItem(T b, String id) {
+	public static <T extends Block> T registerBlockWithNoItem(T b, String id) {
 		Registry.register(Registries.BLOCK, RWorld.Key(id), b);
 		return b;
 	}
 
-	static Enchantment registerEnchantment(Enchantment enchant, String id) {
+	public static Enchantment registerEnchantment(Enchantment enchant, String id) {
 		Registry.register(Registries.ENCHANTMENT, RWorld.Key(id), enchant);
 		return enchant;
 	}
