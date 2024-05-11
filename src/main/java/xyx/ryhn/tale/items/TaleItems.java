@@ -254,12 +254,10 @@ public class TaleItems {
 	}
 
 	public static <T extends Block> T registerBlockWithNoItem(T b, String id) {
-		Registry.register(Registries.BLOCK, Main.Key(id), b);
-		return b;
+		return Registry.register(Registries.BLOCK, Main.Key(id), b);
 	}
 
 	public static <T extends Enchantment> T registerEnchantment(T enchant, String id) {
-		Registry.register(Registries.ENCHANTMENT, Main.Key(id), enchant);
-		return enchant;
+		return Registry.register(Registries.ENCHANTMENT, Main.Key(id), enchant);
 	}
 }

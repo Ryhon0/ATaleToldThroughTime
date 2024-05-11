@@ -18,6 +18,7 @@ import net.minecraft.data.server.recipe.RecipeExporter;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.data.client.BlockStateModelGenerator.TintType;
 import net.minecraft.recipe.book.RecipeCategory;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.ItemTags;
@@ -47,41 +48,60 @@ public class DataGenerator implements DataGeneratorEntrypoint {
 
 		@Override
 		public void generateBlockStateModels(BlockStateModelGenerator generator) {
-			generator.registerSimpleCubeAll(TaleItems.DEEPSLATE_QUARTZ_CRYSTAL_ORE);
-			generator.registerSimpleCubeAll(TaleItems.QUARTZ_CRYSTAL_BLOCK);
-			generator.registerSimpleCubeAll(TaleItems.QUARTZ_CRYSTAL_ORE);
+			cubeWithItem(generator, TaleItems.DEEPSLATE_QUARTZ_CRYSTAL_ORE);
+			cubeWithItem(generator, TaleItems.QUARTZ_CRYSTAL_BLOCK);
+			cubeWithItem(generator, TaleItems.QUARTZ_CRYSTAL_ORE);
 
-			generator.registerSimpleCubeAll(TaleItems.PETRIFIED_EXPERIENCE);
-			generator.registerSimpleCubeAll(TaleItems.PETRIFIED_DEEPSLATE_EXPERIENCE);
-			
-			generator.registerSimpleCubeAll(TaleItems.WHITESPACE_BLOCK);
+			cubeWithItem(generator, TaleItems.PETRIFIED_EXPERIENCE);
+			cubeWithItem(generator, TaleItems.PETRIFIED_DEEPSLATE_EXPERIENCE);
 
-			generator.registerSimpleCubeAll(TaleItems.RED_CRYSTAL_BLOCK);
-			generator.registerSimpleCubeAll(TaleItems.SALT_BLOCK);
-			
+			cubeWithItem(generator, TaleItems.WHITESPACE_BLOCK);
+
+			cubeWithItem(generator, TaleItems.RED_CRYSTAL_BLOCK);
+			cubeWithItem(generator, TaleItems.SALT_BLOCK);
+
 			generator.registerWallPlant(TaleItems.RED_MOSS);
-			generator.registerSimpleCubeAll(TaleItems.RED_MOSS_BLOCK);
+			cubeWithItem(generator, TaleItems.RED_MOSS_BLOCK);
 
 			generator.registerWallPlant(TaleItems.BLUE_MOSS);
-			generator.registerSimpleCubeAll(TaleItems.BLUE_MOSS_BLOCK);
+			cubeWithItem(generator, TaleItems.BLUE_MOSS_BLOCK);
 
 			generator.registerWallPlant(TaleItems.MOSS);
 
-
-			for (BlockSet set : BlockSet.Sets) 
-				generator.registerCubeAllModelTexturePool(set.PARENT).family(set.FAMILY);
+			for (BlockSet set : BlockSet.Sets) {
+				Block base = set.FAMILY.getBaseBlock();
+				generator.registerCubeAllModelTexturePool(base).family(set.FAMILY);
+				addItem(generator, base);
+				addItem(generator, set.PRESSURE_PLATE);
+				if (set.FENCE_GATE != null)
+					addItem(generator, set.FENCE_GATE);
+			}
 
 			for (WoodSet set : WoodSet.Sets) {
-				registerWoodSet(generator, set);
+				generator.registerLog(set.LOG).log(set.LOG).wood(set.WOOD);
+				addItem(generator, set.LOG);
+				addItem(generator, set.WOOD);
+				generator.registerLog(set.CUT_LOG).log(set.CUT_LOG).wood(set.CUT_WOOD);
+				addItem(generator, set.CUT_LOG);
+				addItem(generator, set.CUT_WOOD);
+				generator.registerLog(set.STRIPPED_LOG).log(set.STRIPPED_LOG).wood(set.STRIPPED_WOOD);
+				addItem(generator, set.STRIPPED_LOG);
+				addItem(generator, set.STRIPPED_WOOD);
+				cubeWithItem(generator, set.LEAVES);
+				generator.registerFlowerPotPlant(set.SAPLING, set.POTTED_SAPLING, TintType.NOT_TINTED);
 			}
 		}
 
-		void registerWoodSet(BlockStateModelGenerator generator, WoodSet set) {
-			generator.registerLog(set.LOG).log(set.LOG).wood(set.WOOD);
-			generator.registerLog(set.CUT_LOG).log(set.CUT_LOG).wood(set.CUT_WOOD);
-			generator.registerLog(set.STRIPPED_LOG).log(set.STRIPPED_LOG).wood(set.STRIPPED_WOOD);
-			generator.registerSimpleCubeAll(set.LEAVES);
-			generator.registerFlowerPotPlant(set.SAPLING, set.POTTED_SAPLING, TintType.NOT_TINTED);
+		// This function should not exist, but due to a bug in Fabric,
+		// under unknown circumstances, item models are not generated for blocks.
+		// This function generates the blockstate, block model and item model
+		void cubeWithItem(BlockStateModelGenerator generator, Block b) {
+			generator.registerSimpleCubeAll(b);
+			addItem(generator, b);
+		}
+		
+		void addItem(BlockStateModelGenerator generator, Block b) {
+			generator.registerParentedItemModel(b, Registries.BLOCK.getId(b).withPrefixedPath("block/"));
 		}
 
 		@Override
@@ -105,6 +125,8 @@ public class DataGenerator implements DataGeneratorEntrypoint {
 
 			generator.register(OxidizationWand.ITEM, Models.GENERATED);
 			generator.register(OxidizationWand.ITEM_INVERSE, Models.GENERATED);
+
+			generator.register(TaleItems.GOLD_WINGS, Models.GENERATED);
 		}
 	}
 
@@ -115,7 +137,7 @@ public class DataGenerator implements DataGeneratorEntrypoint {
 
 		@Override
 		public void generate(RecipeExporter exporter) {
-			for (BlockSet set : BlockSet.Sets) 
+			for (BlockSet set : BlockSet.Sets)
 				generateFamily(exporter, set.FAMILY, FeatureSet.of(FeatureFlags.VANILLA));
 
 			for (WoodSet set : WoodSet.Sets)
@@ -186,12 +208,12 @@ public class DataGenerator implements DataGeneratorEntrypoint {
 		@Override
 		protected void configure(WrapperLookup arg) {
 			getOrCreateTagBuilder(TaleItems.TAG_ITEM_QUARTZ_CRYSTAL_ORES)
-				.add(TaleItems.DEEPSLATE_QUARTZ_CRYSTAL_ORE.asItem())
-				.add(TaleItems.QUARTZ_CRYSTAL_ORE.asItem());
-			
+					.add(TaleItems.DEEPSLATE_QUARTZ_CRYSTAL_ORE.asItem())
+					.add(TaleItems.QUARTZ_CRYSTAL_ORE.asItem());
+
 			getOrCreateTagBuilder(TaleItems.TAG_ITEM_PETRIFIED_EXPERIENCE)
-				.add(TaleItems.PETRIFIED_EXPERIENCE.asItem())
-				.add(TaleItems.PETRIFIED_DEEPSLATE_EXPERIENCE.asItem());
+					.add(TaleItems.PETRIFIED_EXPERIENCE.asItem())
+					.add(TaleItems.PETRIFIED_DEEPSLATE_EXPERIENCE.asItem());
 
 			for (WoodSet set : WoodSet.Sets) {
 				getOrCreateTagBuilder(ItemTags.SAPLINGS)
@@ -267,48 +289,46 @@ public class DataGenerator implements DataGeneratorEntrypoint {
 		@Override
 		protected void configure(WrapperLookup arg) {
 			getOrCreateTagBuilder(TaleItems.TAG_BLOCK_QUARTZ_CRYSTAL_ORES)
-				.add(TaleItems.DEEPSLATE_QUARTZ_CRYSTAL_ORE)
-				.add(TaleItems.QUARTZ_CRYSTAL_ORE);
+					.add(TaleItems.DEEPSLATE_QUARTZ_CRYSTAL_ORE)
+					.add(TaleItems.QUARTZ_CRYSTAL_ORE);
 
 			getOrCreateTagBuilder(TaleItems.TAG_BLOCK_PETRIFIED_EXPERIENCE)
-				.add(TaleItems.PETRIFIED_EXPERIENCE)
-				.add(TaleItems.PETRIFIED_DEEPSLATE_EXPERIENCE);
+					.add(TaleItems.PETRIFIED_EXPERIENCE)
+					.add(TaleItems.PETRIFIED_DEEPSLATE_EXPERIENCE);
 
 			getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE)
-				.add(TaleItems.DEEPSLATE_QUARTZ_CRYSTAL_ORE)
-				.add(TaleItems.QUARTZ_CRYSTAL_ORE)
-				.add(TaleItems.QUARTZ_CRYSTAL_BLOCK)
-				.add(TaleItems.PETRIFIED_DEEPSLATE_EXPERIENCE)
-				.add(TaleItems.PETRIFIED_EXPERIENCE);
-			
+					.add(TaleItems.DEEPSLATE_QUARTZ_CRYSTAL_ORE)
+					.add(TaleItems.QUARTZ_CRYSTAL_ORE)
+					.add(TaleItems.QUARTZ_CRYSTAL_BLOCK)
+					.add(TaleItems.PETRIFIED_DEEPSLATE_EXPERIENCE)
+					.add(TaleItems.PETRIFIED_EXPERIENCE);
+
 			getOrCreateTagBuilder(BlockTags.NEEDS_STONE_TOOL)
-				.add(TaleItems.DEEPSLATE_QUARTZ_CRYSTAL_ORE)
-				.add(TaleItems.QUARTZ_CRYSTAL_ORE)
-				.add(TaleItems.QUARTZ_CRYSTAL_BLOCK);
+					.add(TaleItems.DEEPSLATE_QUARTZ_CRYSTAL_ORE)
+					.add(TaleItems.QUARTZ_CRYSTAL_ORE)
+					.add(TaleItems.QUARTZ_CRYSTAL_BLOCK);
 
-			for(BlockSet set : BlockSet.Sets)
-			{
-				if(set.WALL != null)
+			for (BlockSet set : BlockSet.Sets) {
+				if (set.WALL != null)
 					getOrCreateTagBuilder(BlockTags.WALLS)
-						.add(set.WALL);
+							.add(set.WALL);
 
-				if(set.FENCE != null)
+				if (set.FENCE != null)
 					getOrCreateTagBuilder(BlockTags.FENCES)
-						.add(set.FENCE);
+							.add(set.FENCE);
 
-				if(set.FENCE != null)
+				if (set.FENCE != null)
 					getOrCreateTagBuilder(BlockTags.FENCE_GATES)
-						.add(set.FENCE_GATE);	
+							.add(set.FENCE_GATE);
 			}
 
-			for(BlockSet set : new BlockSet[]{
-				TaleItems.RED_MOSS_BRICKS_SET, TaleItems.RED_MOSS_COBBLE_SET,
-				TaleItems.BLUE_MOSS_BRICKS_SET, TaleItems.BLUE_MOSS_COBBLE_SET
-			})
-			{
-				for(Block b: set.BLOCKS)
+			for (BlockSet set : new BlockSet[] {
+					TaleItems.RED_MOSS_BRICKS_SET, TaleItems.RED_MOSS_COBBLE_SET,
+					TaleItems.BLUE_MOSS_BRICKS_SET, TaleItems.BLUE_MOSS_COBBLE_SET
+			}) {
+				for (Block b : set.BLOCKS)
 					getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE)
-						.add(b);
+							.add(b);
 			}
 
 			for (WoodSet set : WoodSet.Sets) {
@@ -318,14 +338,14 @@ public class DataGenerator implements DataGeneratorEntrypoint {
 				for (Block b : set.Set.BLOCKS)
 					getOrCreateTagBuilder(BlockTags.AXE_MINEABLE)
 							.add(b);
-				
+
 				getOrCreateTagBuilder(BlockTags.AXE_MINEABLE)
-					.add(set.LOG)
-					.add(set.CUT_LOG)
-					.add(set.STRIPPED_LOG)
-					.add(set.WOOD)
-					.add(set.CUT_WOOD)
-					.add(set.STRIPPED_WOOD);
+						.add(set.LOG)
+						.add(set.CUT_LOG)
+						.add(set.STRIPPED_LOG)
+						.add(set.WOOD)
+						.add(set.CUT_WOOD)
+						.add(set.STRIPPED_WOOD);
 
 				getOrCreateTagBuilder(BlockTags.SAPLINGS)
 						.add(set.SAPLING);
@@ -402,8 +422,7 @@ public class DataGenerator implements DataGeneratorEntrypoint {
 			addDropWithSilkTouch(TaleItems.PETRIFIED_EXPERIENCE);
 			addDropWithSilkTouch(TaleItems.PETRIFIED_DEEPSLATE_EXPERIENCE);
 
-			for(BlockSet set : BlockSet.Sets)
-			{
+			for (BlockSet set : BlockSet.Sets) {
 				for (Block block : set.BLOCKS) {
 					if (block == set.DOOR)
 						addDrop(block, doorDrops(block));
