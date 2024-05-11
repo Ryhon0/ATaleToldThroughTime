@@ -6,15 +6,10 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityFeatureRenderEvents;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.render.DimensionEffects;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.entity.BipedEntityRenderer;
-import net.minecraft.client.render.entity.EntityRenderers;
-import net.minecraft.client.render.entity.PlayerEntityRenderer;
-import net.minecraft.client.render.entity.feature.CapeFeatureRenderer;
-import net.minecraft.client.render.entity.model.EntityModels;
-import net.minecraft.client.util.SkinTextures;
 import net.minecraft.item.CrossbowItem;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
@@ -37,6 +32,9 @@ public class ClientMain implements ClientModInitializer {
 		EntityRendererRegistry.register(GoldenChicken.ENTITY_TYPE, GoldenChicken.Renderer::new);
 
 		EntityRendererRegistry.register(Citizen.ENTITY_TYPE, CitizenRenderer::new);
+
+		LivingEntityFeatureRenderEvents.ALLOW_CAPE_RENDER
+				.register(p -> !p.getInventory().getArmorStack(1).isOf(TaleItems.GOLD_WINGS));
 
 		{
 			ModelPredicateProviderRegistry.register(ScopedCrossbow.ITEM, new Identifier("pull"),
