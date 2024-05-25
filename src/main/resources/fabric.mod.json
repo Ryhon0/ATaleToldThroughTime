@@ -14,16 +14,16 @@
 	"environment": "*",
 	"entrypoints": {
 		"fabric-datagen": [
-			"xyx.ryhn.tale.DataGenerator"
+			"xyz.ryhn.tale.DataGenerator"
 		],
 		"main": [
-			"xyx.ryhn.tale.Main"
+			"xyz.ryhn.tale.Main"
 		],
 		"client": [
-			"xyx.ryhn.tale.ClientMain"
+			"xyz.ryhn.tale.ClientMain"
 		],
 		"rei_client.disabled": [
-			"xyx.ryhn.tale.REIPluginMain"
+			"xyz.ryhn.tale.REIPluginMain"
 		]
 	},
 	"mixins": [
