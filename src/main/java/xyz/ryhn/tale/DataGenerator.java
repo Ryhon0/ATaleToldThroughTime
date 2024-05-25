@@ -82,7 +82,7 @@ public class DataGenerator implements DataGeneratorEntrypoint {
 				cubeWithItem(generator, set.BLOCK);
 				cubeWithItem(generator, set.ORE_BLOCK);
 				cubeWithItem(generator, set.DEEPSLATE_ORE_BLOCK);
-				cubeWithItem(generator, set.RAW_ORE_BLOCK);
+				cubeWithItem(generator, set.RAW_BLOCK);
 			}
 
 			for (BlockSet set : BlockSet.Sets) {
@@ -207,7 +207,7 @@ public class DataGenerator implements DataGeneratorEntrypoint {
 				offerShapelessRecipe(exporter, set.NUGGET, set.INGOT, set.name + "_nuggets", 9);
 				offerCompactingRecipe(exporter, RecipeCategory.MISC, set.INGOT, set.NUGGET);
 				offerCompactingRecipe(exporter, RecipeCategory.MISC, set.BLOCK, set.INGOT);
-				offerCompactingRecipe(exporter, RecipeCategory.MISC, set.RAW_ORE_BLOCK, set.RAW);
+				offerCompactingRecipe(exporter, RecipeCategory.MISC, set.RAW_BLOCK, set.RAW);
 
 				if (set.SWORD != null) {
 					ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, set.SWORD)
@@ -472,7 +472,11 @@ public class DataGenerator implements DataGeneratorEntrypoint {
 						.add(set.BLOCK)
 						.add(set.ORE_BLOCK)
 						.add(set.DEEPSLATE_ORE_BLOCK)
-						.add(set.RAW_ORE_BLOCK);
+						.add(set.RAW_BLOCK);
+				
+				getOrCreateTagBuilder(BlockTags.BEACON_BASE_BLOCKS)
+					.add(set.BLOCK);
+
 
 				TagKey<Block> tag = null;
 				switch (set.level) {
@@ -491,7 +495,7 @@ public class DataGenerator implements DataGeneratorEntrypoint {
 							.add(set.BLOCK)
 							.add(set.ORE_BLOCK)
 							.add(set.DEEPSLATE_ORE_BLOCK)
-							.add(set.RAW_ORE_BLOCK);
+							.add(set.RAW_BLOCK);
 			}
 
 			for (BlockSet set : BlockSet.Sets) {
@@ -634,7 +638,7 @@ public class DataGenerator implements DataGeneratorEntrypoint {
 
 			for (OreSet set : OreSet.Sets) {
 				addDrop(set.BLOCK);
-				addDrop(set.RAW_ORE_BLOCK);
+				addDrop(set.RAW_BLOCK);
 				if (set.affectedByFortune) {
 					addDrop(set.ORE_BLOCK, (Block b) -> oreDrops(set.ORE_BLOCK, set.RAW));
 					addDrop(set.DEEPSLATE_ORE_BLOCK, (Block b) -> oreDrops(set.DEEPSLATE_ORE_BLOCK, set.RAW));

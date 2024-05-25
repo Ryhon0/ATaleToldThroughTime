@@ -215,7 +215,7 @@ public class TaleItems {
 			Settings.copy(Blocks.DEEPSLATE_DIAMOND_ORE),
 			Settings.copy(Blocks.DIAMOND_BLOCK),
 			MiningLevels.DIAMOND)
-			.withTools(MiningLevels.NETHERITE, 2000, 9.5F, 4.0F, 20)
+			.withTools(MiningLevels.NETHERITE, 2000, 10F, 4.0F, 20)
 			.withArmor(37, 20, SoundEvents.ITEM_ARMOR_EQUIP_IRON,
 			3, 8, 6, 3,
 			0f, 0.25f)

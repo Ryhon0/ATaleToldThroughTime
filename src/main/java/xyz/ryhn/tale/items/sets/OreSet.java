@@ -38,7 +38,7 @@ public class OreSet {
 	public Block BLOCK;
 	public Block ORE_BLOCK;
 	public Block DEEPSLATE_ORE_BLOCK;
-	public Block RAW_ORE_BLOCK;
+	public Block RAW_BLOCK;
 	public Item RAW;
 	public Item INGOT;
 	public Item NUGGET;
@@ -61,7 +61,7 @@ public class OreSet {
 
 		BLOCK = new Block(oreSettings);
 		ORE_BLOCK = new Block(oreSettings);
-		RAW_ORE_BLOCK = new Block(rawOreSettings);
+		RAW_BLOCK = new Block(rawOreSettings);
 		DEEPSLATE_ORE_BLOCK = new Block(deepSettings);
 
 		RAW = new Item(new Item.Settings());
@@ -71,7 +71,7 @@ public class OreSet {
 		TaleItems.registerBlock(BLOCK, name + "_block", ItemGroups.BUILDING_BLOCKS);
 		TaleItems.registerBlock(ORE_BLOCK, name + "_ore", ItemGroups.BUILDING_BLOCKS);
 		TaleItems.registerBlock(DEEPSLATE_ORE_BLOCK, "deepslate_" + name + "_ore", ItemGroups.BUILDING_BLOCKS);
-		TaleItems.registerBlock(RAW_ORE_BLOCK, "raw_" + name + "_ore_block", ItemGroups.BUILDING_BLOCKS);
+		TaleItems.registerBlock(RAW_BLOCK, "raw_" + name + "_block", ItemGroups.BUILDING_BLOCKS);
 
 		TaleItems.registerItem(RAW, "raw_" + name, ItemGroups.INGREDIENTS);
 		TaleItems.registerItem(INGOT, name + "_ingot", ItemGroups.INGREDIENTS);
@@ -87,8 +87,8 @@ public class OreSet {
 		SWORD = new SwordItem(mat, 3, -2.4F, new Item.Settings());
 		SHOVEL = new ShovelItem(mat, 1.5F, -3.0F, new Item.Settings());
 		PICKAXE = new PickaxeItem(mat, 1, -2.8F, new Item.Settings());
-		AXE = new AxeItem(mat, 5.0F, -3.0F, new Item.Settings());
-		HOE = new HoeItem(mat, -4, 0.0F, new Item.Settings());
+		AXE = new AxeItem(mat, 6.0F, -3.0F, new Item.Settings());
+		HOE = new HoeItem(mat, -2, 0.0F, new Item.Settings());
 
 		TaleItems.registerItem(SWORD, name + "_sword", ItemGroups.COMBAT);
 		TaleItems.registerItem(SHOVEL, name + "_shovel", ItemGroups.TOOLS);
