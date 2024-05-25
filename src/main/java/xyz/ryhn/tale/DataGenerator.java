@@ -620,6 +620,12 @@ public class DataGenerator implements DataGeneratorEntrypoint {
 			}
 
 			for (WoodSet set : WoodSet.Sets) {
+				addDrop(set.LOG);
+				addDrop(set.CUT_LOG);
+				addDrop(set.STRIPPED_LOG);
+				addDrop(set.WOOD);
+				addDrop(set.CUT_WOOD);
+				addDrop(set.STRIPPED_WOOD);
 				addDrop(set.SAPLING);
 				addPottedPlantDrops(set.POTTED_SAPLING);
 				addDrop(set.LEAVES,
