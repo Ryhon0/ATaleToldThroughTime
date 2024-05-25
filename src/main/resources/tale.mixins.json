@@ -10,7 +10,10 @@
 		"TotemReviveMixin",
 		"PlayerFeatureRendererMixin",
 		"BipedFeatureRendererMixin",
-		"ArmorStandEntityRendererMixin"
+		"ArmorStandEntityRendererMixin",
+		"SmiteSilverBlockerMixin",
+		"BuiltinSilverSmiteMixin",
+		"SilverUndeadProtectionMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
