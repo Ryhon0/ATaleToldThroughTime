@@ -3,13 +3,13 @@
   "downfall": 0.4,
   "has_precipitation": true,
   "effects": {
-	  "sky_color": 7907327,
-	  "fog_color": 12638463,
-	  "water_color": 7057894,
-	  "water_fog_color": 5789904,
-	  "grass_color": 16775744,
-	  "foliage_color": 16775744
-	},
+    "sky_color": 7907327,
+    "fog_color": 12638463,
+    "water_color": 7057894,
+    "water_fog_color": 5789904,
+    "grass_color": 16775744,
+    "foliage_color": 16775744
+  },
   "spawners": {
     "creature": [
       {
@@ -84,7 +84,9 @@
       "minecraft:disk_sand",
       "minecraft:disk_clay",
       "ataletoldthroughtime:quartz_crystal_ore",
-      "ataletoldthroughtime:petrified_experience"
+      "ataletoldthroughtime:petrified_experience",
+      "ataletoldthroughtime:silver_ore",
+      "ataletoldthroughtime:mithril_ore"
     ],
     [],
     [

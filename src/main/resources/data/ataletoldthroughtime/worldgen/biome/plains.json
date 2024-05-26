@@ -120,7 +120,9 @@
 			"minecraft:disk_sand",
 			"minecraft:disk_clay",
 			"ataletoldthroughtime:quartz_crystal_ore",
-			"ataletoldthroughtime:petrified_experience"
+			"ataletoldthroughtime:petrified_experience",
+			"ataletoldthroughtime:silver_ore",
+			"ataletoldthroughtime:mithril_ore"
 		],
 		[],
 		[
