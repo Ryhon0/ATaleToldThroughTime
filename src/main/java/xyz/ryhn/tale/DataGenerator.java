@@ -13,6 +13,8 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBlockTags;
+import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
 import net.fabricmc.yarn.constants.MiningLevels;
 import net.minecraft.block.Block;
 import net.minecraft.data.client.BlockStateModelGenerator;
@@ -392,21 +394,8 @@ public class DataGenerator implements DataGeneratorEntrypoint {
 						.add(set.CUT_WOOD.asItem())
 						.add(set.STRIPPED_WOOD.asItem());
 
-				getOrCreateTagBuilder(ItemTags.LOGS)
-						.add(set.LOG.asItem())
-						.add(set.CUT_LOG.asItem())
-						.add(set.STRIPPED_LOG.asItem())
-						.add(set.WOOD.asItem())
-						.add(set.CUT_WOOD.asItem())
-						.add(set.STRIPPED_WOOD.asItem());
-
 				getOrCreateTagBuilder(ItemTags.LOGS_THAT_BURN)
-						.add(set.LOG.asItem())
-						.add(set.CUT_LOG.asItem())
-						.add(set.STRIPPED_LOG.asItem())
-						.add(set.WOOD.asItem())
-						.add(set.CUT_WOOD.asItem())
-						.add(set.STRIPPED_WOOD.asItem());
+					.addTag(set.ITEM_LOG_TAG);
 
 				getOrCreateTagBuilder(ItemTags.WOODEN_BUTTONS)
 						.add(set.Set.BUTTON.asItem());
@@ -435,6 +424,49 @@ public class DataGenerator implements DataGeneratorEntrypoint {
 				// getOrCreateTagBuilder(ItemTags.SIGNS)
 				// .add(set.HANGING_SIGN.asItem())
 				// .add(set.SIGN.asItem());
+			}
+
+			for (OreSet set : OreSet.Sets) {
+				getOrCreateTagBuilder(ConventionalItemTags.ORES)
+						.addTag(set.ITEM_ORE_TAG);
+				getOrCreateTagBuilder(ConventionalItemTags.NUGGETS)
+						.add(set.NUGGET);
+				getOrCreateTagBuilder(ConventionalItemTags.INGOTS)
+						.add(set.NUGGET);
+				getOrCreateTagBuilder(ItemTags.TRIM_MATERIALS)
+						.add(set.INGOT);
+				getOrCreateTagBuilder(ItemTags.BEACON_PAYMENT_ITEMS)
+						.add(set.INGOT);
+
+				getOrCreateTagBuilder(set.ITEM_ORE_TAG)
+						.add(set.ORE_BLOCK.asItem())
+						.add(set.DEEPSLATE_ORE_BLOCK.asItem());
+
+				if (set.SWORD != null) {
+					getOrCreateTagBuilder(ItemTags.SWORDS).add(set.SWORD);
+					getOrCreateTagBuilder(ItemTags.SHOVELS).add(set.SHOVEL);
+					getOrCreateTagBuilder(ItemTags.PICKAXES).add(set.PICKAXE);
+					getOrCreateTagBuilder(ItemTags.CLUSTER_MAX_HARVESTABLES).add(set.PICKAXE);
+					getOrCreateTagBuilder(ItemTags.AXES).add(set.AXE);
+					getOrCreateTagBuilder(ItemTags.HOES).add(set.HOE);
+
+					getOrCreateTagBuilder(ItemTags.TOOLS)
+							.add(set.SWORD)
+							.add(set.SHOVEL)
+							.add(set.PICKAXE)
+							.add(set.AXE)
+							.add(set.HOE);
+
+				}
+
+				if (set.HELMET != null)
+					getOrCreateTagBuilder(ItemTags.TRIMMABLE_ARMOR).add(set.HELMET);
+				if (set.CHESTPLATE != null)
+					getOrCreateTagBuilder(ItemTags.TRIMMABLE_ARMOR).add(set.CHESTPLATE);
+				if (set.LEGGINGS != null)
+					getOrCreateTagBuilder(ItemTags.TRIMMABLE_ARMOR).add(set.LEGGINGS);
+				if (set.BOOTS != null)
+					getOrCreateTagBuilder(ItemTags.TRIMMABLE_ARMOR).add(set.BOOTS);
 			}
 		}
 	}
@@ -468,15 +500,21 @@ public class DataGenerator implements DataGeneratorEntrypoint {
 					.add(TaleItems.QUARTZ_CRYSTAL_BLOCK);
 
 			for (OreSet set : OreSet.Sets) {
+				getOrCreateTagBuilder(ConventionalBlockTags.ORES)
+						.addTag(set.BLOCK_ORE_TAG);
+
+				getOrCreateTagBuilder(set.BLOCK_ORE_TAG)
+						.add(set.ORE_BLOCK)
+						.add(set.DEEPSLATE_ORE_BLOCK);
+
 				getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE)
 						.add(set.BLOCK)
 						.add(set.ORE_BLOCK)
 						.add(set.DEEPSLATE_ORE_BLOCK)
 						.add(set.RAW_BLOCK);
-				
-				getOrCreateTagBuilder(BlockTags.BEACON_BASE_BLOCKS)
-					.add(set.BLOCK);
 
+				getOrCreateTagBuilder(BlockTags.BEACON_BASE_BLOCKS)
+						.add(set.BLOCK);
 
 				TagKey<Block> tag = null;
 				switch (set.level) {
@@ -522,21 +560,6 @@ public class DataGenerator implements DataGeneratorEntrypoint {
 			}
 
 			for (WoodSet set : WoodSet.Sets) {
-				getOrCreateTagBuilder(BlockTags.HOE_MINEABLE)
-						.add(set.LEAVES);
-
-				for (Block b : set.Set.BLOCKS)
-					getOrCreateTagBuilder(BlockTags.AXE_MINEABLE)
-							.add(b);
-
-				getOrCreateTagBuilder(BlockTags.AXE_MINEABLE)
-						.add(set.LOG)
-						.add(set.CUT_LOG)
-						.add(set.STRIPPED_LOG)
-						.add(set.WOOD)
-						.add(set.CUT_WOOD)
-						.add(set.STRIPPED_WOOD);
-
 				getOrCreateTagBuilder(BlockTags.SAPLINGS)
 						.add(set.SAPLING);
 
@@ -557,21 +580,8 @@ public class DataGenerator implements DataGeneratorEntrypoint {
 						.add(set.CUT_WOOD)
 						.add(set.STRIPPED_WOOD);
 
-				getOrCreateTagBuilder(BlockTags.LOGS)
-						.add(set.LOG)
-						.add(set.CUT_LOG)
-						.add(set.STRIPPED_LOG)
-						.add(set.WOOD)
-						.add(set.CUT_WOOD)
-						.add(set.STRIPPED_WOOD);
-
 				getOrCreateTagBuilder(BlockTags.LOGS_THAT_BURN)
-						.add(set.LOG)
-						.add(set.CUT_LOG)
-						.add(set.STRIPPED_LOG)
-						.add(set.WOOD)
-						.add(set.CUT_WOOD)
-						.add(set.STRIPPED_WOOD);
+						.addTag(set.BLOCK_LOG_TAG);
 
 				getOrCreateTagBuilder(BlockTags.WOODEN_BUTTONS)
 						.add(set.Set.BUTTON);

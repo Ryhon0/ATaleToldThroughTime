@@ -24,8 +24,11 @@ import net.minecraft.item.ToolItem;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.item.ToolMaterials;
 import net.minecraft.recipe.Ingredient;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Util;
+import xyz.ryhn.tale.Main;
 import xyz.ryhn.tale.items.TaleItems;
 
 public class OreSet {
@@ -34,6 +37,9 @@ public class OreSet {
 	public String name;
 	public int level;
 	public boolean affectedByFortune = true;
+
+	public TagKey<Block> BLOCK_ORE_TAG;
+	public TagKey<Item> ITEM_ORE_TAG;
 
 	public Block BLOCK;
 	public Block ORE_BLOCK;
@@ -58,6 +64,9 @@ public class OreSet {
 
 	public OreSet(String name, Settings oreSettings, Settings deepSettings, Settings rawOreSettings, int level) {
 		this.name = name;
+
+		BLOCK_ORE_TAG = TagKey.of(RegistryKeys.BLOCK, Main.Key(name + "_ores"));
+		ITEM_ORE_TAG = TagKey.of(RegistryKeys.ITEM, Main.Key(name + "_ores"));
 
 		BLOCK = new Block(oreSettings);
 		ORE_BLOCK = new Block(oreSettings);
