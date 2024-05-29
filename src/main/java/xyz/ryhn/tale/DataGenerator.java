@@ -23,9 +23,15 @@ import net.minecraft.data.client.Models;
 import net.minecraft.data.server.recipe.RecipeExporter;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.VanillaRecipeProvider;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.Items;
+import net.minecraft.loot.LootTable;
 import net.minecraft.loot.entry.ItemEntry;
+import net.minecraft.loot.entry.LeafEntry;
+import net.minecraft.loot.function.ApplyBonusLootFunction;
+import net.minecraft.loot.function.SetCountLootFunction;
+import net.minecraft.loot.provider.number.UniformLootNumberProvider;
 import net.minecraft.data.client.BlockStateModelGenerator.TintType;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.Registries;
@@ -60,10 +66,6 @@ public class DataGenerator implements DataGeneratorEntrypoint {
 
 		@Override
 		public void generateBlockStateModels(BlockStateModelGenerator generator) {
-			cubeWithItem(generator, TaleItems.DEEPSLATE_QUARTZ_CRYSTAL_ORE);
-			cubeWithItem(generator, TaleItems.QUARTZ_CRYSTAL_BLOCK);
-			cubeWithItem(generator, TaleItems.QUARTZ_CRYSTAL_ORE);
-
 			cubeWithItem(generator, TaleItems.PETRIFIED_EXPERIENCE);
 			cubeWithItem(generator, TaleItems.PETRIFIED_DEEPSLATE_EXPERIENCE);
 
@@ -84,7 +86,8 @@ public class DataGenerator implements DataGeneratorEntrypoint {
 				cubeWithItem(generator, set.BLOCK);
 				cubeWithItem(generator, set.ORE_BLOCK);
 				cubeWithItem(generator, set.DEEPSLATE_ORE_BLOCK);
-				cubeWithItem(generator, set.RAW_BLOCK);
+				if (set.hasRawOre)
+					cubeWithItem(generator, set.RAW_BLOCK);
 			}
 
 			for (BlockSet set : BlockSet.Sets) {
@@ -125,8 +128,6 @@ public class DataGenerator implements DataGeneratorEntrypoint {
 
 		@Override
 		public void generateItemModels(ItemModelGenerator generator) {
-			generator.register(TaleItems.QUARTZ_CRYSTAL, Models.GENERATED);
-
 			generator.register(TaleItems.IRON_MENDING_SET.BOTTLE, Models.GENERATED);
 			generator.register(TaleItems.IRON_MENDING_SET.CLOTH, Models.GENERATED);
 			generator.register(TaleItems.IRON_MENDING_SET.PLATE, Models.GENERATED);
@@ -149,28 +150,23 @@ public class DataGenerator implements DataGeneratorEntrypoint {
 
 			for (OreSet set : OreSet.Sets) {
 				generator.register(set.RAW, Models.GENERATED);
-				generator.register(set.INGOT, Models.GENERATED);
+				generator.register(set.ITEM, Models.GENERATED);
 				generator.register(set.NUGGET, Models.GENERATED);
 
-				if (set.SWORD != null)
+				if (set.hasTools) {
 					generator.register(set.SWORD, Models.HANDHELD);
-				if (set.SHOVEL != null)
 					generator.register(set.SHOVEL, Models.HANDHELD);
-				if (set.PICKAXE != null)
 					generator.register(set.PICKAXE, Models.HANDHELD);
-				if (set.AXE != null)
 					generator.register(set.AXE, Models.HANDHELD);
-				if (set.HOE != null)
 					generator.register(set.HOE, Models.HANDHELD);
+				}
 
-				if (set.HELMET != null)
+				if (set.hasArmor) {
 					generator.registerArmor(set.HELMET);
-				if (set.CHESTPLATE != null)
 					generator.registerArmor(set.CHESTPLATE);
-				if (set.LEGGINGS != null)
 					generator.registerArmor(set.LEGGINGS);
-				if (set.BOOTS != null)
 					generator.registerArmor(set.BOOTS);
+				}
 			}
 		}
 	}
@@ -197,92 +193,56 @@ public class DataGenerator implements DataGeneratorEntrypoint {
 
 			for (OreSet set : OreSet.Sets) {
 				offerSmelting(exporter, ImmutableList.of(set.ORE_BLOCK, set.DEEPSLATE_ORE_BLOCK),
-						RecipeCategory.MISC, set.INGOT, 0.7f, 200, set.name);
+						RecipeCategory.MISC, set.ITEM, 0.7f, 200, set.name);
 				offerBlasting(exporter, ImmutableList.of(set.ORE_BLOCK, set.DEEPSLATE_ORE_BLOCK),
-						RecipeCategory.MISC, set.INGOT, 0.7f, 100, set.name);
+						RecipeCategory.MISC, set.ITEM, 0.7f, 100, set.name);
 
-				offerSmelting(exporter, ImmutableList.of(set.RAW),
-						RecipeCategory.MISC, set.INGOT, 0.7f, 200, set.name);
-				offerBlasting(exporter, ImmutableList.of(set.RAW),
-						RecipeCategory.MISC, set.INGOT, 0.7f, 100, set.name);
+				if(set.hasRawOre)
+				{
+					offerSmelting(exporter, ImmutableList.of(set.RAW),
+					RecipeCategory.MISC, set.ITEM, 0.7f, 200, set.name);
+					offerBlasting(exporter, ImmutableList.of(set.RAW),
+					RecipeCategory.MISC, set.ITEM, 0.7f, 100, set.name);
+				}
 
-				offerShapelessRecipe(exporter, set.NUGGET, set.INGOT, set.name + "_nuggets", 9);
-				offerCompactingRecipe(exporter, RecipeCategory.MISC, set.INGOT, set.NUGGET);
-				offerCompactingRecipe(exporter, RecipeCategory.MISC, set.BLOCK, set.INGOT);
-				offerCompactingRecipe(exporter, RecipeCategory.MISC, set.RAW_BLOCK, set.RAW);
+				offerShapelessRecipe(exporter, set.NUGGET, set.ITEM, set.name + "_nuggets", 9);
+				offerCompactingRecipe(exporter, RecipeCategory.MISC, set.ITEM, set.NUGGET);
+				offerCompactingRecipe(exporter, RecipeCategory.MISC, set.BLOCK, set.ITEM);
+				if(set.hasRawOre)
+					offerCompactingRecipe(exporter, RecipeCategory.MISC, set.RAW_BLOCK, set.RAW);
 
-				if (set.SWORD != null) {
+				if (set.hasTools) {
 					ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, set.SWORD)
-							.input(Character.valueOf('#'), Items.STICK).input(Character.valueOf('X'), set.INGOT)
+							.input(Character.valueOf('#'), Items.STICK).input(Character.valueOf('X'), set.ITEM)
 							.pattern("X").pattern("X").pattern("#")
-							.criterion(FabricRecipeProvider.hasItem(set.INGOT),
-									VanillaRecipeProvider.conditionsFromItem(set.INGOT))
+							.criterion(FabricRecipeProvider.hasItem(set.ITEM),
+									VanillaRecipeProvider.conditionsFromItem(set.ITEM))
 							.offerTo(exporter);
-				}
-				if (set.SHOVEL != null) {
 					ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, set.SHOVEL)
-							.input(Character.valueOf('#'), Items.STICK).input(Character.valueOf('X'), set.INGOT)
+							.input(Character.valueOf('#'), Items.STICK).input(Character.valueOf('X'), set.ITEM)
 							.pattern("X").pattern("#").pattern("#")
-							.criterion(FabricRecipeProvider.hasItem(set.INGOT),
-									VanillaRecipeProvider.conditionsFromItem(set.INGOT))
+							.criterion(FabricRecipeProvider.hasItem(set.ITEM),
+									VanillaRecipeProvider.conditionsFromItem(set.ITEM))
 							.offerTo(exporter);
-				}
-				if (set.PICKAXE != null) {
 					ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, set.PICKAXE)
-							.input(Character.valueOf('#'), Items.STICK).input(Character.valueOf('X'), set.INGOT)
+							.input(Character.valueOf('#'), Items.STICK).input(Character.valueOf('X'), set.ITEM)
 							.pattern("XXX").pattern(" # ").pattern(" # ")
-							.criterion(FabricRecipeProvider.hasItem(set.INGOT),
-									VanillaRecipeProvider.conditionsFromItem(set.INGOT))
+							.criterion(FabricRecipeProvider.hasItem(set.ITEM),
+									VanillaRecipeProvider.conditionsFromItem(set.ITEM))
 							.offerTo(exporter);
-				}
-				if (set.AXE != null) {
 					ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, set.AXE)
-							.input(Character.valueOf('#'), Items.STICK).input(Character.valueOf('X'), set.INGOT)
+							.input(Character.valueOf('#'), Items.STICK).input(Character.valueOf('X'), set.ITEM)
 							.pattern("XX").pattern("X#").pattern(" #")
-							.criterion(FabricRecipeProvider.hasItem(set.INGOT),
-									VanillaRecipeProvider.conditionsFromItem(set.INGOT))
+							.criterion(FabricRecipeProvider.hasItem(set.ITEM),
+									VanillaRecipeProvider.conditionsFromItem(set.ITEM))
 							.offerTo(exporter);
-				}
-				if (set.HOE != null) {
 					ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, set.HOE)
-							.input(Character.valueOf('#'), Items.STICK).input(Character.valueOf('X'), set.INGOT)
+							.input(Character.valueOf('#'), Items.STICK).input(Character.valueOf('X'), set.ITEM)
 							.pattern("XX").pattern(" #").pattern(" #")
-							.criterion(FabricRecipeProvider.hasItem(set.INGOT),
-									VanillaRecipeProvider.conditionsFromItem(set.INGOT))
+							.criterion(FabricRecipeProvider.hasItem(set.ITEM),
+									VanillaRecipeProvider.conditionsFromItem(set.ITEM))
 							.offerTo(exporter);
-				}
-				if (set.HELMET != null) {
-					ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, set.HELMET)
-							.input(Character.valueOf('X'), set.INGOT).pattern("XXX").pattern("X X")
-							.criterion(FabricRecipeProvider.hasItem(set.INGOT),
-									VanillaRecipeProvider.conditionsFromItem(set.INGOT))
-							.offerTo(exporter);
-				}
-				if (set.CHESTPLATE != null) {
-					ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, set.CHESTPLATE)
-							.input(Character.valueOf('X'), set.INGOT).pattern("X X").pattern("XXX")
-							.pattern("XXX")
-							.criterion(FabricRecipeProvider.hasItem(set.INGOT),
-									VanillaRecipeProvider.conditionsFromItem(set.INGOT))
-							.offerTo(exporter);
-				}
-				if (set.LEGGINGS != null) {
-					ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, set.LEGGINGS)
-							.input(Character.valueOf('X'), set.INGOT).pattern("XXX").pattern("X X")
-							.pattern("X X")
-							.criterion(FabricRecipeProvider.hasItem(set.INGOT),
-									VanillaRecipeProvider.conditionsFromItem(set.INGOT))
-							.offerTo(exporter);
-				}
-				if (set.BOOTS != null) {
-					ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, set.BOOTS)
-							.input(Character.valueOf('X'), set.INGOT).pattern("X X").pattern("X X")
-							.criterion(FabricRecipeProvider.hasItem(set.INGOT),
-									VanillaRecipeProvider.conditionsFromItem(set.INGOT))
-							.offerTo(exporter);
-				}
 
-				if (!set.tools.isEmpty()) {
 					List<ItemConvertible> items = set.tools.stream().map(t -> (ItemConvertible) t).toList();
 					offerSmelting(exporter,
 							items,
@@ -292,7 +252,30 @@ public class DataGenerator implements DataGeneratorEntrypoint {
 							RecipeCategory.MISC, set.NUGGET, 0.1f, 100, set.name + "_nugget_from_tools");
 				}
 
-				if (!set.armorItems.isEmpty()) {
+				if (set.hasArmor) {
+					ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, set.HELMET)
+							.input(Character.valueOf('X'), set.ITEM).pattern("XXX").pattern("X X")
+							.criterion(FabricRecipeProvider.hasItem(set.ITEM),
+									VanillaRecipeProvider.conditionsFromItem(set.ITEM))
+							.offerTo(exporter);
+					ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, set.CHESTPLATE)
+							.input(Character.valueOf('X'), set.ITEM).pattern("X X").pattern("XXX")
+							.pattern("XXX")
+							.criterion(FabricRecipeProvider.hasItem(set.ITEM),
+									VanillaRecipeProvider.conditionsFromItem(set.ITEM))
+							.offerTo(exporter);
+					ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, set.LEGGINGS)
+							.input(Character.valueOf('X'), set.ITEM).pattern("XXX").pattern("X X")
+							.pattern("X X")
+							.criterion(FabricRecipeProvider.hasItem(set.ITEM),
+									VanillaRecipeProvider.conditionsFromItem(set.ITEM))
+							.offerTo(exporter);
+					ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, set.BOOTS)
+							.input(Character.valueOf('X'), set.ITEM).pattern("X X").pattern("X X")
+							.criterion(FabricRecipeProvider.hasItem(set.ITEM),
+									VanillaRecipeProvider.conditionsFromItem(set.ITEM))
+							.offerTo(exporter);
+
 					List<ItemConvertible> items = set.armorItems.stream().map(t -> (ItemConvertible) t).toList();
 
 					offerSmelting(exporter,
@@ -368,10 +351,6 @@ public class DataGenerator implements DataGeneratorEntrypoint {
 
 		@Override
 		protected void configure(WrapperLookup arg) {
-			getOrCreateTagBuilder(TaleItems.TAG_ITEM_QUARTZ_CRYSTAL_ORES)
-					.add(TaleItems.DEEPSLATE_QUARTZ_CRYSTAL_ORE.asItem())
-					.add(TaleItems.QUARTZ_CRYSTAL_ORE.asItem());
-
 			getOrCreateTagBuilder(TaleItems.TAG_ITEM_PETRIFIED_EXPERIENCE)
 					.add(TaleItems.PETRIFIED_EXPERIENCE.asItem())
 					.add(TaleItems.PETRIFIED_DEEPSLATE_EXPERIENCE.asItem());
@@ -395,7 +374,7 @@ public class DataGenerator implements DataGeneratorEntrypoint {
 						.add(set.STRIPPED_WOOD.asItem());
 
 				getOrCreateTagBuilder(ItemTags.LOGS_THAT_BURN)
-					.addTag(set.ITEM_LOG_TAG);
+						.addTag(set.ITEM_LOG_TAG);
 
 				getOrCreateTagBuilder(ItemTags.WOODEN_BUTTONS)
 						.add(set.Set.BUTTON.asItem());
@@ -434,15 +413,15 @@ public class DataGenerator implements DataGeneratorEntrypoint {
 				getOrCreateTagBuilder(ConventionalItemTags.INGOTS)
 						.add(set.NUGGET);
 				getOrCreateTagBuilder(ItemTags.TRIM_MATERIALS)
-						.add(set.INGOT);
+						.add(set.ITEM);
 				getOrCreateTagBuilder(ItemTags.BEACON_PAYMENT_ITEMS)
-						.add(set.INGOT);
+						.add(set.ITEM);
 
 				getOrCreateTagBuilder(set.ITEM_ORE_TAG)
 						.add(set.ORE_BLOCK.asItem())
 						.add(set.DEEPSLATE_ORE_BLOCK.asItem());
 
-				if (set.SWORD != null) {
+				if (set.hasTools) {
 					getOrCreateTagBuilder(ItemTags.SWORDS).add(set.SWORD);
 					getOrCreateTagBuilder(ItemTags.SHOVELS).add(set.SHOVEL);
 					getOrCreateTagBuilder(ItemTags.PICKAXES).add(set.PICKAXE);
@@ -456,17 +435,14 @@ public class DataGenerator implements DataGeneratorEntrypoint {
 							.add(set.PICKAXE)
 							.add(set.AXE)
 							.add(set.HOE);
-
 				}
 
-				if (set.HELMET != null)
+				if (set.hasArmor) {
 					getOrCreateTagBuilder(ItemTags.TRIMMABLE_ARMOR).add(set.HELMET);
-				if (set.CHESTPLATE != null)
 					getOrCreateTagBuilder(ItemTags.TRIMMABLE_ARMOR).add(set.CHESTPLATE);
-				if (set.LEGGINGS != null)
 					getOrCreateTagBuilder(ItemTags.TRIMMABLE_ARMOR).add(set.LEGGINGS);
-				if (set.BOOTS != null)
 					getOrCreateTagBuilder(ItemTags.TRIMMABLE_ARMOR).add(set.BOOTS);
+				}
 			}
 		}
 	}
@@ -479,25 +455,13 @@ public class DataGenerator implements DataGeneratorEntrypoint {
 
 		@Override
 		protected void configure(WrapperLookup arg) {
-			getOrCreateTagBuilder(TaleItems.TAG_BLOCK_QUARTZ_CRYSTAL_ORES)
-					.add(TaleItems.DEEPSLATE_QUARTZ_CRYSTAL_ORE)
-					.add(TaleItems.QUARTZ_CRYSTAL_ORE);
-
 			getOrCreateTagBuilder(TaleItems.TAG_BLOCK_PETRIFIED_EXPERIENCE)
 					.add(TaleItems.PETRIFIED_EXPERIENCE)
 					.add(TaleItems.PETRIFIED_DEEPSLATE_EXPERIENCE);
 
 			getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE)
-					.add(TaleItems.DEEPSLATE_QUARTZ_CRYSTAL_ORE)
-					.add(TaleItems.QUARTZ_CRYSTAL_ORE)
-					.add(TaleItems.QUARTZ_CRYSTAL_BLOCK)
 					.add(TaleItems.PETRIFIED_DEEPSLATE_EXPERIENCE)
 					.add(TaleItems.PETRIFIED_EXPERIENCE);
-
-			getOrCreateTagBuilder(BlockTags.NEEDS_STONE_TOOL)
-					.add(TaleItems.DEEPSLATE_QUARTZ_CRYSTAL_ORE)
-					.add(TaleItems.QUARTZ_CRYSTAL_ORE)
-					.add(TaleItems.QUARTZ_CRYSTAL_BLOCK);
 
 			for (OreSet set : OreSet.Sets) {
 				getOrCreateTagBuilder(ConventionalBlockTags.ORES)
@@ -510,8 +474,11 @@ public class DataGenerator implements DataGeneratorEntrypoint {
 				getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE)
 						.add(set.BLOCK)
 						.add(set.ORE_BLOCK)
-						.add(set.DEEPSLATE_ORE_BLOCK)
-						.add(set.RAW_BLOCK);
+						.add(set.DEEPSLATE_ORE_BLOCK);
+
+				if (set.hasRawOre)
+					getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE)
+							.add(set.RAW_BLOCK);
 
 				getOrCreateTagBuilder(BlockTags.BEACON_BASE_BLOCKS)
 						.add(set.BLOCK);
@@ -528,12 +495,16 @@ public class DataGenerator implements DataGeneratorEntrypoint {
 						tag = BlockTags.NEEDS_DIAMOND_TOOL;
 						break;
 				}
-				if (tag != null)
+				if (tag != null) {
 					getOrCreateTagBuilder(tag)
 							.add(set.BLOCK)
 							.add(set.ORE_BLOCK)
-							.add(set.DEEPSLATE_ORE_BLOCK)
-							.add(set.RAW_BLOCK);
+							.add(set.DEEPSLATE_ORE_BLOCK);
+
+					if (set.hasRawOre)
+						getOrCreateTagBuilder(tag)
+								.add(set.RAW_BLOCK);
+				}
 			}
 
 			for (BlockSet set : BlockSet.Sets) {
@@ -545,7 +516,7 @@ public class DataGenerator implements DataGeneratorEntrypoint {
 					getOrCreateTagBuilder(BlockTags.FENCES)
 							.add(set.FENCE);
 
-				if (set.FENCE != null)
+				if (set.FENCE_GATE != null)
 					getOrCreateTagBuilder(BlockTags.FENCE_GATES)
 							.add(set.FENCE_GATE);
 			}
@@ -648,16 +619,20 @@ public class DataGenerator implements DataGeneratorEntrypoint {
 
 			for (OreSet set : OreSet.Sets) {
 				addDrop(set.BLOCK);
-				addDrop(set.RAW_BLOCK);
-				if (set.affectedByFortune) {
-					addDrop(set.ORE_BLOCK, (Block b) -> oreDrops(set.ORE_BLOCK, set.RAW));
-					addDrop(set.DEEPSLATE_ORE_BLOCK, (Block b) -> oreDrops(set.DEEPSLATE_ORE_BLOCK, set.RAW));
-				} else {
-					addDrop(set.ORE_BLOCK, (Block b) -> dropsWithSilkTouch(set.ORE_BLOCK,
-							this.applyExplosionDecay(set.ORE_BLOCK, ItemEntry.builder(set.RAW))));
-					addDrop(set.DEEPSLATE_ORE_BLOCK, (Block b) -> dropsWithSilkTouch(set.DEEPSLATE_ORE_BLOCK,
-							this.applyExplosionDecay(set.DEEPSLATE_ORE_BLOCK, ItemEntry.builder(set.RAW))));
-				}
+
+				if (set.hasRawOre)
+					addDrop(set.RAW_BLOCK);
+
+				LeafEntry.Builder<?> itembuilder = ItemEntry.builder(set.getOreDrop()).apply(
+						SetCountLootFunction.builder(UniformLootNumberProvider.create(set.minDrops, set.maxDrops)));
+				if (set.affectedByFortune)
+					itembuilder = itembuilder.apply(ApplyBonusLootFunction.oreDrops(Enchantments.FORTUNE));
+
+				LootTable.Builder lt = BlockLootTableGenerator.dropsWithSilkTouch(set.ORE_BLOCK,
+						this.applyExplosionDecay(set.ORE_BLOCK, itembuilder));
+
+				addDrop(set.ORE_BLOCK, (Block b) -> lt);
+				addDrop(set.DEEPSLATE_ORE_BLOCK, (Block b) -> lt);
 			}
 		}
 	}

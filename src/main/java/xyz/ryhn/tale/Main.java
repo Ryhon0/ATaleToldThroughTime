@@ -40,7 +40,7 @@ public class Main implements ModInitializer {
 
 	public static TriState onPlayerSwim(PlayerEntity player) {
 		if (player.getWorld().getDimensionKey() == TaleDimensions.WHITESPACE_DIMENSION_TYPE_KEY &&
-				!player.isOnGround() && !player.isSneaking() &&
+				!player.isCreative() && !player.isOnGround() && !player.isSneaking() &&
 				(player.isSprinting() || player.isInSwimmingPose()))
 			return TriState.TRUE;
 		return TriState.DEFAULT;

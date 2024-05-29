@@ -24,7 +24,7 @@ public class SilverUndeadProtectionMixin {
 			for(ItemStack s: thise.getArmorItems())
 			{
 				if(s.getItem() instanceof ArmorItem ai &&
-					ai.getMaterial().getRepairIngredient().test(TaleItems.SilverSet.INGOT.getDefaultStack()))
+					ai.getMaterial().getRepairIngredient().test(TaleItems.SilverSet.ITEM.getDefaultStack()))
 					multiplier -= 0.1f;
 			}
 			info.setReturnValue(info.getReturnValue() * multiplier);

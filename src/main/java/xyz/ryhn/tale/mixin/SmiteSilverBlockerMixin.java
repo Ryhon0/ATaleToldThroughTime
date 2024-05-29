@@ -17,7 +17,7 @@ public class SmiteSilverBlockerMixin {
 	private void isAcceptableItem(ItemStack stack, CallbackInfoReturnable<Boolean> info) {
 		if ((Object)this == Enchantments.SMITE && info.getReturnValue()) {
 			if (stack.getItem() instanceof ToolItem ti &&
-					ti.getMaterial().getRepairIngredient().test(TaleItems.SilverSet.INGOT.getDefaultStack())) {
+					ti.getMaterial().getRepairIngredient().test(TaleItems.SilverSet.ITEM.getDefaultStack())) {
 				info.setReturnValue(false);
 				return;
 			}

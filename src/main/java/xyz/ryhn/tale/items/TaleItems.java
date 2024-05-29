@@ -42,29 +42,6 @@ import xyz.ryhn.tale.items.sets.OreSet;
 import xyz.ryhn.tale.items.sets.WoodSet;
 
 public class TaleItems {
-	public static final TagKey<Item> TAG_ITEM_QUARTZ_CRYSTAL_ORES = TagKey.of(RegistryKeys.ITEM,
-			Main.Key("quartz_crystal_ores"));
-	public static final TagKey<Block> TAG_BLOCK_QUARTZ_CRYSTAL_ORES = TagKey.of(RegistryKeys.BLOCK,
-			Main.Key("quartz_crystal_ores"));
-	public static final Item QUARTZ_CRYSTAL = new Item(new Item.Settings());
-	public static final Block QUARTZ_CRYSTAL_ORE = new ExperienceDroppingBlock(UniformIntProvider.create(2, 10),
-			Block.Settings.copy(Blocks.STONE)
-					.hardness(2.0f)
-					.resistance(2.0f)
-					.requiresTool()
-					.sounds(BlockSoundGroup.STONE));
-	public static final Block DEEPSLATE_QUARTZ_CRYSTAL_ORE = new ExperienceDroppingBlock(
-			UniformIntProvider.create(5, 10), Block.Settings.copy(Blocks.DEEPSLATE)
-					.hardness(3.0f)
-					.resistance(3.0f)
-					.requiresTool()
-					.sounds(BlockSoundGroup.DEEPSLATE));
-	public static final Block QUARTZ_CRYSTAL_BLOCK = new Block(Block.Settings.copy(Blocks.QUARTZ_BLOCK)
-			.hardness(1.0f)
-			.resistance(1.0f)
-			.requiresTool()
-			.sounds(BlockSoundGroup.CALCITE));
-
 	public static final TagKey<Item> TAG_ITEM_PETRIFIED_EXPERIENCE = TagKey.of(RegistryKeys.ITEM,
 			Main.Key("petrified_experience"));
 	public static final TagKey<Block> TAG_BLOCK_PETRIFIED_EXPERIENCE = TagKey.of(RegistryKeys.BLOCK,
@@ -201,24 +178,40 @@ public class TaleItems {
 	public static WoodSet MorningSet = new WoodSet("morning", MapColor.PURPLE, MapColor.BLACK, MapColor.PURPLE,
 			MORNING_TREE);
 
-	public static OreSet SilverSet = new OreSet("silver",
+	public static OreSet QuartzCrystalSet = new OreSet("quartz_crystal", "",
+			Block.Settings.copy(Blocks.STONE)
+					.hardness(2.0f)
+					.resistance(2.0f)
+					.requiresTool()
+					.sounds(BlockSoundGroup.STONE),
+			Block.Settings.copy(Blocks.DEEPSLATE)
+					.hardness(3.0f)
+					.resistance(3.0f)
+					.requiresTool()
+					.sounds(BlockSoundGroup.DEEPSLATE),
+			MiningLevels.STONE)
+			.drops(3, 5)
+			.dropsXP(5, 8);
+	public static OreSet SilverSet = new OreSet("silver", "_ingot",
 			Settings.copy(Blocks.IRON_ORE),
 			Settings.copy(Blocks.DEEPSLATE_IRON_ORE),
-			Settings.copy(Blocks.RAW_IRON_BLOCK),
 			MiningLevels.STONE)
+			.drops(1, 10)
+			.withRawOre(Settings.copy(Blocks.RAW_IRON_BLOCK))
 			.withTools(MiningLevels.IRON, 200, 6.5F, 2.0F, 20)
 			.withArmor(15, 20, SoundEvents.ITEM_ARMOR_EQUIP_IRON,
-			2, 6, 5, 2,
-			0f, 0f);
-	public static OreSet MithrilSet = new OreSet("mithril",
+					2, 6, 5, 2,
+					0f, 0f);
+	public static OreSet MithrilSet = new OreSet("mithril", "_ingot",
 			Settings.copy(Blocks.DIAMOND_ORE),
 			Settings.copy(Blocks.DEEPSLATE_DIAMOND_ORE),
-			Settings.copy(Blocks.DIAMOND_BLOCK),
 			MiningLevels.DIAMOND)
+			.withRawOre(Settings.copy(Blocks.DIAMOND_BLOCK))
 			.withTools(MiningLevels.NETHERITE, 2000, 10F, 4.0F, 20)
 			.withArmor(37, 20, SoundEvents.ITEM_ARMOR_EQUIP_IRON,
-			3, 8, 6, 3,
-			0f, 0.25f)
+					3, 8, 6, 3,
+					0f, 0.25f)
+			.dropsXP(5, 8)
 			.noFortune();
 
 	public static void registerItems() {
@@ -231,11 +224,6 @@ public class TaleItems {
 		registerItem(OxidizationWand.ITEM_INVERSE, "deoxidization_wand", ItemGroups.TOOLS);
 
 		registerItem(TeamBand.ITEM, "team_band", ItemGroups.COMBAT);
-
-		registerItem(QUARTZ_CRYSTAL, "quartz_crystal", ItemGroups.INGREDIENTS);
-		registerBlock(QUARTZ_CRYSTAL_ORE, "quartz_crystal_ore", ItemGroups.BUILDING_BLOCKS);
-		registerBlock(DEEPSLATE_QUARTZ_CRYSTAL_ORE, "deepslate_quartz_crystal_ore", ItemGroups.BUILDING_BLOCKS);
-		registerBlock(QUARTZ_CRYSTAL_BLOCK, "quartz_crystal_block", ItemGroups.BUILDING_BLOCKS);
 
 		registerBlock(PETRIFIED_EXPERIENCE, "petrified_experience", ItemGroups.BUILDING_BLOCKS);
 		registerBlock(PETRIFIED_DEEPSLATE_EXPERIENCE, "petrified_deepslate_experience", ItemGroups.BUILDING_BLOCKS);

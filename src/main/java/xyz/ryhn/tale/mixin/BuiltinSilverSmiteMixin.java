@@ -18,7 +18,7 @@ public class BuiltinSilverSmiteMixin {
 	@Inject(at = @At("TAIL"), method = "getAttackDamage", cancellable = true)
 	private static void getAttackDamage(ItemStack stack, EntityGroup group, CallbackInfoReturnable<Float> info) {
 		if (stack.getItem() instanceof ToolItem ti &&
-				ti.getMaterial().getRepairIngredient().test(TaleItems.SilverSet.INGOT.getDefaultStack())) {
+				ti.getMaterial().getRepairIngredient().test(TaleItems.SilverSet.ITEM.getDefaultStack())) {
 			if (group == EntityGroup.UNDEAD) {
 				float bonus = 0f;
 				if (ti instanceof SwordItem si)

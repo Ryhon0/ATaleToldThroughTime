@@ -7,6 +7,7 @@ import java.util.List;
 import com.google.common.collect.ImmutableList;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.ExperienceDroppingBlock;
 import net.minecraft.block.AbstractBlock.Settings;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorItem.Type;
@@ -16,18 +17,17 @@ import net.minecraft.item.AxeItem;
 import net.minecraft.item.HoeItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
-import net.minecraft.item.Items;
 import net.minecraft.item.PickaxeItem;
 import net.minecraft.item.ShovelItem;
 import net.minecraft.item.SwordItem;
 import net.minecraft.item.ToolItem;
 import net.minecraft.item.ToolMaterial;
-import net.minecraft.item.ToolMaterials;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Util;
+import net.minecraft.util.math.intprovider.UniformIntProvider;
 import xyz.ryhn.tale.Main;
 import xyz.ryhn.tale.items.TaleItems;
 
@@ -37,16 +37,22 @@ public class OreSet {
 	public String name;
 	public int level;
 	public boolean affectedByFortune = true;
+	public boolean hasRawOre = false;
+	public boolean hasTools = false;
+	public boolean hasArmor = false;
+
+	public int minDrops = 1;
+	public int maxDrops = 1;
 
 	public TagKey<Block> BLOCK_ORE_TAG;
 	public TagKey<Item> ITEM_ORE_TAG;
 
 	public Block BLOCK;
-	public Block ORE_BLOCK;
-	public Block DEEPSLATE_ORE_BLOCK;
+	public ExperienceDroppingBlock ORE_BLOCK;
+	public ExperienceDroppingBlock DEEPSLATE_ORE_BLOCK;
 	public Block RAW_BLOCK;
 	public Item RAW;
-	public Item INGOT;
+	public Item ITEM;
 	public Item NUGGET;
 
 	public List<ToolItem> tools = new ArrayList<>();
@@ -62,35 +68,45 @@ public class OreSet {
 	public ArmorItem LEGGINGS;
 	public ArmorItem BOOTS;
 
-	public OreSet(String name, Settings oreSettings, Settings deepSettings, Settings rawOreSettings, int level) {
+	public OreSet(String name, String itemSuffix, Settings oreSettings, Settings deepSettings, int level) {
 		this.name = name;
 
 		BLOCK_ORE_TAG = TagKey.of(RegistryKeys.BLOCK, Main.Key(name + "_ores"));
-		ITEM_ORE_TAG = TagKey.of(RegistryKeys.ITEM, Main.Key(name + "_ores"));
+		ITEM_ORE_TAG = TagKey.of(RegistryKeys.ITEM, Main.Key(name + "_ores")); 
+
+		ITEM = new Item(new Item.Settings());
+		NUGGET = new Item(new Item.Settings());
+
+		TaleItems.registerItem(ITEM, name + itemSuffix, ItemGroups.INGREDIENTS);
+		TaleItems.registerItem(NUGGET, name + "_nugget", ItemGroups.INGREDIENTS);
 
 		BLOCK = new Block(oreSettings);
-		ORE_BLOCK = new Block(oreSettings);
-		RAW_BLOCK = new Block(rawOreSettings);
-		DEEPSLATE_ORE_BLOCK = new Block(deepSettings);
-
-		RAW = new Item(new Item.Settings());
-		INGOT = new Item(new Item.Settings());
-		NUGGET = new Item(new Item.Settings());
+		ORE_BLOCK = new ExperienceDroppingBlock(UniformIntProvider.create(0, 0), oreSettings);
+		DEEPSLATE_ORE_BLOCK = new ExperienceDroppingBlock(UniformIntProvider.create(0, 0), deepSettings);
 
 		TaleItems.registerBlock(BLOCK, name + "_block", ItemGroups.BUILDING_BLOCKS);
 		TaleItems.registerBlock(ORE_BLOCK, name + "_ore", ItemGroups.BUILDING_BLOCKS);
 		TaleItems.registerBlock(DEEPSLATE_ORE_BLOCK, "deepslate_" + name + "_ore", ItemGroups.BUILDING_BLOCKS);
-		TaleItems.registerBlock(RAW_BLOCK, "raw_" + name + "_block", ItemGroups.BUILDING_BLOCKS);
-
-		TaleItems.registerItem(RAW, "raw_" + name, ItemGroups.INGREDIENTS);
-		TaleItems.registerItem(INGOT, name + "_ingot", ItemGroups.INGREDIENTS);
-		TaleItems.registerItem(NUGGET, name + "_nugget", ItemGroups.INGREDIENTS);
 
 		Sets.add(this);
 	}
 
+	public OreSet withRawOre(Settings rawOreSettings) {
+		hasRawOre = true;
+
+		RAW = new Item(new Item.Settings());
+		TaleItems.registerItem(RAW, "raw_" + name, ItemGroups.INGREDIENTS);
+
+		RAW_BLOCK = new Block(rawOreSettings);
+		TaleItems.registerBlock(RAW_BLOCK, "raw_" + name + "_block", ItemGroups.BUILDING_BLOCKS);
+
+		return this;
+	}
+
 	public OreSet withTools(int miningLevel, int itemDurability, float miningSpeed, float attackDamage,
 			int enchantability) {
+		hasTools = true;
+
 		ToolMaterial mat = new SimpleToolMaterial(this, miningLevel, itemDurability, miningSpeed, attackDamage,
 				enchantability);
 		SWORD = new SwordItem(mat, 3, -2.4F, new Item.Settings());
@@ -113,6 +129,7 @@ public class OreSet {
 	public OreSet withArmor(int durabilityMultiplier, int enchantability, SoundEvent equipSound,
 			int helmetProtection, int chestProtection, int leggingsProtection, int bootsProtection, float toughness,
 			float knockbackResistance) {
+		hasArmor = true;
 		ArmorMaterial mat = new SimpleArmorMaterial(this, durabilityMultiplier, enchantability, equipSound,
 				helmetProtection, chestProtection, leggingsProtection, bootsProtection, toughness, knockbackResistance);
 
@@ -134,6 +151,26 @@ public class OreSet {
 	public OreSet noFortune() {
 		affectedByFortune = false;
 		return this;
+	}
+
+	public OreSet dropsXP(int min, int max)
+	{
+		ORE_BLOCK.experienceDropped = UniformIntProvider.create(min,max);
+		DEEPSLATE_ORE_BLOCK.experienceDropped = UniformIntProvider.create(min,max);
+		return this;
+	}
+
+	public OreSet drops(int min, int max)
+	{
+		minDrops = min;
+		maxDrops = max;
+		return this;
+	}
+
+	public Item getOreDrop()
+	{
+		if(hasRawOre) return RAW;
+		return ITEM;
 	}
 
 	static class SimpleToolMaterial implements ToolMaterial {
@@ -175,7 +212,7 @@ public class OreSet {
 		}
 
 		public Ingredient getRepairIngredient() {
-			return Ingredient.ofItems(parent.INGOT);
+			return Ingredient.ofItems(parent.ITEM);
 		}
 	}
 
@@ -228,7 +265,7 @@ public class OreSet {
 
 		@Override
 		public Ingredient getRepairIngredient() {
-			return Ingredient.ofItems(parent.INGOT);
+			return Ingredient.ofItems(parent.ITEM);
 		}
 
 		@Override
