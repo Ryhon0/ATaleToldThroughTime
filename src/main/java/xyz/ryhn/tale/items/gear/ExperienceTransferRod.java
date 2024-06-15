@@ -20,7 +20,7 @@ public class ExperienceTransferRod extends Item {
 		BlockPos pos = context.getBlockPos();
 		if(context.getWorld().getBlockState(pos).getBlock() == Blocks.CAULDRON)
 		{
-			List<ItemEntity> items = context.getWorld().getEntitiesByClass(ItemEntity.class, Box.enclosing(pos,pos), e->true);
+			List<ItemEntity> items = context.getWorld().getEntitiesByClass(ItemEntity.class, new Box(pos,pos), e->true);
 			if(!context.getWorld().isClient())
 			{
 				if(XPCraftingRecipe.tryCraftAny(context.getPlayer(), context.getWorld(), context.getBlockPos(), items))

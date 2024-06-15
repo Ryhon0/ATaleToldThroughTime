@@ -19,7 +19,7 @@ public class Citizen extends VillagerEntity {
 			Main.Key("citizen"),
 			EntityType.Builder.create(Citizen::new, SpawnGroup.CREATURE)
 					.setDimensions(0.75f, 1.8f)
-					.build());
+					.build("citizen"));
 
 	public Citizen(EntityType<? extends VillagerEntity> type, World world) {
 		super(type, world);

@@ -48,13 +48,13 @@ public class TaleItems {
 			Main.Key("petrified_experience"));
 
 	public static final ExperienceDroppingBlock PETRIFIED_EXPERIENCE = new ExperienceDroppingBlock(
-			UniformIntProvider.create(50, 70),
 			Block.Settings.copy(Blocks.STONE)
-					.sounds(BlockSoundGroup.AMETHYST_CLUSTER));
+					.sounds(BlockSoundGroup.AMETHYST_CLUSTER),
+			UniformIntProvider.create(50, 70));
 	public static final ExperienceDroppingBlock PETRIFIED_DEEPSLATE_EXPERIENCE = new ExperienceDroppingBlock(
-			UniformIntProvider.create(50, 70),
 			Block.Settings.copy(Blocks.DEEPSLATE)
-					.sounds(BlockSoundGroup.AMETHYST_CLUSTER));
+					.sounds(BlockSoundGroup.AMETHYST_CLUSTER),
+			UniformIntProvider.create(50, 70));
 
 	public static final Block WHITESPACE_BLOCK = new Block(Block.Settings.create()
 			.hardness(0.1f)

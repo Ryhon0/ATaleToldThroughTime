@@ -3,7 +3,6 @@ package xyz.ryhn.tale;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.util.TriState;
-import net.kyrptonaught.customportalapi.api.CustomPortalBuilder;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
@@ -23,14 +22,6 @@ public class Main implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		TaleItems.registerItems();
-
-		CustomPortalBuilder.beginPortal()
-				.destDimID(Key("overworld"))
-				.frameBlock(Blocks.LAPIS_BLOCK)
-				.lightWithItem(Items.CLOCK)
-				.onlyLightInOverworld()
-				.tintColor(0, 0, 255)
-				.registerPortal();
 
 		FabricDefaultAttributeRegistry.register(Citizen.ENTITY_TYPE, Citizen.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(GoldenChicken.ENTITY_TYPE, GoldenChicken.createChickenAttributes());

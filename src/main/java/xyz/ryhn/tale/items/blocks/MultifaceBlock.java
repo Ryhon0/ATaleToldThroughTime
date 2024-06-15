@@ -1,7 +1,5 @@
 package xyz.ryhn.tale.items.blocks;
 
-import com.mojang.serialization.MapCodec;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Fertilizable;
@@ -30,11 +28,6 @@ public class MultifaceBlock extends MultifaceGrowthBlock implements Fertilizable
 	public MultifaceBlock(Settings settings) {
 		super(settings);
 		this.setDefaultState((BlockState) this.getDefaultState().with(WATERLOGGED, false));
-	}
-
-	@Override
-	protected MapCodec<? extends MultifaceGrowthBlock> getCodec() {
-		return createCodec(MultifaceBlock::new);
 	}
 
 	@Override
@@ -69,7 +62,7 @@ public class MultifaceBlock extends MultifaceGrowthBlock implements Fertilizable
 	}
 
 	@Override
-	public boolean isFertilizable(WorldView world, BlockPos pos, BlockState state) {
+	public boolean isFertilizable(WorldView world, BlockPos pos, BlockState state, boolean isClient) {
 		return Direction.stream().anyMatch((direction) -> {
 			return this.grower.canGrow(state, world, pos, direction.getOpposite());
 		});

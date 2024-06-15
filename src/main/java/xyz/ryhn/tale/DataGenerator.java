@@ -2,6 +2,7 @@ package xyz.ryhn.tale;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 
 import com.google.common.collect.ImmutableList;
 
@@ -20,7 +21,7 @@ import net.minecraft.block.Block;
 import net.minecraft.data.client.BlockStateModelGenerator;
 import net.minecraft.data.client.ItemModelGenerator;
 import net.minecraft.data.client.Models;
-import net.minecraft.data.server.recipe.RecipeExporter;
+import net.minecraft.data.server.recipe.RecipeJsonProvider;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.VanillaRecipeProvider;
 import net.minecraft.enchantment.Enchantments;
@@ -177,9 +178,9 @@ public class DataGenerator implements DataGeneratorEntrypoint {
 		}
 
 		@Override
-		public void generate(RecipeExporter exporter) {
+		public void generate(Consumer<RecipeJsonProvider> exporter) {
 			for (BlockSet set : BlockSet.Sets) {
-				generateFamily(exporter, set.FAMILY, FeatureSet.of(FeatureFlags.VANILLA));
+				generateFamily(exporter, set.FAMILY);
 				if (set.WOOD_TYPE == null) {
 					offerStonecuttingRecipe(exporter, RecipeCategory.BUILDING_BLOCKS, set.PRESSURE_PLATE, set.PARENT);
 					offerStonecuttingRecipe(exporter, RecipeCategory.BUILDING_BLOCKS, set.WALL, set.PARENT);
@@ -288,7 +289,7 @@ public class DataGenerator implements DataGeneratorEntrypoint {
 			}
 		}
 
-		void registerWoodSet(RecipeExporter exporter, WoodSet set) {
+		void registerWoodSet(Consumer<RecipeJsonProvider> exporter, WoodSet set) {
 			offerPlanksRecipe(exporter, set.PLANK, set.ITEM_LOG_TAG, 4);
 
 			ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, set.WOOD, 3)
@@ -406,6 +407,12 @@ public class DataGenerator implements DataGeneratorEntrypoint {
 			}
 
 			for (OreSet set : OreSet.Sets) {
+				if(set.hasRawOre)
+				{
+					getOrCreateTagBuilder(ConventionalItemTags.RAW_ORES)
+						.add(set.RAW);
+				}
+
 				getOrCreateTagBuilder(ConventionalItemTags.ORES)
 						.addTag(set.ITEM_ORE_TAG);
 				getOrCreateTagBuilder(ConventionalItemTags.NUGGETS)

@@ -30,7 +30,7 @@ public class GoldenChicken extends ChickenEntity {
 			EntityType.Builder.create(GoldenChicken::new, SpawnGroup.CREATURE)
 					.setDimensions(0.4f, 0.7f)
 					.maxTrackingRange(10)
-					.build());
+					.build("golden_chicken"));
 
 	public GoldenChicken(EntityType<? extends ChickenEntity> entityType, World world) {
 		super(entityType, world);

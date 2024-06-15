@@ -3,6 +3,7 @@ package xyz.ryhn.tale.items.sets;
 import java.util.ArrayList;
 
 import net.minecraft.block.AbstractBlock.Settings;
+import net.minecraft.block.PressurePlateBlock.ActivationRule;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSetType;
 import net.minecraft.block.Blocks;
@@ -65,8 +66,7 @@ public class BlockSet {
 		if (isWood)
 			SET_TYPE = new BlockSetType(name);
 		else
-			SET_TYPE = new BlockSetType(name, true, true, false,
-					net.minecraft.block.BlockSetType.ActivationRule.MOBS, BlockSoundGroup.STONE,
+			SET_TYPE = new BlockSetType(name, true, BlockSoundGroup.STONE,
 					SoundEvents.BLOCK_IRON_DOOR_CLOSE, SoundEvents.BLOCK_IRON_DOOR_OPEN,
 					SoundEvents.BLOCK_IRON_TRAPDOOR_CLOSE, SoundEvents.BLOCK_IRON_TRAPDOOR_OPEN,
 					SoundEvents.BLOCK_STONE_PRESSURE_PLATE_CLICK_OFF,
@@ -81,32 +81,33 @@ public class BlockSet {
 		BLOCKS.add(TaleItems.registerBlock(STAIRS, name + "_stairs", ItemGroups.BUILDING_BLOCKS));
 		bfb.stairs(STAIRS);
 
-		PRESSURE_PLATE = new PressurePlateBlock(SET_TYPE,
+		PRESSURE_PLATE = new PressurePlateBlock(isWood ? ActivationRule.EVERYTHING : ActivationRule.MOBS,
 				Settings.copy(Blocks.OAK_PRESSURE_PLATE)
 						.noCollision()
-						.pistonBehavior(PistonBehavior.DESTROY));
+						.pistonBehavior(PistonBehavior.DESTROY),
+				SET_TYPE);
 		BLOCKS.add(TaleItems.registerBlock(PRESSURE_PLATE, name + "_pressure_plate", ItemGroups.REDSTONE));
 		bfb.pressurePlate(PRESSURE_PLATE);
 
-			BUTTON = new ButtonBlock(SET_TYPE, isWood ? 30 : 20,
-			Settings.copy(PARENT)
-			.noCollision()
-			.pistonBehavior(PistonBehavior.DESTROY));
+		BUTTON = new ButtonBlock(Settings.copy(PARENT)
+				.noCollision()
+				.pistonBehavior(PistonBehavior.DESTROY), SET_TYPE,
+				isWood ? 30 : 20, true);
 		BLOCKS.add(TaleItems.registerBlock(BUTTON, name + "_button", ItemGroups.REDSTONE));
 		bfb.button(BUTTON);
 
 		if (isWood) {
 			WOOD_TYPE = new WoodType(name, SET_TYPE);
 
-			DOOR = new DoorBlock(SET_TYPE, Settings.copy(PARENT)
+			DOOR = new DoorBlock(Settings.copy(PARENT)
 					.nonOpaque()
-					.pistonBehavior(PistonBehavior.DESTROY));
+					.pistonBehavior(PistonBehavior.DESTROY), SET_TYPE);
 			BLOCKS.add(TaleItems.registerBlock(DOOR, name + "_door", ItemGroups.BUILDING_BLOCKS));
 			bfb.door(DOOR);
 
-			TRAPDOOR = new TrapdoorBlock(SET_TYPE, Settings.copy(PARENT)
-					.nonOpaque()
-					.pistonBehavior(PistonBehavior.DESTROY));
+			TRAPDOOR = new TrapdoorBlock(Settings.copy(PARENT)
+			.nonOpaque()
+			.pistonBehavior(PistonBehavior.DESTROY), SET_TYPE);
 			BLOCKS.add(TaleItems.registerBlock(TRAPDOOR, name + "_trapdoor", ItemGroups.BUILDING_BLOCKS));
 			bfb.trapdoor(TRAPDOOR);
 
@@ -114,7 +115,7 @@ public class BlockSet {
 			BLOCKS.add(TaleItems.registerBlock(FENCE, name + "_fence", ItemGroups.BUILDING_BLOCKS));
 			bfb.fence(FENCE);
 
-			FENCE_GATE = new FenceGateBlock(WOOD_TYPE, Settings.copy(Blocks.OAK_FENCE_GATE));
+			FENCE_GATE = new FenceGateBlock(Settings.copy(Blocks.OAK_FENCE_GATE), WOOD_TYPE);
 			BLOCKS.add(TaleItems.registerBlock(FENCE_GATE, name + "_fence_gate", ItemGroups.BUILDING_BLOCKS));
 			bfb.fenceGate(FENCE_GATE);
 		} else {

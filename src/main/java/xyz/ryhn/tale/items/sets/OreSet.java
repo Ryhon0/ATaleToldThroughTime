@@ -81,8 +81,8 @@ public class OreSet {
 		TaleItems.registerItem(NUGGET, name + "_nugget", ItemGroups.INGREDIENTS);
 
 		BLOCK = new Block(oreSettings);
-		ORE_BLOCK = new ExperienceDroppingBlock(UniformIntProvider.create(0, 0), oreSettings);
-		DEEPSLATE_ORE_BLOCK = new ExperienceDroppingBlock(UniformIntProvider.create(0, 0), deepSettings);
+		ORE_BLOCK = new ExperienceDroppingBlock(oreSettings, UniformIntProvider.create(0, 0));
+		DEEPSLATE_ORE_BLOCK = new ExperienceDroppingBlock(deepSettings, UniformIntProvider.create(0, 0));
 
 		TaleItems.registerBlock(BLOCK, name + "_block", ItemGroups.BUILDING_BLOCKS);
 		TaleItems.registerBlock(ORE_BLOCK, name + "_ore", ItemGroups.BUILDING_BLOCKS);

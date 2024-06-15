@@ -5,7 +5,13 @@ import java.util.Optional;
 
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
+import net.mehvahdjukaar.every_compat.api.EveryCompatAPI;
+import net.mehvahdjukaar.every_compat.api.SimpleModule;
+import net.mehvahdjukaar.moonlight.api.set.BlockSetAPI;
+import net.mehvahdjukaar.moonlight.api.set.wood.WoodType;
 import net.minecraft.block.AbstractBlock.Settings;
+import net.minecraft.block.sapling.OakSaplingGenerator;
+import net.minecraft.block.sapling.SaplingGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FlowerPotBlock;
@@ -13,12 +19,12 @@ import net.minecraft.block.LeavesBlock;
 import net.minecraft.block.MapColor;
 import net.minecraft.block.PillarBlock;
 import net.minecraft.block.SaplingBlock;
-import net.minecraft.block.SaplingGenerator;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import xyz.ryhn.tale.Main;
 import xyz.ryhn.tale.items.TaleItems;
@@ -76,14 +82,12 @@ public class WoodSet {
 		TaleItems.registerBlock(PLANK, name + "_planks", ItemGroups.BUILDING_BLOCKS);
 		TaleItems.registerBlock(LEAVES, name + "_leaves", ItemGroups.BUILDING_BLOCKS);
 
-		SAPLING = new SaplingBlock(
-				new SaplingGenerator(name, 0f, Optional.empty(),
-						Optional.empty(),
-						Optional.of(TREE),
-						Optional.empty(),
-						Optional.empty(),
-						Optional.empty()),
-				Settings.copy(Blocks.OAK_SAPLING).mapColor(leafColor));
+		SAPLING = new SaplingBlock(new SaplingGenerator() {
+			@Override
+			protected RegistryKey<ConfiguredFeature<?, ?>> getTreeFeature(Random arg0, boolean arg1) {
+				return TREE;
+			}
+		}, Settings.copy(Blocks.OAK_SAPLING).mapColor(leafColor));
 		POTTED_SAPLING = new FlowerPotBlock(SAPLING, Settings.copy(Blocks.POTTED_OAK_SAPLING).mapColor(leafColor));
 
 		TaleItems.registerBlock(SAPLING, name + "_sapling", ItemGroups.BUILDING_BLOCKS);
@@ -113,5 +117,9 @@ public class WoodSet {
 		fbr.add(WOOD, 5, 5);
 		fbr.add(CUT_WOOD, 5, 5);
 		fbr.add(STRIPPED_WOOD, 5, 5);
+
+		BlockSetAPI.addBlockTypeFinder(WoodType.class, WoodType.Finder
+            .simple("ataletoldthroughtime", name, name+"_planks", name+"_log"));
+
 	}
 }
