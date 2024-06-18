@@ -1,11 +1,13 @@
 package xyz.ryhn.tale;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.util.TriState;
-import net.minecraft.block.Blocks;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Items;
+import net.minecraft.item.ItemGroups;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import xyz.ryhn.tale.entities.mobs.animals.GoldenChicken;
 import xyz.ryhn.tale.entities.mobs.humans.Citizen;
@@ -27,6 +29,18 @@ public class Main implements ModInitializer {
 		FabricDefaultAttributeRegistry.register(GoldenChicken.ENTITY_TYPE, GoldenChicken.createChickenAttributes());
 
 		PlayerSwimCallback.EVENT.register(Main::onPlayerSwim);
+
+		ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(content -> {
+			for (Enchantment e : Registries.ENCHANTMENT) {
+				content.add(TaleItems.UNSEALED_ENCHANTED_BOOK.of(e));
+
+				if(e.getMaxLevel() > 1)
+				{
+					content.add(TaleItems.OVERFLOWING_UNSEALED_ENCHANTED_BOOK.of(e));
+					content.add(TaleItems.AWAKENED_UNSEALED_ENCHANTED_BOOK.of(e));
+				}
+			}
+		});
 	}
 
 	public static TriState onPlayerSwim(PlayerEntity player) {

@@ -144,5 +144,13 @@
 	"item.ataletoldthroughtime.mithril_helmet":			"Mithril Helmet",
 	"item.ataletoldthroughtime.mithril_chestplate":		"Mithril Chestplate",
 	"item.ataletoldthroughtime.mithril_leggings":		"Mithril Leggings",
-	"item.ataletoldthroughtime.mithril_boots":			"Mithril Boots"
+	"item.ataletoldthroughtime.mithril_boots":			"Mithril Boots",
+
+	"item.ataletoldthroughtime.unsealed_enchanted_book": "Unsealed Enchanted Book",
+	"item.ataletoldthroughtime.overflowing_unsealed_enchanted_book": "Overflowing Unsealed Enchanted Book",
+	"item.ataletoldthroughtime.awakened_unsealed_enchanted_book": "Awakened Unsealed Enchanted Book",
+	"item.ataletoldthroughtime.unsealed_enchanted_book.lore": "Right click with an item to apply enchantment or increase level.",
+	"item.ataletoldthroughtime.unsealed_enchanted_book.lore.overflow.1": "Maximum level increased by 1.",
+	"item.ataletoldthroughtime.unsealed_enchanted_book.lore.overflow.2": "Maximum level increased by 2."
+
 }

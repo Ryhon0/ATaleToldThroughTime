@@ -16,6 +16,7 @@ import net.minecraft.item.BowItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemGroups;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -24,6 +25,7 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.Rarity;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import xyz.ryhn.tale.Main;
@@ -214,6 +216,16 @@ public class TaleItems {
 			.dropsXP(5, 8)
 			.noFortune();
 
+	public static UnsealedEnchantedBook UNSEALED_ENCHANTED_BOOK = registerItem(
+			new UnsealedEnchantedBook(0, new Item.Settings().rarity(Rarity.UNCOMMON)),
+			"unsealed_enchanted_book", null);
+	public static UnsealedEnchantedBook OVERFLOWING_UNSEALED_ENCHANTED_BOOK = registerItem(
+			new UnsealedEnchantedBook(1, new Item.Settings().rarity(Rarity.RARE)),
+			"overflowing_unsealed_enchanted_book", null);
+	public static UnsealedEnchantedBook AWAKENED_UNSEALED_ENCHANTED_BOOK = registerItem(
+			new UnsealedEnchantedBook(2, new Item.Settings().rarity(Rarity.EPIC)),
+			"awakened_unsealed_enchanted_book", null);
+
 	public static void registerItems() {
 		registerItem(ScopedCrossbow.ITEM, "scoped_crossbow", ItemGroups.COMBAT);
 		registerItem(GOLDEN_BOW, "golden_bow", ItemGroups.COMBAT);
@@ -254,9 +266,10 @@ public class TaleItems {
 				Main.Key(id),
 				i);
 
-		ItemGroupEvents.modifyEntriesEvent(category).register(content -> {
-			content.add(i);
-		});
+		if (category != null)
+			ItemGroupEvents.modifyEntriesEvent(category).register(content -> {
+				content.add(i);
+			});
 		return i;
 	}
 

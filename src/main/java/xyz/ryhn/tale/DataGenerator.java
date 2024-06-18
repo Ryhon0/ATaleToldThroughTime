@@ -40,8 +40,6 @@ import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.registry.tag.TagKey;
-import net.minecraft.resource.featuretoggle.FeatureFlags;
-import net.minecraft.resource.featuretoggle.FeatureSet;
 import xyz.ryhn.tale.items.TaleItems;
 import xyz.ryhn.tale.items.gear.MagicClock;
 import xyz.ryhn.tale.items.gear.OxidizationWand;
@@ -148,6 +146,9 @@ public class DataGenerator implements DataGeneratorEntrypoint {
 			generator.register(OxidizationWand.ITEM_INVERSE, Models.GENERATED);
 
 			generator.register(TaleItems.GOLD_WINGS, Models.GENERATED);
+			generator.register(TaleItems.UNSEALED_ENCHANTED_BOOK, Models.GENERATED);
+			generator.register(TaleItems.OVERFLOWING_UNSEALED_ENCHANTED_BOOK, Models.GENERATED);
+			generator.register(TaleItems.AWAKENED_UNSEALED_ENCHANTED_BOOK, Models.GENERATED);
 
 			for (OreSet set : OreSet.Sets) {
 				generator.register(set.RAW, Models.GENERATED);
@@ -198,18 +199,17 @@ public class DataGenerator implements DataGeneratorEntrypoint {
 				offerBlasting(exporter, ImmutableList.of(set.ORE_BLOCK, set.DEEPSLATE_ORE_BLOCK),
 						RecipeCategory.MISC, set.ITEM, 0.7f, 100, set.name);
 
-				if(set.hasRawOre)
-				{
+				if (set.hasRawOre) {
 					offerSmelting(exporter, ImmutableList.of(set.RAW),
-					RecipeCategory.MISC, set.ITEM, 0.7f, 200, set.name);
+							RecipeCategory.MISC, set.ITEM, 0.7f, 200, set.name);
 					offerBlasting(exporter, ImmutableList.of(set.RAW),
-					RecipeCategory.MISC, set.ITEM, 0.7f, 100, set.name);
+							RecipeCategory.MISC, set.ITEM, 0.7f, 100, set.name);
 				}
 
 				offerShapelessRecipe(exporter, set.NUGGET, set.ITEM, set.name + "_nuggets", 9);
 				offerCompactingRecipe(exporter, RecipeCategory.MISC, set.ITEM, set.NUGGET);
 				offerCompactingRecipe(exporter, RecipeCategory.MISC, set.BLOCK, set.ITEM);
-				if(set.hasRawOre)
+				if (set.hasRawOre)
 					offerCompactingRecipe(exporter, RecipeCategory.MISC, set.RAW_BLOCK, set.RAW);
 
 				if (set.hasTools) {
@@ -356,6 +356,11 @@ public class DataGenerator implements DataGeneratorEntrypoint {
 					.add(TaleItems.PETRIFIED_EXPERIENCE.asItem())
 					.add(TaleItems.PETRIFIED_DEEPSLATE_EXPERIENCE.asItem());
 
+			getOrCreateTagBuilder(ItemTags.BOOKSHELF_BOOKS)
+					.add(TaleItems.UNSEALED_ENCHANTED_BOOK)
+					.add(TaleItems.OVERFLOWING_UNSEALED_ENCHANTED_BOOK)
+					.add(TaleItems.AWAKENED_UNSEALED_ENCHANTED_BOOK);
+
 			for (WoodSet set : WoodSet.Sets) {
 				getOrCreateTagBuilder(ItemTags.SAPLINGS)
 						.add(set.SAPLING.asItem());
@@ -407,10 +412,9 @@ public class DataGenerator implements DataGeneratorEntrypoint {
 			}
 
 			for (OreSet set : OreSet.Sets) {
-				if(set.hasRawOre)
-				{
+				if (set.hasRawOre) {
 					getOrCreateTagBuilder(ConventionalItemTags.RAW_ORES)
-						.add(set.RAW);
+							.add(set.RAW);
 				}
 
 				getOrCreateTagBuilder(ConventionalItemTags.ORES)

@@ -6,7 +6,7 @@
 		"CrossbowFOVMixin",
 		"CrossbowSpyglassBorderMixin",
 		"SpawnBeaconMixin",
-		"StackIsOfOverrideMixin",
+		"ItemStackMixin",
 		"TotemReviveMixin",
 		"PlayerFeatureRendererMixin",
 		"BipedFeatureRendererMixin",
