@@ -18,14 +18,11 @@ public class MendingSet {
 	public MendingTransferItem CLOTH;
 	public MendingTransferItem PLATE;
 
-	public MendingSet(String prefix, Item material, int bottleDurability, Item[] tools, Item[] armors) {
-		Item[] toolsAndArmor = new Item[tools.length + armors.length];
-		System.arraycopy(tools, 0, toolsAndArmor, 0, tools.length);
-		System.arraycopy(armors, 0, toolsAndArmor, tools.length, armors.length);
-		ENCHANTMENT = new MendingClothEnchantment(toolsAndArmor);
+	public MendingSet(String prefix, Item material, int bottleDurability) {
+		ENCHANTMENT = new MendingClothEnchantment(material);
 		BOTTLE = new MendingBottle(new Item.Settings().maxDamage(bottleDurability), ENCHANTMENT);
-		CLOTH = new MendingTransferItem(new Item.Settings(), ENCHANTMENT, tools, TaleSounds.CLOTH_FASTEN, false);
-		PLATE = new MendingTransferItem(new Item.Settings(), ENCHANTMENT, armors, SoundEvents.ITEM_ARMOR_EQUIP_GOLD,
+		CLOTH = new MendingTransferItem(new Item.Settings(), ENCHANTMENT, material, TaleSounds.CLOTH_FASTEN, false);
+		PLATE = new MendingTransferItem(new Item.Settings(), ENCHANTMENT, material, SoundEvents.ITEM_ARMOR_EQUIP_GOLD,
 				true);
 
 		XPCraftingRecipe.addRecipe(new XPCraftingRecipe.Builder()

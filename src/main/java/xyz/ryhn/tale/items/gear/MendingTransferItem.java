@@ -5,26 +5,33 @@ import java.util.List;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.StackReference;
+import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.PickaxeItem;
+import net.minecraft.item.ToolItem;
+import net.minecraft.screen.slot.Slot;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.Text;
+import net.minecraft.util.ClickType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
+import xyz.ryhn.tale.Main;
 import xyz.ryhn.tale.items.enchants.MendingClothEnchantment;
 
 public class MendingTransferItem extends Item {
-	Item[] transferableTo;
+	Item repairItem;
 	MendingClothEnchantment enchantment;
 	SoundEvent transferSound;
 	boolean armor;
 
-	public MendingTransferItem(Settings settings, MendingClothEnchantment enchantment, Item[] transferableTo,
+	public MendingTransferItem(Settings settings, MendingClothEnchantment enchantment, Item repairItem,
 			SoundEvent transferSound, boolean armor) {
 		super(settings);
-		this.transferableTo = transferableTo;
+		this.repairItem = repairItem;
 		this.enchantment = enchantment;
 		this.transferSound = transferSound;
 		this.armor = armor;
@@ -45,22 +52,53 @@ public class MendingTransferItem extends Item {
 	}
 
 	@Override
+	public boolean onClicked(ItemStack stack, ItemStack otherStack, Slot slot, ClickType clickType, PlayerEntity player,
+			StackReference cursorStackReference) {
+		if (clickType == ClickType.RIGHT)
+			return transferTo(player, stack, otherStack);
+
+		return false;
+	}
+
+	@Override
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
 		Hand hand2 = hand == Hand.MAIN_HAND ? Hand.OFF_HAND : Hand.MAIN_HAND;
 		ItemStack stack = user.getStackInHand(hand);
 		ItemStack stack2 = user.getStackInHand(hand2);
+		if (transferTo(user, stack, stack2))
+			return TypedActionResult.success(stack);
+		else
+			return TypedActionResult.fail(stack);
+	}
 
-		for (Item item : transferableTo) {
-			if (stack2.getItem() == item && EnchantmentHelper.getLevel(enchantment, stack2) == 0) {
-				stack2.addEnchantment(enchantment, 1);
+	boolean transferTo(PlayerEntity p, ItemStack item, ItemStack tool) {
+		if(tool.isEmpty()) return false;
 
-				stack.setCount(0);
-				world.playSound(user.getX(), user.getY(), user.getZ(), transferSound, SoundCategory.BLOCKS, 1f, 1f,
-						true);
-				return TypedActionResult.success(stack);
-			}
+		Main.LOGGER.info(item.toString());
+		Main.LOGGER.info(tool.toString());
+		if (tool.getItem() instanceof ToolItem t) {
+			if (armor)
+				return false;
+
+			if (!t.getMaterial().getRepairIngredient().test(repairItem.getDefaultStack()))
+				return false;
+		} else if (tool.getItem() instanceof ArmorItem a) {
+			if (!armor)
+				return false;
+
+			if (!a.getMaterial().getRepairIngredient().test(repairItem.getDefaultStack()))
+				return false;
 		}
+		else return false;
 
-		return TypedActionResult.fail(stack);
+		if (EnchantmentHelper.getLevel(enchantment, tool) != 0)
+			return true;
+
+		tool.addEnchantment(enchantment, 1);
+		item.setCount(item.getCount() - 1);
+		p.getWorld().playSound(p.getX(), p.getY(), p.getZ(), transferSound, SoundCategory.PLAYERS, 1f, 1f,
+				true);
+
+		return true;
 	}
 }

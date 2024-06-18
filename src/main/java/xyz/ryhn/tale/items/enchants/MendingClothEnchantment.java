@@ -3,24 +3,29 @@ package xyz.ryhn.tale.items.enchants;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ToolItem;
 
 public class MendingClothEnchantment extends Enchantment {
-	public Item[] validItems;
+	public Item repairItem;
 
-	public MendingClothEnchantment(Item[] validItems) {
+	public MendingClothEnchantment(Item repairItem) {
 		super(Rarity.VERY_RARE, EnchantmentTarget.BREAKABLE, new EquipmentSlot[]{EquipmentSlot.MAINHAND});
-		this.validItems = validItems;
+		this.repairItem = repairItem;
 	}
 	
 	@Override
 	public boolean isAcceptableItem(ItemStack stack) {
-		for (Item item : validItems) {
-			if(stack.getItem() == item)
-				return true;
+		if (stack.getItem() instanceof ToolItem t) {
+			if (!t.getMaterial().getRepairIngredient().test(repairItem.getDefaultStack()))
+				return false;
+		} else if (stack.getItem() instanceof ArmorItem a) {
+			if (!a.getMaterial().getRepairIngredient().test(repairItem.getDefaultStack()))
+				return false;
 		}
-		return false;
+		return true;
 	}
 
 	@Override

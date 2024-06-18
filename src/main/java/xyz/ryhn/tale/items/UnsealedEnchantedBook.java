@@ -25,7 +25,9 @@ import net.minecraft.text.TextColor;
 import net.minecraft.util.ClickType;
 import net.minecraft.util.Colors;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
 public class UnsealedEnchantedBook extends Item {
@@ -93,6 +95,16 @@ public class UnsealedEnchantedBook extends Item {
 				SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, SoundCategory.PLAYERS, 1f, 1f, true);
 
 		return true;
+	}
+
+	@Override
+	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+		ItemStack book = user.getStackInHand(hand);
+		ItemStack tool = user.getStackInHand(hand == Hand.MAIN_HAND ? Hand.OFF_HAND : Hand.MAIN_HAND);
+
+		if(applyTo(user, book, tool))
+			return TypedActionResult.success(book);
+		return TypedActionResult.fail(book);
 	}
 
 	@Override

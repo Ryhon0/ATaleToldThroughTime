@@ -124,53 +124,9 @@ public class TaleItems {
 	public static final GoldWings GOLD_WINGS = registerItem(new GoldWings(new Item.Settings().maxDamage(300)),
 			"gold_wings", ItemGroups.COMBAT);
 
-	public static final MendingSet IRON_MENDING_SET = new MendingSet("iron", Items.IRON_INGOT, 500,
-			new Item[] {
-					Items.IRON_PICKAXE,
-					Items.IRON_AXE,
-					Items.IRON_SWORD,
-					Items.IRON_SHOVEL,
-					Items.IRON_HOE,
-					Items.SHEARS,
-			},
-			new Item[] {
-					Items.IRON_HELMET,
-					Items.IRON_CHESTPLATE,
-					Items.IRON_LEGGINGS,
-					Items.IRON_BOOTS,
-					Items.CHAINMAIL_HELMET,
-					Items.CHAINMAIL_CHESTPLATE,
-					Items.CHAINMAIL_LEGGINGS,
-					Items.CHAINMAIL_BOOTS,
-			});
-	public static final MendingSet GOLD_MENDING_SET = new MendingSet("gold", Items.GOLD_INGOT, 2000,
-			new Item[] {
-					Items.GOLDEN_PICKAXE,
-					Items.GOLDEN_AXE,
-					Items.GOLDEN_SWORD,
-					Items.GOLDEN_SHOVEL,
-					Items.GOLDEN_HOE,
-			},
-			new Item[] {
-					Items.GOLDEN_HELMET,
-					Items.GOLDEN_CHESTPLATE,
-					Items.GOLDEN_LEGGINGS,
-					Items.GOLDEN_BOOTS,
-			});
-	public static final MendingSet DIAMOND_MENDING_SET = new MendingSet("diamond", Items.DIAMOND, 1500,
-			new Item[] {
-					Items.DIAMOND_PICKAXE,
-					Items.DIAMOND_AXE,
-					Items.DIAMOND_SWORD,
-					Items.DIAMOND_SHOVEL,
-					Items.DIAMOND_HOE,
-			},
-			new Item[] {
-					Items.DIAMOND_HELMET,
-					Items.DIAMOND_CHESTPLATE,
-					Items.DIAMOND_LEGGINGS,
-					Items.DIAMOND_BOOTS,
-			});
+	public static final MendingSet IRON_MENDING_SET = new MendingSet("iron", Items.IRON_INGOT, 500);
+	public static final MendingSet GOLD_MENDING_SET = new MendingSet("gold", Items.GOLD_INGOT, 2000);
+	public static final MendingSet DIAMOND_MENDING_SET = new MendingSet("diamond", Items.DIAMOND, 1500);
 
 	public static RegistryKey<ConfiguredFeature<?, ?>> MAPLE_TREE = RegistryKey.of(RegistryKeys.CONFIGURED_FEATURE,
 			Main.Key("maple_tree"));
