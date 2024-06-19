@@ -26,6 +26,16 @@
 	"item.ataletoldthroughtime.diamond_mending_plate":  "Diamond Mending Plate",
 	"item.ataletoldthroughtime.diamond_mending_bottle": "Diamond Mending Bottle",
 	"enchantment.ataletoldthroughtime.diamond_mending": "Diamond Mending",
+
+	"item.ataletoldthroughtime.silver_mending_cloth":  "Silver Mending Cloth",
+	"item.ataletoldthroughtime.silver_mending_plate":  "Silver Mending Plate",
+	"item.ataletoldthroughtime.silver_mending_bottle": "Silver Mending Bottle",
+	"enchantment.ataletoldthroughtime.silver_mending": "Silver Mending",
+
+	"item.ataletoldthroughtime.mithril_mending_cloth":  "Mithril Mending Cloth",
+	"item.ataletoldthroughtime.mithril_mending_plate":  "Mithril Mending Plate",
+	"item.ataletoldthroughtime.mithril_mending_bottle": "Mithril Mending Bottle",
+	"enchantment.ataletoldthroughtime.mithril_mending": "Mithril Mending",
 	
 	"item.ataletoldthroughtime.oxidization_wand": "Oxidization Wand",
 	"item.ataletoldthroughtime.deoxidization_wand": "Deoxidization Wand",
