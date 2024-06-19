@@ -1,11 +1,32 @@
 {
 	"cloth_fasten":
 	{
-		"subtitle": "subtitlesataletoldthroughtime.cloth_fasten",
+		"subtitle": "subtitles.ataletoldthroughtime.cloth_fasten",
 		"sounds":
 		[
 			"ataletoldthroughtime:cloth_fasten_1",
 			"ataletoldthroughtime:cloth_fasten_2"
+		]
+	},
+	"dirtpecker_idle":
+	{
+		"subtitle": "subtitles.ataletoldthroughtime.dirtpecker_idle",
+		"sounds":
+		[
+			"ataletoldthroughtime:dirtpecker_idle1",
+			"ataletoldthroughtime:dirtpecker_idle2",
+			"ataletoldthroughtime:dirtpecker_idle3",
+			"ataletoldthroughtime:dirtpecker_idle4",
+			"ataletoldthroughtime:dirtpecker_idle5",
+			"ataletoldthroughtime:dirtpecker_idle6"
+		]
+	},
+	"dirtpecker_spot":
+	{
+		"subtitle": "subtitles.ataletoldthroughtime.dirtpecker_spot",
+		"sounds":
+		[
+			"ataletoldthroughtime:dirtpecker_spot"
 		]
 	}
 }
