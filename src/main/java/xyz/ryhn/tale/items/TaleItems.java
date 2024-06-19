@@ -39,6 +39,7 @@ import xyz.ryhn.tale.items.gear.OxidizationWand;
 import xyz.ryhn.tale.items.gear.ScopedCrossbow;
 import xyz.ryhn.tale.items.gear.trinkets.TeamBand;
 import xyz.ryhn.tale.items.sets.BlockSet;
+import xyz.ryhn.tale.items.sets.MeatSet;
 import xyz.ryhn.tale.items.sets.MendingSet;
 import xyz.ryhn.tale.items.sets.OreSet;
 import xyz.ryhn.tale.items.sets.WoodSet;
@@ -173,6 +174,8 @@ public class TaleItems {
 	public static final MendingSet DIAMOND_MENDING_SET = new MendingSet("diamond", Items.DIAMOND, 1500);
 	public static final MendingSet SILVER_MENDING_SET = new MendingSet("silver", TaleItems.SilverSet.ITEM, 1500);
 	public static final MendingSet MITHRIL_MENDING_SET = new MendingSet("mithril", TaleItems.MithrilSet.ITEM, 1500);
+
+	public static final MeatSet DIRTPECKER_MEAT_SET = new MeatSet("dirtpecker_drumstick", 9, 1.0f);
 
 	public static UnsealedEnchantedBook UNSEALED_ENCHANTED_BOOK = registerItem(
 			new UnsealedEnchantedBook(0, new Item.Settings().rarity(Rarity.UNCOMMON)),

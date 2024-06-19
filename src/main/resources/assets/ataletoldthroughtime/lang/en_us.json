@@ -151,6 +151,8 @@
 	"item.ataletoldthroughtime.awakened_unsealed_enchanted_book": "Awakened Unsealed Enchanted Book",
 	"item.ataletoldthroughtime.unsealed_enchanted_book.lore": "Right click with an item to apply enchantment or increase level.",
 	"item.ataletoldthroughtime.unsealed_enchanted_book.lore.overflow.1": "Maximum level increased by 1.",
-	"item.ataletoldthroughtime.unsealed_enchanted_book.lore.overflow.2": "Maximum level increased by 2."
+	"item.ataletoldthroughtime.unsealed_enchanted_book.lore.overflow.2": "Maximum level increased by 2.",
 
+	"item.ataletoldthroughtime.raw_dirtpecker_drumstick":	"Raw Dirtpecker Drumstick",
+	"item.ataletoldthroughtime.cooked_dirtpecker_drumstick":"Cooked Dirtpecker Drumstick"
 }
