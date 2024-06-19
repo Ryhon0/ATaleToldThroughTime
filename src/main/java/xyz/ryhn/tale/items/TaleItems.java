@@ -124,10 +124,6 @@ public class TaleItems {
 	public static final GoldWings GOLD_WINGS = registerItem(new GoldWings(new Item.Settings().maxDamage(300)),
 			"gold_wings", ItemGroups.COMBAT);
 
-	public static final MendingSet IRON_MENDING_SET = new MendingSet("iron", Items.IRON_INGOT, 500);
-	public static final MendingSet GOLD_MENDING_SET = new MendingSet("gold", Items.GOLD_INGOT, 2000);
-	public static final MendingSet DIAMOND_MENDING_SET = new MendingSet("diamond", Items.DIAMOND, 1500);
-
 	public static RegistryKey<ConfiguredFeature<?, ?>> MAPLE_TREE = RegistryKey.of(RegistryKeys.CONFIGURED_FEATURE,
 			Main.Key("maple_tree"));
 	public static WoodSet MapleSet = new WoodSet("maple", MapColor.YELLOW, MapColor.WHITE, MapColor.YELLOW, MAPLE_TREE);
@@ -171,6 +167,12 @@ public class TaleItems {
 					0f, 0.25f)
 			.dropsXP(5, 8)
 			.noFortune();
+
+	public static final MendingSet IRON_MENDING_SET = new MendingSet("iron", Items.IRON_INGOT, 500);
+	public static final MendingSet GOLD_MENDING_SET = new MendingSet("gold", Items.GOLD_INGOT, 2000);
+	public static final MendingSet DIAMOND_MENDING_SET = new MendingSet("diamond", Items.DIAMOND, 1500);
+	public static final MendingSet SILVER_MENDING_SET = new MendingSet("silver", TaleItems.SilverSet.ITEM, 1500);
+	public static final MendingSet MITHRIL_MENDING_SET = new MendingSet("mithril", TaleItems.MithrilSet.ITEM, 1500);
 
 	public static UnsealedEnchantedBook UNSEALED_ENCHANTED_BOOK = registerItem(
 			new UnsealedEnchantedBook(0, new Item.Settings().rarity(Rarity.UNCOMMON)),
