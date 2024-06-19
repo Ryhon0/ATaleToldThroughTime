@@ -53,6 +53,7 @@ import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 import xyz.ryhn.tale.DataGenerator;
@@ -317,7 +318,6 @@ public class OreSet extends SetGenerator {
 		}
 	}
 
-	
 	@Override
 	public void generateBlockModels(DataGenerator.ModelGenerator generator, BlockStateModelGenerator provider) {
 		generator.cubeWithItem(provider, BLOCK);
@@ -452,10 +452,29 @@ public class OreSet extends SetGenerator {
 		}
 
 		if (hasArmor) {
-			provider.apply(ItemTags.TRIMMABLE_ARMOR).add(HELMET);
-			provider.apply(ItemTags.TRIMMABLE_ARMOR).add(CHESTPLATE);
-			provider.apply(ItemTags.TRIMMABLE_ARMOR).add(LEGGINGS);
-			provider.apply(ItemTags.TRIMMABLE_ARMOR).add(BOOTS);
+			provider.apply(TagKey.of(RegistryKeys.ITEM, Identifier.of("c", "helmets")))
+					.add(HELMET);
+
+			provider.apply(TagKey.of(RegistryKeys.ITEM, Identifier.of("c", "chestplates")))
+					.add(CHESTPLATE);
+
+			provider.apply(TagKey.of(RegistryKeys.ITEM, Identifier.of("c", "leggings")))
+					.add(LEGGINGS);
+
+			provider.apply(TagKey.of(RegistryKeys.ITEM, Identifier.of("c", "boots")))
+					.add(BOOTS);
+
+			provider.apply(TagKey.of(RegistryKeys.ITEM, Identifier.of("c", "armors")))
+					.add(HELMET)
+					.add(CHESTPLATE)
+					.add(LEGGINGS)
+					.add(BOOTS);
+
+			provider.apply(ItemTags.TRIMMABLE_ARMOR)
+					.add(HELMET)
+					.add(CHESTPLATE)
+					.add(LEGGINGS)
+					.add(BOOTS);
 		}
 	}
 
