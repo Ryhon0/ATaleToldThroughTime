@@ -175,7 +175,8 @@ public class TaleItems {
 	public static final MendingSet SILVER_MENDING_SET = new MendingSet("silver", TaleItems.SilverSet.ITEM, 1500);
 	public static final MendingSet MITHRIL_MENDING_SET = new MendingSet("mithril", TaleItems.MithrilSet.ITEM, 1500);
 
-	public static final MeatSet DIRTPECKER_MEAT_SET = new MeatSet("dirtpecker_drumstick", 9, 1.0f);
+	public static final MeatSet DIRTPECKER_MEAT_SET = new MeatSet("dirtpecker_drumstick", 9, 1.0f)
+		.remainder(Items.BONE);
 
 	public static UnsealedEnchantedBook UNSEALED_ENCHANTED_BOOK = registerItem(
 			new UnsealedEnchantedBook(0, new Item.Settings().rarity(Rarity.UNCOMMON)),
