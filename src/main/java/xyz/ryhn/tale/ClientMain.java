@@ -14,6 +14,7 @@ import net.minecraft.item.CrossbowItem;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
+import xyz.ryhn.tale.entities.mobs.animals.Dirtpecker;
 import xyz.ryhn.tale.entities.mobs.animals.GoldenChicken;
 import xyz.ryhn.tale.entities.mobs.humans.Citizen;
 import xyz.ryhn.tale.entities.mobs.humans.CitizenRenderer;
@@ -28,10 +29,12 @@ public class ClientMain implements ClientModInitializer {
 		EntityRendererRegistry.register(Citizen.ENTITY_TYPE, CitizenRenderer::new);
 		EntityModelLayerRegistry.registerModelLayer(CitizenRenderer.CITIZEN_LAYER,
 				CitizenRenderer.Model::getTexturedModelData);
-		
-		EntityRendererRegistry.register(GoldenChicken.ENTITY_TYPE, GoldenChicken.Renderer::new);
 
-		EntityRendererRegistry.register(Citizen.ENTITY_TYPE, CitizenRenderer::new);
+		EntityRendererRegistry.register(Dirtpecker.ENTITY_TYPE, Dirtpecker.Renderer::new);
+		EntityModelLayerRegistry.registerModelLayer(Dirtpecker.Renderer.LAYER,
+				Dirtpecker.Model::getTexturedModelData);
+
+		EntityRendererRegistry.register(GoldenChicken.ENTITY_TYPE, GoldenChicken.Renderer::new);
 
 		LivingEntityFeatureRenderEvents.ALLOW_CAPE_RENDER
 				.register(p -> !p.getInventory().getArmorStack(1).isOf(TaleItems.GOLD_WINGS));

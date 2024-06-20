@@ -1,5 +1,7 @@
 package xyz.ryhn.tale.items;
 
+import java.util.ArrayList;
+
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.object.builder.v1.world.poi.PointOfInterestHelper;
 import net.fabricmc.yarn.constants.MiningLevels;
@@ -11,6 +13,8 @@ import net.minecraft.block.SnowBlock;
 import net.minecraft.block.AbstractBlock.Settings;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.BowItem;
 import net.minecraft.item.Item;
@@ -18,6 +22,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.item.SpawnEggItem;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
@@ -29,6 +34,9 @@ import net.minecraft.util.Rarity;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import xyz.ryhn.tale.Main;
+import xyz.ryhn.tale.entities.mobs.animals.Dirtpecker;
+import xyz.ryhn.tale.entities.mobs.animals.GoldenChicken;
+import xyz.ryhn.tale.entities.mobs.humans.Citizen;
 import xyz.ryhn.tale.items.blocks.MultifaceBlock;
 import xyz.ryhn.tale.items.blocks.SpawnBeacon;
 import xyz.ryhn.tale.items.blocks.totem.RespawnTotem;
@@ -45,6 +53,8 @@ import xyz.ryhn.tale.items.sets.OreSet;
 import xyz.ryhn.tale.items.sets.WoodSet;
 
 public class TaleItems {
+	public static ArrayList<SpawnEggItem> SpawnEggs = new ArrayList<>();
+
 	public static final TagKey<Item> TAG_ITEM_PETRIFIED_EXPERIENCE = TagKey.of(RegistryKeys.ITEM,
 			Main.Key("petrified_experience"));
 	public static final TagKey<Block> TAG_BLOCK_PETRIFIED_EXPERIENCE = TagKey.of(RegistryKeys.BLOCK,
@@ -176,7 +186,7 @@ public class TaleItems {
 	public static final MendingSet MITHRIL_MENDING_SET = new MendingSet("mithril", TaleItems.MithrilSet.ITEM, 1500);
 
 	public static final MeatSet DIRTPECKER_MEAT_SET = new MeatSet("dirtpecker_drumstick", 9, 1.0f)
-		.remainder(Items.BONE);
+			.remainder(Items.BONE);
 
 	public static UnsealedEnchantedBook UNSEALED_ENCHANTED_BOOK = registerItem(
 			new UnsealedEnchantedBook(0, new Item.Settings().rarity(Rarity.UNCOMMON)),
@@ -187,6 +197,10 @@ public class TaleItems {
 	public static UnsealedEnchantedBook AWAKENED_UNSEALED_ENCHANTED_BOOK = registerItem(
 			new UnsealedEnchantedBook(2, new Item.Settings().rarity(Rarity.EPIC)),
 			"awakened_unsealed_enchanted_book", null);
+
+	public static SpawnEggItem DIRTPECKER_EGG = spawnEgg(Dirtpecker.ENTITY_TYPE, 0xEAA430, 0xBD8B72);
+	public static SpawnEggItem CITIZEN_EGG = spawnEgg(Citizen.ENTITY_TYPE, 0xBD8B72, 0x563C33);
+	public static SpawnEggItem GOLDEN_CHICKEN_EGG = spawnEgg(GoldenChicken.ENTITY_TYPE, 0xFFF87E, 0xFF0000);
 
 	public static void registerItems() {
 		registerItem(ScopedCrossbow.ITEM, "scoped_crossbow", ItemGroups.COMBAT);
@@ -247,5 +261,12 @@ public class TaleItems {
 
 	public static <T extends Enchantment> T registerEnchantment(T enchant, String id) {
 		return Registry.register(Registries.ENCHANTMENT, Main.Key(id), enchant);
+	}
+
+	public static SpawnEggItem spawnEgg(EntityType ent, int primary, int secondary) {
+		SpawnEggItem egg = new SpawnEggItem(ent, primary, secondary, new Item.Settings());
+		SpawnEggs.add(egg);
+		return registerItem(egg,
+				EntityType.getId(ent).getPath() + "_spawn_egg", ItemGroups.SPAWN_EGGS);
 	}
 }

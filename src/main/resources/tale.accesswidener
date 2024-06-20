@@ -4,3 +4,4 @@ accessible	field	net/minecraft/client/render/DimensionEffects	BY_IDENTIFIER	Lit/
 accessible    field    net/minecraft/item/ArmorMaterials    BASE_DURABILITY    Ljava/util/EnumMap;
 accessible    field    net/minecraft/block/ExperienceDroppingBlock    experienceDropped    Lnet/minecraft/util/math/intprovider/IntProvider;
 mutable    field    net/minecraft/block/ExperienceDroppingBlock    experienceDropped    Lnet/minecraft/util/math/intprovider/IntProvider;
+accessible    method    net/minecraft/data/client/BlockStateModelGenerator    registerParentedItemModel    (Lnet/minecraft/item/Item;Lnet/minecraft/util/Identifier;)V

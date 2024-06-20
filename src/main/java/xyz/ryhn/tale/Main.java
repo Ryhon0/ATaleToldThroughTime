@@ -5,10 +5,12 @@ import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.entity.mob.ZombieEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
+import xyz.ryhn.tale.entities.mobs.animals.Dirtpecker;
 import xyz.ryhn.tale.entities.mobs.animals.GoldenChicken;
 import xyz.ryhn.tale.entities.mobs.humans.Citizen;
 import xyz.ryhn.tale.items.TaleItems;
@@ -27,6 +29,7 @@ public class Main implements ModInitializer {
 
 		FabricDefaultAttributeRegistry.register(Citizen.ENTITY_TYPE, Citizen.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(GoldenChicken.ENTITY_TYPE, GoldenChicken.createChickenAttributes());
+		FabricDefaultAttributeRegistry.register(Dirtpecker.ENTITY_TYPE, ZombieEntity.createZombieAttributes());
 
 		PlayerSwimCallback.EVENT.register(Main::onPlayerSwim);
 

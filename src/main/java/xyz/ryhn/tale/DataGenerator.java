@@ -14,13 +14,16 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.block.Block;
 import net.minecraft.data.client.BlockStateModelGenerator;
 import net.minecraft.data.client.ItemModelGenerator;
+import net.minecraft.data.client.ModelIds;
 import net.minecraft.data.client.Models;
 import net.minecraft.data.server.recipe.RecipeJsonProvider;
 import net.minecraft.item.Item;
+import net.minecraft.item.SpawnEggItem;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.ItemTags;
+import net.minecraft.util.Identifier;
 import xyz.ryhn.tale.items.TaleItems;
 import xyz.ryhn.tale.items.gear.MagicClock;
 import xyz.ryhn.tale.items.gear.OxidizationWand;
@@ -62,6 +65,9 @@ public class DataGenerator implements DataGeneratorEntrypoint {
 			cubeWithItem(generator, TaleItems.BLUE_MOSS_BLOCK);
 
 			generator.registerWallPlant(TaleItems.MOSS);
+
+			for(SpawnEggItem egg : TaleItems.SpawnEggs)
+				generator.registerParentedItemModel(egg, ModelIds.getMinecraftNamespacedItem("template_spawn_egg"));
 		}
 
 		// This function should not exist, but due to a bug in Fabric,
