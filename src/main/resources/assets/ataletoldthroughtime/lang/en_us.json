@@ -164,5 +164,7 @@
 	"item.ataletoldthroughtime.unsealed_enchanted_book.lore.overflow.2": "Maximum level increased by 2.",
 
 	"item.ataletoldthroughtime.raw_dirtpecker_drumstick":	"Raw Dirtpecker Drumstick",
-	"item.ataletoldthroughtime.cooked_dirtpecker_drumstick":"Cooked Dirtpecker Drumstick"
+	"item.ataletoldthroughtime.cooked_dirtpecker_drumstick":"Cooked Dirtpecker Drumstick",
+	"block.ataletoldthroughtime.dirtpecker_drumstick_block":	"Raw Dirtpecker Drumstick Block",
+	"block.ataletoldthroughtime.cooked_dirtpecker_drumstick_block":"Cooked Dirtpecker Drumstick Block"
 }
