@@ -11,14 +11,20 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBlockTags;
+import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
 import net.minecraft.block.Block;
 import net.minecraft.data.client.BlockStateModelGenerator;
 import net.minecraft.data.client.ItemModelGenerator;
 import net.minecraft.data.client.ModelIds;
 import net.minecraft.data.client.Models;
 import net.minecraft.data.server.recipe.RecipeJsonProvider;
+import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
+import net.minecraft.data.server.recipe.VanillaRecipeProvider;
 import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraft.item.SpawnEggItem;
+import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.registry.tag.BlockTags;
@@ -58,15 +64,7 @@ public class DataGenerator implements DataGeneratorEntrypoint {
 			cubeWithItem(generator, TaleItems.RED_CRYSTAL_BLOCK);
 			cubeWithItem(generator, TaleItems.SALT_BLOCK);
 
-			generator.registerWallPlant(TaleItems.RED_MOSS);
-			cubeWithItem(generator, TaleItems.RED_MOSS_BLOCK);
-
-			generator.registerWallPlant(TaleItems.BLUE_MOSS);
-			cubeWithItem(generator, TaleItems.BLUE_MOSS_BLOCK);
-
-			generator.registerWallPlant(TaleItems.MOSS);
-
-			for(SpawnEggItem egg : TaleItems.SpawnEggs)
+			for (SpawnEggItem egg : TaleItems.SpawnEggs)
 				generator.registerParentedItemModel(egg, ModelIds.getMinecraftNamespacedItem("template_spawn_egg"));
 		}
 
@@ -152,6 +150,11 @@ public class DataGenerator implements DataGeneratorEntrypoint {
 			getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE)
 					.add(TaleItems.PETRIFIED_DEEPSLATE_EXPERIENCE)
 					.add(TaleItems.PETRIFIED_EXPERIENCE);
+
+			getOrCreateTagBuilder(BlockTags.MUSHROOM_GROW_BLOCK)
+					.add(TaleItems.RED_MOSS_BLOCK)
+					.add(TaleItems.RED_MOSS_SET.COBBLE)
+					.add(TaleItems.RED_MOSS_SET.BRICKS);
 		}
 	}
 

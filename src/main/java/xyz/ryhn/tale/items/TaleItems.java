@@ -1,5 +1,6 @@
 package xyz.ryhn.tale.items;
 
+import java.security.PublicKey;
 import java.util.ArrayList;
 
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
@@ -9,6 +10,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ExperienceDroppingBlock;
 import net.minecraft.block.MapColor;
+import net.minecraft.block.MossBlock;
 import net.minecraft.block.SnowBlock;
 import net.minecraft.block.AbstractBlock.Settings;
 import net.minecraft.block.piston.PistonBehavior;
@@ -39,6 +41,7 @@ import xyz.ryhn.tale.entities.mobs.animals.GoldenChicken;
 import xyz.ryhn.tale.entities.mobs.humans.Citizen;
 import xyz.ryhn.tale.items.blocks.MultifaceBlock;
 import xyz.ryhn.tale.items.blocks.SpawnBeacon;
+import xyz.ryhn.tale.items.blocks.TaleMossBlock;
 import xyz.ryhn.tale.items.blocks.totem.RespawnTotem;
 import xyz.ryhn.tale.items.gear.ExperienceTransferRod;
 import xyz.ryhn.tale.items.gear.GoldWings;
@@ -49,6 +52,7 @@ import xyz.ryhn.tale.items.gear.trinkets.TeamBand;
 import xyz.ryhn.tale.items.sets.BlockSet;
 import xyz.ryhn.tale.items.sets.MeatSet;
 import xyz.ryhn.tale.items.sets.MendingSet;
+import xyz.ryhn.tale.items.sets.MossSet;
 import xyz.ryhn.tale.items.sets.OreSet;
 import xyz.ryhn.tale.items.sets.WoodSet;
 
@@ -92,42 +96,19 @@ public class TaleItems {
 	public static final Block RED_CRYSTAL_BLOCK = new Block(Block.Settings.copy(Blocks.AMETHYST_BLOCK)
 			.mapColor(MapColor.DARK_CRIMSON));
 
-	public static final Block RED_MOSS_BLOCK = new Block(Block.Settings.copy(Blocks.MOSS_BLOCK)
-			.mapColor(MapColor.DARK_CRIMSON));
-	public static final Block RED_MOSS = new MultifaceBlock(Block.Settings.copy(Blocks.MOSS_BLOCK)
-			.mapColor(MapColor.DARK_CRIMSON)
-			.pistonBehavior(PistonBehavior.DESTROY)
-			.nonOpaque());
-	public static final Block RED_MOSSY_COBBLE = registerBlock(
-			new Block(Block.Settings.copy(Blocks.MOSSY_COBBLESTONE)), "red_mossy_cobblestone",
-			ItemGroups.BUILDING_BLOCKS);
-	public static final BlockSet RED_MOSS_COBBLE_SET = new BlockSet(RED_MOSSY_COBBLE, "red_mossy_cobblestone",
-			false);
-	public static final Block RED_MOSSY_BRICKS = registerBlock(
-			new Block(Block.Settings.copy(Blocks.MOSSY_STONE_BRICKS)), "red_mossy_stone_bricks",
-			ItemGroups.BUILDING_BLOCKS);
-	public static final BlockSet RED_MOSS_BRICKS_SET = new BlockSet(RED_MOSSY_BRICKS, "red_mossy_brick", false);
+	public static final MossBlock RED_MOSS_BLOCK = registerBlock(new TaleMossBlock(
+			RegistryKey.of(RegistryKeys.CONFIGURED_FEATURE, Main.Key("red_moss_patch_bonemeal")),
+			Block.Settings.copy(Blocks.MOSS_BLOCK)
+					.mapColor(MapColor.DARK_CRIMSON)),"red_moss_block", ItemGroups.BUILDING_BLOCKS);
+	public static final MossSet RED_MOSS_SET = new MossSet(RED_MOSS_BLOCK);
 
-	public static final Block BLUE_MOSS_BLOCK = new Block(Block.Settings.copy(Blocks.MOSS_BLOCK)
-			.mapColor(MapColor.LIGHT_BLUE));
-	public static final Block BLUE_MOSS = new MultifaceBlock(Block.Settings.copy(Blocks.MOSS_BLOCK)
-			.mapColor(MapColor.LIGHT_BLUE)
-			.pistonBehavior(PistonBehavior.DESTROY)
-			.nonOpaque());
-	public static final Block BLUE_MOSSY_COBBLE = registerBlock(
-			new Block(Block.Settings.copy(Blocks.MOSSY_COBBLESTONE)), "blue_mossy_cobblestone",
-			ItemGroups.BUILDING_BLOCKS);
-	public static final BlockSet BLUE_MOSS_COBBLE_SET = new BlockSet(BLUE_MOSSY_COBBLE, "blue_mossy_cobblestone",
-			false);
-	public static final Block BLUE_MOSSY_BRICKS = registerBlock(
-			new Block(Block.Settings.copy(Blocks.MOSSY_STONE_BRICKS)), "blue_mossy_stone_bricks",
-			ItemGroups.BUILDING_BLOCKS);
-	public static final BlockSet BLUE_MOSS_BRICKS_SET = new BlockSet(BLUE_MOSSY_BRICKS, "blue_mossy_brick", false);
+	public static final MossBlock BLUE_MOSS_BLOCK = registerBlock(new TaleMossBlock(
+			RegistryKey.of(RegistryKeys.CONFIGURED_FEATURE, Main.Key("blue_moss_patch_bonemeal")),
+			Block.Settings.copy(Blocks.MOSS_BLOCK)
+					.mapColor(MapColor.LIGHT_BLUE)), "blue_moss_block", ItemGroups.BUILDING_BLOCKS);
+	public static final MossSet BLUE_MOSS_SET = new MossSet(BLUE_MOSS_BLOCK);
 
-	public static final Block MOSS = new MultifaceBlock(Block.Settings.copy(Blocks.MOSS_BLOCK)
-			.mapColor(MapColor.GREEN)
-			.pistonBehavior(PistonBehavior.DESTROY)
-			.nonOpaque());
+	public static final MossSet MOSS_SET = new MossSet(Blocks.MOSS_BLOCK, true);
 
 	public static final BowItem GOLDEN_BOW = new BowItem(new Item.Settings());
 	public static final ExperienceTransferRod EXPERIENCE_TRANSFER_ROD = new ExperienceTransferRod(new Item.Settings());
@@ -227,14 +208,6 @@ public class TaleItems {
 		registerBlock(SALT_LAYER, "salt_layer", ItemGroups.BUILDING_BLOCKS);
 		registerBlock(SALT_BLOCK, "salt_block", ItemGroups.BUILDING_BLOCKS);
 		registerBlock(RED_CRYSTAL_BLOCK, "red_crystal_block", ItemGroups.BUILDING_BLOCKS);
-
-		registerBlock(RED_MOSS, "red_moss", ItemGroups.BUILDING_BLOCKS);
-		registerBlock(RED_MOSS_BLOCK, "red_moss_block", ItemGroups.BUILDING_BLOCKS);
-
-		registerBlock(BLUE_MOSS, "blue_moss", ItemGroups.BUILDING_BLOCKS);
-		registerBlock(BLUE_MOSS_BLOCK, "blue_moss_block", ItemGroups.BUILDING_BLOCKS);
-
-		registerBlock(MOSS, "moss", ItemGroups.BUILDING_BLOCKS);
 	}
 
 	public static <T extends Item> T registerItem(T i, String id, RegistryKey<ItemGroup> category) {

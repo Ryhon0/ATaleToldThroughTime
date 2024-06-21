@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:simple_block",
+  "config": {
+    "to_place": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "data": {
+            "Name": "ataletoldthroughtime:red_moss",
+            "Properties": {
+              "down": "true"
+            }
+          },
+          "weight": 45
+        },
+        {
+          "data": {
+            "Name": "minecraft:red_mushroom"
+          },
+          "weight": 10
+        }
+      ]
+    }
+  }
+}
