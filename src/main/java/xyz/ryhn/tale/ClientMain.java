@@ -88,6 +88,8 @@ public class ClientMain implements ClientModInitializer {
 			BlockRenderLayerMap.INSTANCE.putBlock(set.Set.TRAPDOOR, RenderLayer.getCutout());
 		}
 
+		BlockRenderLayerMap.INSTANCE.putBlock(TaleItems.CAULIFLOWER_CROP, RenderLayer.getCutout());
+
 		DimensionEffects.BY_IDENTIFIER.put(
 				Main.Key("whitespace"),
 				new WhitespaceDimensionEffects());

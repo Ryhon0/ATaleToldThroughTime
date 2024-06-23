@@ -1,0 +1,36 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0": "ataletoldthroughtime:block/cauliflower",
+		"particle": "ataletoldthroughtime:block/cauliflower"
+	},
+	"elements": [
+		{
+			"from": [8, 0, 5],
+			"to": [8, 9, 11],
+			"rotation": {"angle": 45, "axis": "y", "origin": [8, 0, 8]},
+			"faces": {
+				"east": {"uv": [10, 7, 16, 16], "texture": "#0"},
+				"west": {"uv": [16, 7, 10, 16], "texture": "#0"}
+			}
+		},
+		{
+			"from": [8, 0, 5],
+			"to": [8, 9, 11],
+			"rotation": {"angle": -45, "axis": "y", "origin": [8, 0, 8]},
+			"faces": {
+				"east": {"uv": [10, 7, 16, 16], "texture": "#0"},
+				"west": {"uv": [16, 7, 10, 16], "texture": "#0"}
+			}
+		}
+	],
+	"groups": [
+		{
+			"name": "stage2",
+			"origin": [8, 8, 8],
+			"color": 0,
+			"nbt": "{}",
+			"children": [0, 1]
+		}
+	]
+}

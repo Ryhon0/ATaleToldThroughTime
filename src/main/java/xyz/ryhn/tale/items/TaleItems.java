@@ -17,6 +17,7 @@ import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.item.AliasedBlockItem;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.BowItem;
 import net.minecraft.item.Item;
@@ -39,6 +40,7 @@ import xyz.ryhn.tale.Main;
 import xyz.ryhn.tale.entities.mobs.animals.Dirtpecker;
 import xyz.ryhn.tale.entities.mobs.animals.GoldenChicken;
 import xyz.ryhn.tale.entities.mobs.humans.Citizen;
+import xyz.ryhn.tale.items.blocks.CauliflowerBlock;
 import xyz.ryhn.tale.items.blocks.MultifaceBlock;
 import xyz.ryhn.tale.items.blocks.SpawnBeacon;
 import xyz.ryhn.tale.items.blocks.TaleMossBlock;
@@ -99,13 +101,15 @@ public class TaleItems {
 	public static final MossBlock RED_MOSS_BLOCK = registerBlock(new TaleMossBlock(
 			RegistryKey.of(RegistryKeys.CONFIGURED_FEATURE, Main.Key("red_moss_patch_bonemeal")),
 			Block.Settings.copy(Blocks.MOSS_BLOCK)
-					.mapColor(MapColor.DARK_CRIMSON)),"red_moss_block", ItemGroups.BUILDING_BLOCKS);
+					.mapColor(MapColor.DARK_CRIMSON)),
+			"red_moss_block", ItemGroups.BUILDING_BLOCKS);
 	public static final MossSet RED_MOSS_SET = new MossSet(RED_MOSS_BLOCK);
 
 	public static final MossBlock BLUE_MOSS_BLOCK = registerBlock(new TaleMossBlock(
 			RegistryKey.of(RegistryKeys.CONFIGURED_FEATURE, Main.Key("blue_moss_patch_bonemeal")),
 			Block.Settings.copy(Blocks.MOSS_BLOCK)
-					.mapColor(MapColor.LIGHT_BLUE)), "blue_moss_block", ItemGroups.BUILDING_BLOCKS);
+					.mapColor(MapColor.LIGHT_BLUE)),
+			"blue_moss_block", ItemGroups.BUILDING_BLOCKS);
 	public static final MossSet BLUE_MOSS_SET = new MossSet(BLUE_MOSS_BLOCK);
 
 	public static final MossSet MOSS_SET = new MossSet(Blocks.MOSS_BLOCK, true);
@@ -182,6 +186,17 @@ public class TaleItems {
 	public static SpawnEggItem DIRTPECKER_EGG = spawnEgg(Dirtpecker.ENTITY_TYPE, 0xEAA430, 0xBD8B72);
 	public static SpawnEggItem CITIZEN_EGG = spawnEgg(Citizen.ENTITY_TYPE, 0xBD8B72, 0x563C33);
 	public static SpawnEggItem GOLDEN_CHICKEN_EGG = spawnEgg(GoldenChicken.ENTITY_TYPE, 0xFFF87E, 0xFF0000);
+
+	public static CauliflowerBlock CAULIFLOWER_CROP = registerBlockWithNoItem(new CauliflowerBlock(
+			Settings.copy(Blocks.WHEAT)
+					.mapColor(MapColor.PALE_YELLOW)),
+			"cauliflower");
+	public static Item CAULIFLOWER_SEEDS = registerItem(new AliasedBlockItem(CAULIFLOWER_CROP, new Item.Settings()),
+			"cauliflower_seeds", ItemGroups.FOOD_AND_DRINK);
+	public static Item CAULIFLOWER = registerItem(new Item(new Item.Settings()), "cauliflower",
+			ItemGroups.FOOD_AND_DRINK);
+	public static Block CAULIFLOWER_BLOCK = registerBlock(new Block(Settings.copy(Blocks.NETHER_WART_BLOCK)
+			.mapColor(MapColor.PALE_YELLOW)), "cauliflower_block", ItemGroups.FOOD_AND_DRINK);
 
 	public static void registerItems() {
 		registerItem(ScopedCrossbow.ITEM, "scoped_crossbow", ItemGroups.COMBAT);

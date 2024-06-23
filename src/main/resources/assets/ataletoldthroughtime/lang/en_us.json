@@ -166,5 +166,9 @@
 	"item.ataletoldthroughtime.raw_dirtpecker_drumstick":	"Raw Dirtpecker Drumstick",
 	"item.ataletoldthroughtime.cooked_dirtpecker_drumstick":"Cooked Dirtpecker Drumstick",
 	"block.ataletoldthroughtime.dirtpecker_drumstick_block":	"Raw Dirtpecker Drumstick Block",
-	"block.ataletoldthroughtime.cooked_dirtpecker_drumstick_block":"Cooked Dirtpecker Drumstick Block"
+	"block.ataletoldthroughtime.cooked_dirtpecker_drumstick_block":"Cooked Dirtpecker Drumstick Block",
+
+	"block.ataletoldthroughtime.cauliflower_block":		"Cauliflower Block",
+	"item.ataletoldthroughtime.cauliflower":			"Cauliflower",
+	"item.ataletoldthroughtime.cauliflower_seeds":		"Cauliflower Seeds"
 }
